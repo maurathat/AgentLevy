@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import { ethers } from "ethers";
 import { marked } from "marked";
 import ercDraftMarkdown from "../docs/erc-draft-vteai.md?raw";
+import AgentDemo from "./src/AgentDemo.jsx";
 
 const TREASURY_ABI = [
   "function getTreasuryBalance() view returns (uint256)",
@@ -32,7 +33,9 @@ marked.setOptions({
 });
 
 function getRouteFromHash() {
-  return window.location.hash === "#erc-draft" ? "erc-draft" : "dashboard";
+  if (window.location.hash === "#erc-draft") return "erc-draft";
+  if (window.location.hash === "#dashboard") return "dashboard";
+  return "demo";
 }
 
 function NavButton({ active, href, children }) {
@@ -105,6 +108,9 @@ function Header({ route, onExportCsv }) {
       </div>
 
       <div style={{ display: "flex", gap: "10px", alignItems: "center", flexWrap: "wrap" }}>
+        <NavButton href="#demo" active={route === "demo"}>
+          Agent Demo
+        </NavButton>
         <NavButton href="#dashboard" active={route === "dashboard"}>
           Dashboard
         </NavButton>
@@ -539,7 +545,9 @@ export default function App() {
       <div style={{ maxWidth: "1240px", margin: "0 auto" }}>
         <Header route={route} onExportCsv={exportCSV} />
 
-        {route === "erc-draft" ? (
+        {route === "demo" ? (
+          <AgentDemo />
+        ) : route === "erc-draft" ? (
           <DraftView draftHtml={draftHtml} />
         ) : (
           <DashboardView
