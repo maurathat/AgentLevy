@@ -5,7 +5,7 @@ export const CONTRACT_ADDRESSES = {
   taskRegistry: (process.env.TASK_REGISTRY_ADDRESS ?? "0x0000000000000000000000000000000000000000") as `0x${string}`,
   verifier:     (process.env.VERIFIER_ADDRESS      ?? "0x0000000000000000000000000000000000000000") as `0x${string}`,
   treasury:     (process.env.TREASURY_ADDRESS      ?? "0x0000000000000000000000000000000000000000") as `0x${string}`,
-  usdc:         (process.env.USDC_ADDRESS           ?? "0x0000000000000000000000000000000000000000") as `0x${string}`,
+  usdt0:        (process.env.USDT0_ADDRESS           ?? "0x0000000000000000000000000000000000000000") as `0x${string}`,
 }
 
 // ─── TaskRegistry ABI ─────────────────────────────────────────────────────────

@@ -4,4 +4,5 @@
 export * as taskRegistrySol from "./TaskRegistry.sol";
 export { Counter__factory } from "./Counter__factory";
 export { MockUSDC__factory } from "./MockUSDC__factory";
+export { MockUSDT0__factory } from "./MockUSDT0__factory";
 export { Treasury__factory } from "./Treasury__factory";

@@ -12,12 +12,12 @@ AgentLevy enables autonomous agent-to-agent commerce on Flare Coston2. Two agent
 Agent A (buyer)                          Agent B (seller)
 ──────────────                           ────────────────
 1. Fetch task spec    ──── HTTP ────►    Serve task spec
-2. Post task + USDC   ──── chain ───►    TaskRegistry.postTask()
+2. Post task + USDT0   ──── chain ───►    TaskRegistry.postTask()
 3. Wait for claim     ◄─── chain ────    TaskRegistry.claimTask()
-4. Pay x402 fee       ──── chain ───►    Verify USDC transfer
+4. Pay x402 fee       ──── chain ───►    Verify USDT0 transfer
 5. Receive result     ◄─── HTTP ────     Execute task + return result
 6. Wait for proof     ◄─── chain ────    submitProof(resultHash)
-7. Confirm settlement ◄─── chain ────    Treasury releases USDC to B
+7. Confirm settlement ◄─── chain ────    Treasury releases USDT0 to B
 ```
 
 ---
@@ -28,7 +28,7 @@ Agent A (buyer)                          Agent B (seller)
 agents/
 ├── agent-a/src/
 │   ├── client.ts        # Orchestrator — runs the full 5-step flow
-│   ├── postTask.ts      # Step 1: fetch spec, approve USDC, post on-chain
+│   ├── postTask.ts      # Step 1: fetch spec, approve USDT0, post on-chain
 │   ├── handshake.ts     # Step 2: poll for Agent B's on-chain claim
 │   ├── pay402.ts        # Step 3: x402 payment + task execution trigger
 │   └── validate.ts      # Steps 4-5: poll verification, confirm settlement
@@ -37,7 +37,7 @@ agents/
 │   ├── index.ts         # Entry point — starts server + on-chain watcher
 │   ├── server.ts        # Phase 1: plain HTTP server (no payment gate)
 │   ├── server-x402.ts   # Phase 2: x402 payment-gated server
-│   ├── x402.ts          # Middleware: issues 402, verifies USDC on Coston2
+│   ├── x402.ts          # Middleware: issues 402, verifies USDT0 on Coston2
 │   ├── handshake.ts     # Watches TaskRegistry, auto-claims matching tasks
 │   ├── tasks.ts         # Task definitions (what B can execute + specs)
 │   ├── worker.ts        # Executes tasks, hashes results, stores to IPFS/mock
@@ -54,7 +54,7 @@ agents/
 ## Prerequisites
 
 - Node.js 22 LTS (`node --version` should show `v22.x.x`)
-- Two funded Coston2 wallets (Agent A needs C2FLR for gas + USDC for task payments)
+- Two funded Coston2 wallets (Agent A needs C2FLR for gas + USDT0 for task payments)
 - Contracts deployed (see [Deploy](#deploy) section)
 
 ---
@@ -87,7 +87,7 @@ AGENT_B_PRIVATE_KEY=0x...
 TASK_REGISTRY_ADDRESS=0x...
 VERIFIER_ADDRESS=0x...         # same address as TASK_REGISTRY_ADDRESS
 TREASURY_ADDRESS=0x...
-USDC_ADDRESS=0x...             # MockUSDC address on Coston2
+USDT0_ADDRESS=0x...             # MockUSDT0 address on Coston2
 
 AGENT_B_PORT=3001
 AGENT_B_URL=http://localhost:3001
@@ -116,7 +116,7 @@ console.log('Agent B address:', privateKeyToAccount(keyB).address);
 ### 4. Fund Agent A
 
 - Get **C2FLR** (gas) from `https://faucet.towolabs.com` → select Coston2 → paste Agent A's address
-- Get **USDC** by running the mock USDC mint script after deployment (see below)
+- Get **USDT0** by running the mock USDT0 mint script after deployment (see below)
 
 ---
 
@@ -130,7 +130,7 @@ cd ..   # go to AgentLevy root
 # Deploy Treasury + TaskRegistry
 npx hardhat run scripts/deploy.js --network coston2
 
-# Deploy MockUSDC + mint 1000 USDC to your deployer wallet
+# Deploy MockUSDT0 + mint 1000 USDT0 to your deployer wallet
 npx hardhat run scripts/deploy-mock-usdc.js --network coston2
 ```
 
@@ -164,7 +164,7 @@ Agent A runs the full 5-step flow for the `product_scrape` task and exits when c
 
 | Task name | Description | Payment |
 |---|---|---|
-| `product_scrape` | Returns 10 mock product listings as JSON | 0.05 USDC |
+| `product_scrape` | Returns 10 mock product listings as JSON | 0.05 USDT0 |
 
 ---
 
@@ -200,12 +200,12 @@ Agent A                                   Agent B
    │  ◄── 402 Payment Required ──────────    │
    │      { accepts: [{ payTo, amount }] }   │
    │                                         │
-   │  (sends USDC on Coston2)                │
+   │  (sends USDT0 on Coston2)                │
    │                                         │
    │  POST /tasks/product_scrape/execute     │
    │  X-Payment: base64(receipt + txHash)    │
    │ ───────────────────────────────────►    │
-   │                              (verifies USDC transfer on-chain)
+   │                              (verifies USDT0 transfer on-chain)
    │                                         │
    │  ◄── 200 { result: [...] } ──────────   │
 ```
@@ -242,5 +242,5 @@ export const TASKS: Record<string, TaskDefinition> = {
 | Phase | Status | What's active |
 |---|---|---|
 | Phase 1 | Done | Plain HTTP, mock data, local result storage |
-| Phase 2 | Done | x402 payment gate, on-chain USDC verification |
+| Phase 2 | Done | x402 payment gate, on-chain USDT0 verification |
 | Phase 3 | Planned | TEE attestation, real task execution, IPFS storage |

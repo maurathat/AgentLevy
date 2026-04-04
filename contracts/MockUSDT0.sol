@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.28;
 
-// Minimal ERC20 mock for testnet — mint freely, 6 decimals like real USDC.
-contract MockUSDC {
-    string  public name     = "Mock USDC";
-    string  public symbol   = "USDC";
+// Minimal ERC20 mock for testnet — mint freely, 6 decimals like real USDT0.
+contract MockUSDT0 {
+    string  public name     = "Mock USDT0";
+    string  public symbol   = "USDT0";
     uint8   public decimals = 6;
 
     uint256 public totalSupply;
@@ -28,7 +28,7 @@ contract MockUSDC {
     }
 
     function transfer(address to, uint256 amount) external returns (bool) {
-        require(balanceOf[msg.sender] >= amount, "MockUSDC: insufficient balance");
+        require(balanceOf[msg.sender] >= amount, "MockUSDT0: insufficient balance");
         balanceOf[msg.sender] -= amount;
         balanceOf[to]         += amount;
         emit Transfer(msg.sender, to, amount);
@@ -36,8 +36,8 @@ contract MockUSDC {
     }
 
     function transferFrom(address from, address to, uint256 amount) external returns (bool) {
-        require(balanceOf[from]              >= amount, "MockUSDC: insufficient balance");
-        require(allowance[from][msg.sender]  >= amount, "MockUSDC: insufficient allowance");
+        require(balanceOf[from]              >= amount, "MockUSDT0: insufficient balance");
+        require(allowance[from][msg.sender]  >= amount, "MockUSDT0: insufficient allowance");
         allowance[from][msg.sender] -= amount;
         balanceOf[from]             -= amount;
         balanceOf[to]               += amount;

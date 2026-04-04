@@ -17,7 +17,7 @@ describe("TASKS registry", () => {
       )
       expect(typeof spec.description).toBe("string")
       expect(spec.verification.type).toBe("json_schema")
-      expect(spec.payment.token).toBe("USDC")
+      expect(spec.payment.token).toBe("USDT0")
       expect(spec.payment.amount).toBe("0.05")
       expect(spec.payment.timeoutSeconds).toBe(300)
       expect(typeof spec.postedAt).toBe("number")

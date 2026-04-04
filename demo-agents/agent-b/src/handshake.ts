@@ -56,7 +56,7 @@ export async function watchAndClaim(
 
         // Build a minimal spec so canExecute can check the verification type
         // Full spec would be fetched from IPFS/Agent A in Phase 3
-        const minimalSpec: TaskSpec = { description: "", verification: { type: "json_schema" as const, criteria: {} }, payment: { amount: "0", token: "USDC", timeoutSeconds: 0 }, id: taskId, postedAt: 0, posterAddress: "" }
+        const minimalSpec: TaskSpec = { description: "", verification: { type: "json_schema" as const, criteria: {} }, payment: { amount: "0", token: "USDT0", timeoutSeconds: 0 }, id: taskId, postedAt: 0, posterAddress: "" }
 
         if (!canExecute(minimalSpec)) {
           console.log(`[Agent B] Cannot handle task ${taskId}, skipping`)

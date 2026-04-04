@@ -13,7 +13,7 @@ interface IERC20 {
  * Deploy once — use the same address for both TASK_REGISTRY_ADDRESS and VERIFIER_ADDRESS.
  *
  * Flow:
- *   1. Agent A calls postTask() → locks USDC, emits TaskPosted
+ *   1. Agent A calls postTask() → locks USDT0, emits TaskPosted
  *   2. Agent B calls claimTask() → records executor + deadline, emits TaskClaimed
  *   3. Agent B calls submitProof() → verifies hash, auto-settles, emits TaskSettled
  */
@@ -70,7 +70,7 @@ contract TaskRegistry {
     );
 
     // ─── postTask ─────────────────────────────────────────────────────────────
-    // Agent A locks USDC into this contract.
+    // Agent A locks USDT0 into this contract.
     // taskId = keccak256(poster, specHash, block.number) — unique per post.
 
     function postTask(
@@ -85,9 +85,9 @@ contract TaskRegistry {
         taskId = keccak256(abi.encodePacked(msg.sender, specHash, block.number));
         require(tasks[taskId].poster == address(0), "TaskRegistry: taskId collision");
 
-        // Pull USDC from Agent A (requires prior approve)
+        // Pull USDT0 from Agent A (requires prior approve)
         bool ok = IERC20(token).transferFrom(msg.sender, address(this), amount);
-        require(ok, "TaskRegistry: USDC transfer failed");
+        require(ok, "TaskRegistry: USDT0 transfer failed");
 
         uint256 deadline = block.timestamp + timeoutSeconds;
 

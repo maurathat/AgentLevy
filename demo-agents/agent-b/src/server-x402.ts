@@ -41,7 +41,7 @@ app.get("/tasks/:name/spec", (req: Request, res: Response) => {
 // ─── POST /tasks/:name/execute — x402 gated ──────────────────────────────────
 // Agent A must:
 //   1. Call this endpoint (gets 402 back with payment descriptor)
-//   2. Send USDC to payTo on Coston2
+//   2. Send USDT0 to payTo on Coston2
 //   3. Retry with X-Payment: base64(JSON(X402Receipt)) header
 
 app.post(
@@ -49,7 +49,7 @@ app.post(
   x402Middleware({
     amount:      EXECUTION_FEE,
     payTo:       AGENT_B_ADDRESS,
-    description: "Agent B task execution fee (Coston2 USDC)",
+    description: "Agent B task execution fee (Coston2 USDT0)",
   }),
   async (req: Request, res: Response) => {
     const def = TASKS[req.params.name]
@@ -87,7 +87,7 @@ app.get("/health", (_req: Request, res: Response) => {
 if (require.main === module) {
   app.listen(AGENT_B_PORT, () => {
     console.log(`[Agent B] x402 server on http://localhost:${AGENT_B_PORT}`)
-    console.log(`[Agent B] Execution fee : ${EXECUTION_FEE} USDC`)
+    console.log(`[Agent B] Execution fee : ${EXECUTION_FEE} USDT0`)
     console.log(`[Agent B] Pay-to address: ${AGENT_B_ADDRESS}`)
   })
 }

@@ -48,7 +48,7 @@ async function main() {
   console.log(`  TREASURY_ADDRESS=${treasuryAddress}`);
   console.log(`  TASK_REGISTRY_ADDRESS=${taskRegistryAddress}`);
   console.log(`  VERIFIER_ADDRESS=${taskRegistryAddress}  # same contract`);
-  console.log(`  USDC_ADDRESS=<coston2-usdc-address>\n`);
+  console.log(`  USDT0_ADDRESS=<coston2-usdc-address>\n`);
 
   // Save deployment info
   const { default: fs } = await import("fs");

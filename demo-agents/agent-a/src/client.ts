@@ -47,7 +47,7 @@ async function main() {
     console.log("[Agent A] Flow complete — task PASSED, Agent B paid")
     if (settlement) {
       console.log(`[Agent A] Payment sent to: ${settlement.recipient}`)
-      console.log(`[Agent A] Amount: ${settlement.amount.toString()} USDC`)
+      console.log(`[Agent A] Amount: ${settlement.amount.toString()} USDT0`)
     }
   } else {
     console.log("[Agent A] Flow complete — task FAILED or timed out, funds refunded")

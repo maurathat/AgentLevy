@@ -5,7 +5,7 @@
 //
 // Internally:
 //   1. POST /tasks/:name/execute → 402 with payment descriptor
-//   2. Send USDC transfer to payTo on Coston2
+//   2. Send USDT0 transfer to payTo on Coston2
 //   3. Build X402Receipt, base64-encode → X-Payment header
 //   4. Retry POST → 200 with result
 
@@ -15,13 +15,13 @@ import { publicClient, getWalletClient, AGENT_B_URL } from "../../shared/config"
 import { CONTRACT_ADDRESSES, ERC20_ABI }  from "../../shared/contracts"
 import type { X402PaymentRequired, X402Receipt } from "../../agent-b/src/x402"
 
-// ─── Send USDC on Coston2 ─────────────────────────────────────────────────────
+// ─── Send USDT0 on Coston2 ─────────────────────────────────────────────────────
 
 async function sendUsdc(to: `0x${string}`, amountUnits: bigint): Promise<`0x${string}`> {
   const walletClient = getWalletClient("A")
 
   const txHash = await walletClient.writeContract({
-    address:      CONTRACT_ADDRESSES.usdc,
+    address:      CONTRACT_ADDRESSES.usdt0,
     abi:          ERC20_ABI,
     functionName: "transfer",
     args:         [to, amountUnits],

@@ -32,29 +32,29 @@ export function hashSpec(spec: TaskSpec): `0x${string}` {
   return keccak256(toBytes(serialised))
 }
 
-// ─── Approve USDC spend ───────────────────────────────────────────────────────
+// ─── Approve USDT0 spend ───────────────────────────────────────────────────────
 
 async function approveUsdc(amount: bigint) {
   const walletClient = getWalletClient("A")
   const hash = await walletClient.writeContract({
-    address: CONTRACT_ADDRESSES.usdc,
+    address: CONTRACT_ADDRESSES.usdt0,
     abi: ERC20_ABI,
     functionName: "approve",
     args: [CONTRACT_ADDRESSES.taskRegistry, amount],
   })
   await publicClient.waitForTransactionReceipt({ hash })
-  console.log(`[Agent A] USDC approved: ${hash}`)
+  console.log(`[Agent A] USDT0 approved: ${hash}`)
 }
 
 // ─── Post task on-chain ───────────────────────────────────────────────────────
 
 export async function postTask(spec: TaskSpec): Promise<`0x${string}`> {
   const specHash = hashSpec(spec)
-  const amount   = parseUnits(spec.payment.amount, 6) // USDC has 6 decimals
+  const amount   = parseUnits(spec.payment.amount, 6) // USDT0 has 6 decimals
 
   console.log(`[Agent A] Posting task: ${spec.id}`)
   console.log(`[Agent A] Spec hash:    ${specHash}`)
-  console.log(`[Agent A] Amount:       ${spec.payment.amount} USDC`)
+  console.log(`[Agent A] Amount:       ${spec.payment.amount} USDT0`)
 
   // 1. Approve the registry to pull funds
   await approveUsdc(amount)
@@ -68,7 +68,7 @@ export async function postTask(spec: TaskSpec): Promise<`0x${string}`> {
     args: [
       specHash,
       amount,
-      CONTRACT_ADDRESSES.usdc,
+      CONTRACT_ADDRESSES.usdt0,
       BigInt(spec.payment.timeoutSeconds),
     ],
   })

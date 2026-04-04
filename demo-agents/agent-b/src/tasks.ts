@@ -46,7 +46,7 @@ export const TASKS: Record<string, TaskDefinition> = {
         },
         payment: {
           amount: overrides.amount ?? "0.05",
-          token: "USDC",
+          token: "USDT0",
           timeoutSeconds: overrides.timeoutSeconds ?? 300,
         },
         postedAt: Date.now(),

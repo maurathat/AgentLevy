@@ -41,7 +41,7 @@ describe("Agent B HTTP server", () => {
       expect(res.status).toBe(200)
       expect(res.body.spec).toBeDefined()
       expect(res.body.spec.verification.type).toBe("json_schema")
-      expect(res.body.spec.payment.token).toBe("USDC")
+      expect(res.body.spec.payment.token).toBe("USDT0")
     })
 
     test("returns 404 for unknown task", async () => {

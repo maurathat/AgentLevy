@@ -9,7 +9,7 @@ The agents module is the off-chain brain of the protocol. Two autonomous TypeScr
 ### Agent A — The Buyer
 Runs as a one-shot script. Given a task name, it:
 - Asks Agent B what the task looks like (spec, price, verification rules)
-- Locks USDC into the `TaskRegistry` contract on-chain
+- Locks USDT0 into the `TaskRegistry` contract on-chain
 - Waits for Agent B to claim the task on-chain
 - Pays Agent B's execution fee via x402
 - Receives the result
@@ -51,9 +51,9 @@ x402 is how Agent A pays Agent B for execution **before** receiving the result. 
 ```
 1. Agent A calls POST /tasks/product_scrape/execute
 2. Agent B replies: 402 Payment Required + { payTo, amount }
-3. Agent A sends USDC on-chain to Agent B's address
+3. Agent A sends USDT0 on-chain to Agent B's address
 4. Agent A retries the request with the tx hash in the X-Payment header
-5. Agent B verifies the USDC Transfer event on Coston2
+5. Agent B verifies the USDT0 Transfer event on Coston2
 6. Agent B executes the task and returns the result
 ```
 
@@ -69,7 +69,7 @@ Agent A                         Chain                      Agent B
    │── GET /tasks/spec ───────────────────────────────────►   │
    │◄─ TaskSpec (price, schema) ──────────────────────────    │
    │                               │                          │
-   │── approve USDC ──────────►    │                          │
+   │── approve USDT0 ──────────►    │                          │
    │── postTask() ────────────►    │ TaskPosted event         │
    │                               │ ◄─── watchEvent ─────────│
    │                               │      claimTask() ────────►
@@ -78,7 +78,7 @@ Agent A                         Chain                      Agent B
    │                               │                          │
    │── POST /execute ──────────────────────────────────────►  │
    │◄─ 402 + payTo ────────────────────────────────────────   │
-   │── send USDC tx ──────────►    │                          │
+   │── send USDT0 tx ──────────►    │                          │
    │── POST /execute + txHash ─────────────────────────────►  │
    │                               │ ◄─ verifyOnChain()       │
    │◄─ 200 { result } ─────────────────────────────────────   │

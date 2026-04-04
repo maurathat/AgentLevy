@@ -2,7 +2,7 @@
 //
 // Flow:
 //   1. Request arrives with no X-Payment header → return 402 + PaymentRequired descriptor
-//   2. Agent A pays on-chain (USDC transfer to payTo) and retries with X-Payment header
+//   2. Agent A pays on-chain (USDT0 transfer to payTo) and retries with X-Payment header
 //   3. Middleware verifies the Transfer event on Coston2 → calls next() on success
 
 import { Request, Response, NextFunction } from "express"
@@ -15,7 +15,7 @@ import { CONTRACT_ADDRESSES }              from "../../shared/contracts"
 export interface X402Accept {
   scheme:            "exact"
   network:           string
-  maxAmountRequired: string          // token base units (e.g. "10000" = 0.01 USDC)
+  maxAmountRequired: string          // token base units (e.g. "10000" = 0.01 USDT0)
   resource:          string          // full URL of the gated endpoint
   description:       string
   mimeType:          string
@@ -45,7 +45,7 @@ export interface X402Receipt {
 // ─── Middleware Config ─────────────────────────────────────────────────────────
 
 export interface X402Config {
-  amount:       string           // human-readable USDC, e.g. "0.01"
+  amount:       string           // human-readable USDT0, e.g. "0.01"
   payTo:        `0x${string}`    // Agent B wallet address (receives the fee)
   description?: string
 }
@@ -86,8 +86,8 @@ async function verifyOnChain(
   }
 
   // 3. Scan logs for Transfer(from → payTo, value >= required)
-  const requiredAmount = parseUnits(config.amount, 6) // USDC has 6 decimals
-  const usdcAddress    = getAddress(CONTRACT_ADDRESSES.usdc)
+  const requiredAmount = parseUnits(config.amount, 6) // USDT0 has 6 decimals
+  const usdcAddress    = getAddress(CONTRACT_ADDRESSES.usdt0)
   const payTo          = getAddress(config.payTo)
 
   const transferFound = txReceipt.logs.some(log => {
@@ -105,7 +105,7 @@ async function verifyOnChain(
   if (!transferFound) {
     return {
       ok:     false,
-      reason: `no USDC Transfer(→${payTo}, ≥${requiredAmount}) in tx ${txHash}`,
+      reason: `no USDT0 Transfer(→${payTo}, ≥${requiredAmount}) in tx ${txHash}`,
     }
   }
 
@@ -134,7 +134,7 @@ export function x402Middleware(config: X402Config) {
           mimeType:          "application/json",
           payTo:             config.payTo,
           maxTimeoutSeconds: 300,
-          asset:             CONTRACT_ADDRESSES.usdc,
+          asset:             CONTRACT_ADDRESSES.usdt0,
         }],
         error: "Payment Required",
       }

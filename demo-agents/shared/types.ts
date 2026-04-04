@@ -24,7 +24,7 @@ export interface TaskSpec {
   verification: VerificationSpec
   payment: {
     amount: string            // e.g. "0.05"
-    token: "USDC"             // token used for payment
+    token: "USDT0"            // token used for payment
     timeoutSeconds: number    // deadline for Agent B to deliver
   }
   postedAt: number            // unix timestamp (ms)
