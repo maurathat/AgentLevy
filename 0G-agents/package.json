@@ -1,0 +1,31 @@
+{
+  "name": "ethglobal-cannes-26-agents",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "build": "tsc -p tsconfig.node.json --noEmit",
+    "lint": "eslint src",
+    "demo:doctor": "tsx src/scripts/demoDoctor.ts",
+    "demo:server": "tsx src/server/demoServer.ts",
+    "demo:server:dev": "tsx watch src/server/demoServer.ts",
+    "0g:login": "tsx src/scripts/zeroGLogin.ts",
+    "bot": "tsx src/bot/discord.ts",
+    "bot:dev": "tsx watch src/bot/discord.ts"
+  },
+  "dependencies": {
+    "@claw_wallet/claw-wallet-sdk": "^0.2.0",
+    "@x402/core": "^2.9.0",
+    "@x402/evm": "^2.9.0",
+    "discord.js": "^14.26.2",
+    "dotenv": "^17.4.0",
+    "ethers": "^6.16.0",
+    "tsx": "^4.21.0",
+    "viem": "^2.47.6"
+  },
+  "devDependencies": {
+    "@types/node": "^24.12.0",
+    "eslint": "^9.39.4",
+    "typescript": "~5.9.3"
+  }
+}
