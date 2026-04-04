@@ -4,25 +4,42 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# Environment variables
+# Environment variables — NEVER commit these
 .env
 .env.local
 .env.*.local
+# keep the example template
+!.env.example
+
+# Private keys / secrets
+*.pem
+*.key
+*.p12
+*.pfx
+keystore/
+wallet.json
 
 # Build outputs
 dist/
 build/
 out/
+
+# Solidity / Hardhat / Foundry
 artifacts/
 cache/
-
-# Hardhat / Foundry
 typechain/
 typechain-types/
+deployments/localhost/
+deployments/hardhat/
+broadcast/*/31337/
 
 # Coverage
 coverage/
 coverage.json
+lcov.info
+
+# TypeScript
+*.tsbuildinfo
 
 # Python
 .venv/
@@ -37,7 +54,13 @@ Thumbs.db
 # IDE
 .vscode/
 .idea/
+*.swp
+*.swo
 
 # Logs
 logs/
 *.log
+
+# Test results
+junit.xml
+test-results/

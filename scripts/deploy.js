@@ -12,7 +12,7 @@
 import hre from "hardhat";
 
 async function main() {
-  console.log("\n[Deploy] Deploying AgentLevy Treasury to Coston2 testnet...\n");
+  console.log("\n[Deploy] Deploying AgentLevy contracts to Coston2 testnet...\n");
 
   const [deployer] = await hre.ethers.getSigners();
   console.log(`[Deploy] Deploying with account: ${deployer.address}`);
@@ -24,26 +24,31 @@ async function main() {
   const Treasury = await hre.ethers.getContractFactory("Treasury");
   const treasury = await Treasury.deploy();
   await treasury.waitForDeployment();
+  const treasuryAddress = await treasury.getAddress();
+  console.log(`[Deploy] ✅ Treasury deployed to:     ${treasuryAddress}`);
 
-  const address = await treasury.getAddress();
-  console.log(`[Deploy] ✅ Treasury deployed to: ${address}`);
-  console.log(`[Deploy] Add to your .env: TREASURY_ADDRESS=${address}\n`);
+  // Deploy TaskRegistry contract
+  const TaskRegistry = await hre.ethers.getContractFactory("TaskRegistry");
+  const taskRegistry = await TaskRegistry.deploy();
+  await taskRegistry.waitForDeployment();
+  const taskRegistryAddress = await taskRegistry.getAddress();
+  console.log(`[Deploy] ✅ TaskRegistry deployed to: ${taskRegistryAddress}`);
 
-  // Verify initial state
-  const levyBps     = await treasury.levyBasisPoints();
-  const owner       = await treasury.owner();
-  const isVerified  = await treasury.verifiedTEEs(deployer.address);
+  // Verify Treasury initial state
+  const levyBps    = await treasury.levyBasisPoints();
+  const owner      = await treasury.owner();
+  const isVerified = await treasury.verifiedTEEs(deployer.address);
 
-  console.log(`[Deploy] Initial state:`);
+  console.log(`\n[Deploy] Treasury state:`);
   console.log(`  Owner:           ${owner}`);
   console.log(`  Levy rate:       ${levyBps} basis points (${Number(levyBps) / 100}%)`);
-  console.log(`  Deployer as TEE: ${isVerified} (testnet only)\n`);
+  console.log(`  Deployer as TEE: ${isVerified} (testnet only)`);
 
-  console.log(`[Deploy] Next steps:`);
-  console.log(`  1. Add TREASURY_ADDRESS=${address} to .env`);
-  console.log(`  2. Start facilitator: node sdk/x402Facilitator.js`);
-  console.log(`  3. Run demo: node sdk/agentWallet.js --demo`);
-  console.log(`  4. Open Taxai dashboard: cd dashboard && npm start\n`);
+  console.log(`\n[Deploy] Add these to agents/.env:`);
+  console.log(`  TREASURY_ADDRESS=${treasuryAddress}`);
+  console.log(`  TASK_REGISTRY_ADDRESS=${taskRegistryAddress}`);
+  console.log(`  VERIFIER_ADDRESS=${taskRegistryAddress}  # same contract`);
+  console.log(`  USDT0_ADDRESS=<coston2-usdc-address>\n`);
 
   // Save deployment info
   const { default: fs } = await import("fs");
@@ -51,11 +56,13 @@ async function main() {
   if (!fs.existsSync(dir)) fs.mkdirSync(dir);
 
   const deployInfo = {
-    network:   "coston2",
-    address,
-    deployer:  deployer.address,
-    timestamp: new Date().toISOString(),
-    levyBps:   levyBps.toString(),
+    network:             "coston2",
+    treasury:            treasuryAddress,
+    taskRegistry:        taskRegistryAddress,
+    verifier:            taskRegistryAddress,
+    deployer:            deployer.address,
+    timestamp:           new Date().toISOString(),
+    levyBps:             levyBps.toString(),
   };
 
   fs.writeFileSync(
