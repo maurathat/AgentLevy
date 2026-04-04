@@ -33,20 +33,15 @@ export async function waitForClaim(taskId: `0x${string}`): Promise<TaskClaimedEv
 // ─── Check on-chain for TaskClaimed event ─────────────────────────────────────
 
 async function checkClaimed(taskId: `0x${string}`): Promise<TaskClaimedEvent | null> {
-  // TODO: once contracts are deployed, replace with actual event log query
-  // Example using viem getLogs:
-  //
-  // const logs = await publicClient.getLogs({
-  //   address: CONTRACT_ADDRESSES.taskRegistry,
-  //   event: TASK_REGISTRY_ABI.find(e => e.name === "TaskClaimed"),
-  //   args: { taskId },
-  //   fromBlock: "earliest",
-  // })
-  // if (logs.length > 0) return logs[0].args as TaskClaimedEvent
-
-  // Phase 1 stub — simulate claim after 2 polls
-  // Remove this block once contracts are live
-  console.log(`[Agent A] Polling for claim... (stub)`)
+  const event = TASK_REGISTRY_ABI.find(e => e.name === "TaskClaimed")
+  const logs = await publicClient.getLogs({
+    address:   CONTRACT_ADDRESSES.taskRegistry,
+    event:     event as any,
+    args:      { taskId },
+    fromBlock: "earliest",
+  })
+  if (logs.length > 0) return (logs[0] as any).args as TaskClaimedEvent
+  console.log(`[Agent A] Polling for claim...`)
   return null
 }
 

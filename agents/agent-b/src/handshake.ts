@@ -44,23 +44,32 @@ export async function watchAndClaim(
 ): Promise<void> {
   console.log("[Agent B] Watching for new tasks...")
 
-  // TODO: once contracts are deployed, replace with actual event watcher
-  // Example using viem watchEvent:
-  //
-  // publicClient.watchEvent({
-  //   address: CONTRACT_ADDRESSES.taskRegistry,
-  //   event: TASK_REGISTRY_ABI.find(e => e.name === "TaskPosted"),
-  //   onLogs: async (logs) => {
-  //     for (const log of logs) {
-  //       const { taskId, specHash } = log.args
-  //       // fetch spec off-chain (IPFS or Agent A endpoint), verify can handle it
-  //       // then claim
-  //       await claimTask(taskId)
-  //       onClaimed(taskId, spec)
-  //     }
-  //   }
-  // })
+  const event = TASK_REGISTRY_ABI.find(e => e.name === "TaskPosted")
 
-  // Phase 1 stub — nothing to watch yet
-  console.log("[Agent B] (stub) No live contract to watch yet")
+  publicClient.watchEvent({
+    address: CONTRACT_ADDRESSES.taskRegistry,
+    event:   event as any,
+    onLogs:  async (logs) => {
+      for (const log of logs) {
+        const { taskId } = (log as any).args as { taskId: `0x${string}` }
+        console.log(`[Agent B] TaskPosted detected — taskId: ${taskId}`)
+
+        // Build a minimal spec so canExecute can check the verification type
+        // Full spec would be fetched from IPFS/Agent A in Phase 3
+        const minimalSpec: TaskSpec = { description: "", verification: { type: "json_schema" as const, criteria: {} }, payment: { amount: "0", token: "USDC", timeoutSeconds: 0 }, id: taskId, postedAt: 0, posterAddress: "" }
+
+        if (!canExecute(minimalSpec)) {
+          console.log(`[Agent B] Cannot handle task ${taskId}, skipping`)
+          continue
+        }
+
+        try {
+          await claimTask(taskId)
+          onClaimed(taskId, minimalSpec)
+        } catch (err) {
+          console.error(`[Agent B] Failed to claim task ${taskId}:`, err)
+        }
+      }
+    },
+  })
 }

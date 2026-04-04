@@ -38,19 +38,13 @@ export async function waitForVerification(
 async function checkVerificationResult(
   taskId: `0x${string}`
 ): Promise<{ verified: boolean; passed: boolean }> {
-  // TODO: uncomment once contracts are deployed
-  //
-  // const [verified, passed] = await publicClient.readContract({
-  //   address: CONTRACT_ADDRESSES.verifier,
-  //   abi: VERIFIER_ABI,
-  //   functionName: "getVerificationResult",
-  //   args: [taskId],
-  // })
-  // return { verified, passed }
-
-  // Phase 1 stub
-  console.log(`[Agent A] (stub) Checking verification result...`)
-  return { verified: false, passed: false }
+  const [verified, passed] = await publicClient.readContract({
+    address:      CONTRACT_ADDRESSES.verifier,
+    abi:          VERIFIER_ABI,
+    functionName: "getVerificationResult",
+    args:         [taskId],
+  }) as [boolean, boolean]
+  return { verified, passed }
 }
 
 // ─── Confirm payment settled ──────────────────────────────────────────────────
@@ -58,22 +52,18 @@ async function checkVerificationResult(
 // which address received the funds (seller on pass, buyer on fail).
 
 export async function confirmSettlement(taskId: `0x${string}`): Promise<TaskSettledEvent | null> {
-  // TODO: query TaskSettled event logs from TaskRegistry
-  //
-  // const logs = await publicClient.getLogs({
-  //   address: CONTRACT_ADDRESSES.taskRegistry,
-  //   event: TASK_REGISTRY_ABI.find(e => e.name === "TaskSettled"),
-  //   args: { taskId },
-  //   fromBlock: "earliest",
-  // })
-  // if (logs.length > 0) {
-  //   const event = logs[0].args as TaskSettledEvent
-  //   console.log(`[Agent A] Settlement confirmed — recipient: ${event.recipient}, passed: ${event.passed}`)
-  //   return event
-  // }
-
-  // Phase 1 stub
-  console.log(`[Agent A] (stub) Checking settlement...`)
+  const event = TASK_REGISTRY_ABI.find(e => e.name === "TaskSettled")
+  const logs = await publicClient.getLogs({
+    address:   CONTRACT_ADDRESSES.taskRegistry,
+    event:     event as any,
+    args:      { taskId },
+    fromBlock: "earliest",
+  })
+  if (logs.length > 0) {
+    const settled = (logs[0] as any).args as TaskSettledEvent
+    console.log(`[Agent A] Settlement confirmed — recipient: ${settled.recipient}, passed: ${settled.passed}`)
+    return settled
+  }
   return null
 }
 

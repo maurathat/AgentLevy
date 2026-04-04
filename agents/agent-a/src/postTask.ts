@@ -77,7 +77,22 @@ export async function postTask(spec: TaskSpec): Promise<`0x${string}`> {
   console.log(`[Agent A] Task posted — tx: ${txHash}`)
   console.log(`[Agent A] Block:           ${receipt.blockNumber}`)
 
-  // TODO: parse TaskPosted event from receipt to get the on-chain taskId
-  // For now return the spec hash as the task identifier
-  return specHash
+  // Parse TaskPosted event from receipt logs to get the on-chain taskId
+  const taskPostedTopic = TASK_REGISTRY_ABI.find(e => e.name === "TaskPosted")
+  for (const log of receipt.logs) {
+    try {
+      const decoded = (await import("viem")).decodeEventLog({
+        abi:    [taskPostedTopic] as any,
+        data:   log.data,
+        topics: log.topics,
+      }) as any
+      const taskId = decoded.args.taskId as `0x${string}`
+      console.log(`[Agent A] taskId: ${taskId}`)
+      return taskId
+    } catch {
+      // not this log, continue
+    }
+  }
+
+  throw new Error("[Agent A] TaskPosted event not found in receipt — was the contract called correctly?")
 }

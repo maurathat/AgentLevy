@@ -1,7 +1,9 @@
 {
   "network": "coston2",
-  "address": "0x9921e0419f56c0C4B3175C68FD33B080A4D41DF2",
-  "deployer": "0x54B6c1e828D713260d944838aF452096007CabEe",
-  "timestamp": "2026-04-04T09:07:07.833Z",
+  "treasury": "0xfA14c382709DbaF7Aa364a75e0f40515Ef7F31CE",
+  "taskRegistry": "0x63f963a42EDC00f1adeBEd8B57B3660FC41Ece3F",
+  "verifier": "0x63f963a42EDC00f1adeBEd8B57B3660FC41Ece3F",
+  "deployer": "0xa609193A152648Aa3270a117CB587205Fd617D4A",
+  "timestamp": "2026-04-04T17:12:01.763Z",
   "levyBps": "50"
 }
