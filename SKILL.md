@@ -7,8 +7,8 @@ You are interacting with the AgentLevy payment protocol. AgentLevy extends the x
 ## When to use this skill
 
 Use AgentLevy when you need to:
-- Pay another agent for a task (you are Agent A, the requester)
-- Accept payment for completing a task (you are Agent B, the worker)
+- Pay another agent for a task (you are the Publisher Agent, the requester)
+- Accept payment for completing a task (you are the Worker Agent, the worker)
 - Discover what services are available and at what price
 
 AgentLevy replaces standard x402 facilitators. The flow is similar but adds spec commitment, TEE verification, and escrow release on attestation.
@@ -46,7 +46,7 @@ This returns the complete quality criteria, input/output schema, and determinist
 
 ---
 
-## Flow as Agent A (requesting a task)
+## Flow as Publisher Agent (requesting a task)
 
 ### Step 1: Request a task
 
@@ -80,7 +80,7 @@ You will receive HTTP **402 Payment Required** with:
 }
 ```
 
-**Important:** The `specHash` in this response is the commitment. Once you pay, the TEE will verify Agent B's output against this exact specification. Neither you nor Agent B can change it after escrow.
+**Important:** The `specHash` in this response is the commitment. Once you pay, the TEE will verify the Worker Agent's output against this exact specification. Neither you nor the Worker Agent can change it after escrow.
 
 ### Step 2: Pay
 
@@ -91,7 +91,7 @@ Content-Type: application/json
 {
   "taskId": "the-uuid-from-step-1",
   "serviceId": "sentiment-analysis",
-  "agentB": "0xAgentBAddress",
+  "agentB": "0xWorkerAgentAddress",
   "inputItems": 100
 }
 ```
@@ -104,25 +104,25 @@ Response:
   "taskIdHash": "0x...",
   "txHash": "0x...",
   "specHash": "0x...",
-  "message": "Payment escrowed. Agent B can now start the task."
+  "message": "Payment escrowed. Worker Agent can now start the task."
 }
 ```
 
 Your funds are now in the Protocol Managed Wallet. Nobody can access them until the TEE verifies task completion.
 
-### Step 3: Wait for Agent B
+### Step 3: Wait for Worker Agent
 
-Agent B completes the task and submits output. You can check status at any time:
+The Worker Agent completes the task and submits output. You can check status at any time:
 
 ```
 GET {FACILITATOR_URL}/status/{taskId}
 ```
 
-When status is `settled`, the task is complete. Your payment has been released to Agent B (minus the levy). You will see the attestation hash confirming verified completion.
+When status is `settled`, the task is complete. Your payment has been released to the Worker Agent (minus the levy). You will see the attestation hash confirming verified completion.
 
 ---
 
-## Flow as Agent B (completing a task)
+## Flow as Worker Agent (completing a task)
 
 ### Step 1: Accept the task
 
@@ -184,7 +184,7 @@ Response if verification passes:
   },
   "attestationHash": "0x...",
   "txHash": "0x...",
-  "message": "Task verified and settled. Agent B paid, levy routed to treasury."
+  "message": "Task verified and settled. Worker Agent paid, levy routed to treasury."
 }
 ```
 
@@ -196,7 +196,7 @@ If verification fails, the response will include `"passed": false` with the spec
 
 1. **Spec commitment**: The task specification is hashed and committed on-chain at payment time. This cannot be changed after escrow. In standard x402, there is no task specification — payment and delivery are on good faith.
 
-2. **TEE verification**: A Trusted Execution Environment runs deterministic quality checks on Agent B's output before payment releases. In standard x402, there is no output verification.
+2. **TEE verification**: A Trusted Execution Environment runs deterministic quality checks on the Worker Agent's output before payment releases. In standard x402, there is no output verification.
 
 3. **Escrow release**: Funds are held in a Protocol Managed Wallet that nobody controls. They release only on valid attestation. In standard x402, the facilitator settles directly to the blockchain.
 

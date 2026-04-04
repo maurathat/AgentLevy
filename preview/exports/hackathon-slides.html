@@ -1,0 +1,1242 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AgentLevy Hackathon Deck Slides</title>
+    <style>
+      :root {
+        --bg: #070b18;
+        --bg-2: #0d1326;
+        --panel: rgba(17, 27, 49, 0.92);
+        --panel-soft: rgba(15, 22, 41, 0.88);
+        --line: #223354;
+        --text: #f5f7fb;
+        --muted: #8ea2c3;
+        --cyan: #00d4ff;
+        --green: #00e5a0;
+        --orange: #ff6b35;
+        --purple: #7b61ff;
+        --shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+      }
+
+      * { box-sizing: border-box; }
+
+      html, body {
+        margin: 0;
+        height: 100%;
+        background:
+          radial-gradient(circle at top right, rgba(0, 212, 255, 0.10), transparent 24%),
+          radial-gradient(circle at 10% 15%, rgba(123, 97, 255, 0.10), transparent 22%),
+          var(--bg);
+        color: var(--text);
+        font-family: "Calibri Light", Calibri, Arial, sans-serif;
+        overflow: hidden;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        background:
+          radial-gradient(circle at 85% 8%, rgba(0, 229, 160, 0.08), transparent 18%),
+          radial-gradient(circle at 90% 50%, rgba(0, 212, 255, 0.05), transparent 16%);
+      }
+
+      .chrome {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 20;
+        padding: 18px 24px 0;
+      }
+
+      .progress-track {
+        height: 4px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.08);
+        overflow: hidden;
+      }
+
+      .progress-bar {
+        height: 100%;
+        width: 14%;
+        background: linear-gradient(90deg, var(--cyan), var(--green));
+        transition: width 180ms ease;
+      }
+
+      .topbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 16px;
+        margin-top: 14px;
+      }
+
+      .brand {
+        color: var(--muted);
+        font-size: 0.95rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .brand strong { color: var(--cyan); }
+
+      .controls {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .counter {
+        color: var(--muted);
+        font-size: 0.95rem;
+        min-width: 86px;
+        text-align: center;
+      }
+
+      button,
+      .back-link {
+        border: 1px solid var(--line);
+        background: rgba(17, 27, 49, 0.88);
+        color: var(--text);
+        padding: 10px 14px;
+        border-radius: 999px;
+        cursor: pointer;
+        font: inherit;
+        text-decoration: none;
+        transition: transform 100ms ease, border-color 100ms ease, background 100ms ease;
+      }
+
+      button:hover,
+      .back-link:hover {
+        transform: translateY(-1px);
+        border-color: rgba(0, 212, 255, 0.5);
+        background: rgba(20, 33, 61, 0.95);
+      }
+
+      .viewport {
+        height: 100%;
+        display: grid;
+        place-items: center;
+        padding: 78px 24px 32px;
+      }
+
+      .deck {
+        width: min(1380px, 100%);
+        height: min(820px, calc(100vh - 120px));
+        position: relative;
+      }
+
+      .slide {
+        position: absolute;
+        inset: 0;
+        display: none;
+        background:
+          linear-gradient(180deg, rgba(13, 19, 38, 0.98), rgba(7, 11, 24, 0.98));
+        border: 1px solid rgba(34, 51, 84, 0.95);
+        border-radius: 28px;
+        box-shadow: var(--shadow);
+        overflow: hidden;
+      }
+
+      .slide.active { display: block; }
+
+      .slide-inner {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        padding: 42px 48px 34px;
+      }
+
+      .slide-head {
+        display: flex;
+        justify-content: space-between;
+        gap: 18px;
+        align-items: flex-start;
+        margin-bottom: 24px;
+      }
+
+      .eyebrow {
+        color: var(--cyan);
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        font-size: 12px;
+        font-weight: 700;
+        margin-bottom: 12px;
+      }
+
+      .slide h1,
+      .slide h2 {
+        margin: 0;
+        font-family: Georgia, serif;
+        line-height: 1.02;
+      }
+
+      .slide h1 {
+        font-size: clamp(2.8rem, 5vw, 5.4rem);
+      }
+
+      .slide h2 {
+        font-size: clamp(2rem, 3.4vw, 3.4rem);
+      }
+
+      .lede {
+        max-width: 760px;
+        color: var(--muted);
+        font-size: 1.15rem;
+        line-height: 1.55;
+        margin-top: 12px;
+      }
+
+      .robot {
+        width: 180px;
+        height: 180px;
+        border-radius: 24px;
+        border: 1px solid rgba(0, 212, 255, 0.18);
+        display: grid;
+        place-items: center;
+        background:
+          radial-gradient(circle at 50% 30%, rgba(0, 212, 255, 0.08), transparent 50%),
+          rgba(255, 255, 255, 0.02);
+        flex-shrink: 0;
+      }
+
+      .banner {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        margin-top: 28px;
+        padding: 14px 18px;
+        border-radius: 16px;
+        border: 1px solid rgba(255, 107, 53, 0.8);
+        background: rgba(255, 107, 53, 0.08);
+        color: #ffd8cb;
+        font-size: 1rem;
+      }
+
+      .banner.compact {
+        margin-top: 18px;
+        padding: 10px 14px;
+        font-size: 0.92rem;
+      }
+
+      .chip-row,
+      .tag-row {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      .chip-row { margin-top: 18px; }
+
+      .chip,
+      .tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 12px;
+        border-radius: 999px;
+        border: 1px solid var(--line);
+        font-size: 0.88rem;
+        color: #dce8f6;
+        background: rgba(255, 255, 255, 0.03);
+      }
+
+      .chip strong,
+      .tag strong {
+        color: var(--text);
+      }
+
+      .tag.live {
+        border-color: rgba(0, 229, 160, 0.32);
+        color: #c9ffe8;
+        background: rgba(0, 229, 160, 0.08);
+      }
+
+      .tag.build {
+        border-color: rgba(255, 107, 53, 0.38);
+        color: #ffe0d5;
+        background: rgba(255, 107, 53, 0.08);
+      }
+
+      .tag.next {
+        border-color: rgba(123, 97, 255, 0.38);
+        color: #e0d9ff;
+        background: rgba(123, 97, 255, 0.08);
+      }
+
+      .hero-footer {
+        margin-top: auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        gap: 18px;
+      }
+
+      .hero-stack {
+        color: var(--muted);
+        font-size: 1.05rem;
+        line-height: 1.7;
+      }
+
+      .hero-stack strong { color: var(--text); }
+
+      .kpis,
+      .three-col,
+      .build-grid,
+      .closing-grid {
+        display: grid;
+        gap: 18px;
+      }
+
+      .kpis {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        margin-top: 18px;
+      }
+
+      .three-col {
+        grid-template-columns: 1.05fr 1.1fr 0.9fr;
+        align-items: stretch;
+        flex: 1;
+        min-height: 0;
+      }
+
+      .flow-layout,
+      .compare-layout {
+        display: grid;
+        gap: 18px;
+        flex: 1;
+        min-height: 0;
+      }
+
+      .compare-layout {
+        grid-template-columns: 1.25fr 0.75fr;
+      }
+
+      .build-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        flex: 1;
+      }
+
+      .closing-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        margin-top: 28px;
+      }
+
+      .card,
+      .pillars,
+      .table-wrap {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 22px;
+        padding: 20px 22px;
+      }
+
+      .card.soft { background: var(--panel-soft); }
+      .card.cyan { border-color: rgba(0, 212, 255, 0.35); }
+      .card.green { border-color: rgba(0, 229, 160, 0.35); }
+      .card.orange { border-color: rgba(255, 107, 53, 0.35); }
+      .card.purple { border-color: rgba(123, 97, 255, 0.35); }
+
+      .card h3,
+      .pillars h3 {
+        margin: 0 0 12px;
+        font-family: Georgia, serif;
+        font-size: 1.45rem;
+      }
+
+      .card p,
+      .card li,
+      .pillars li {
+        color: #dce8f6;
+        line-height: 1.6;
+      }
+
+      .card ul,
+      .pillars ul {
+        margin: 0;
+        padding-left: 1.15rem;
+      }
+
+      .stat {
+        display: inline-block;
+        font-size: 0.85rem;
+        color: var(--muted);
+        margin-top: 12px;
+      }
+
+      .accent {
+        color: var(--cyan);
+      }
+
+      .success { color: var(--green); }
+      .warn { color: var(--orange); }
+      .violet { color: #b7a7ff; }
+
+      .flow {
+        display: grid;
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+        gap: 12px;
+        margin-top: 14px;
+      }
+
+      .step {
+        padding: 14px 14px 16px;
+        border-radius: 18px;
+        background: rgba(15, 22, 41, 0.92);
+        border: 1px solid var(--line);
+        min-height: 140px;
+      }
+
+      .step .num {
+        display: inline-flex;
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        align-items: center;
+        justify-content: center;
+        background: rgba(0, 212, 255, 0.14);
+        color: var(--cyan);
+        font-weight: 700;
+        margin-bottom: 12px;
+      }
+
+      .step h4 {
+        margin: 0 0 8px;
+        font-size: 1rem;
+        font-family: Georgia, serif;
+      }
+
+      .step p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.95rem;
+        line-height: 1.5;
+      }
+
+      .mode-bar {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+        margin-top: 18px;
+      }
+
+      .mode {
+        border-radius: 18px;
+        padding: 16px 18px;
+        border: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.02);
+      }
+
+      .mode h4 {
+        margin: 0 0 8px;
+        font-family: Georgia, serif;
+        font-size: 1.05rem;
+      }
+
+      .mode p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.55;
+      }
+
+      .asset-frame {
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+      }
+
+      .asset-frame.tall img {
+        height: 100%;
+        object-fit: contain;
+      }
+
+      .asset-frame img {
+        width: 100%;
+        height: auto;
+        border-radius: 20px;
+        border: 1px solid rgba(34, 51, 84, 0.95);
+        background: rgba(255, 255, 255, 0.02);
+      }
+
+      .asset-caption {
+        color: var(--muted);
+        font-size: 0.95rem;
+        margin-top: 12px;
+        line-height: 1.55;
+      }
+
+      .asset-frame.workflow {
+        gap: 14px;
+      }
+
+      .asset-frame.workflow img {
+        width: 100%;
+        height: auto;
+        border-radius: 22px;
+        border: 1px solid rgba(34, 51, 84, 0.95);
+        background: rgba(9, 17, 31, 0.65);
+      }
+
+      .protocol-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1.45fr) minmax(290px, 0.82fr);
+        gap: 18px;
+        align-items: stretch;
+        flex: 1;
+        min-height: 0;
+      }
+
+      .protocol-grid .asset-frame.workflow {
+        min-height: 0;
+      }
+
+      .protocol-grid .asset-frame.workflow img {
+        height: 100%;
+        max-height: 400px;
+        object-fit: contain;
+      }
+
+      .protocol-slide .slide-inner {
+        padding-top: 34px;
+        padding-bottom: 14px;
+      }
+
+      .protocol-slide .slide-head {
+        margin-bottom: 16px;
+      }
+
+      .protocol-slide h2 {
+        font-size: clamp(1.9rem, 2.45vw, 2.55rem);
+        max-width: 1160px;
+      }
+
+      .protocol-slide .lede {
+        max-width: 920px;
+        font-size: 1rem;
+        margin-top: 8px;
+      }
+
+      .protocol-canvas {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        min-height: 0;
+      }
+
+      .protocol-band {
+        padding: 13px 16px;
+        border-radius: 18px;
+        border: 1px solid rgba(0, 212, 255, 0.28);
+        background: rgba(0, 212, 255, 0.08);
+      }
+
+      .protocol-band h3 {
+        margin: 0 0 4px;
+        font-family: Georgia, serif;
+        font-size: 1.12rem;
+      }
+
+      .protocol-band p {
+        margin: 0;
+        color: #dce8f6;
+        font-size: 0.9rem;
+        line-height: 1.42;
+      }
+
+      .protocol-step-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .protocol-step {
+        padding: 12px 13px 14px;
+        border-radius: 18px;
+        background: rgba(15, 22, 41, 0.92);
+        border: 1px solid var(--line);
+        min-height: 112px;
+      }
+
+      .protocol-step.cyan { border-color: rgba(0, 212, 255, 0.38); }
+      .protocol-step.green { border-color: rgba(0, 229, 160, 0.38); }
+      .protocol-step.orange { border-color: rgba(255, 107, 53, 0.38); }
+      .protocol-step.purple { border-color: rgba(123, 97, 255, 0.38); }
+
+      .protocol-step .num {
+        display: inline-flex;
+        width: 30px;
+        height: 30px;
+        border-radius: 999px;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        color: #07111f;
+        background: var(--cyan);
+        margin-bottom: 8px;
+      }
+
+      .protocol-step.green .num { background: var(--green); }
+      .protocol-step.orange .num { background: var(--orange); }
+      .protocol-step.purple .num { background: #9f8dff; }
+
+      .protocol-step h4 {
+        margin: 0 0 4px;
+        font-family: Georgia, serif;
+        font-size: 1rem;
+      }
+
+      .protocol-step p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.82rem;
+        line-height: 1.34;
+      }
+
+      .protocol-side {
+        display: grid;
+        gap: 10px;
+        align-content: start;
+      }
+
+      .workflow-note-grid {
+        display: grid;
+        grid-template-columns: 1.06fr 0.94fr;
+        gap: 16px;
+      }
+
+      .workflow-note {
+        padding: 13px 15px;
+        border-radius: 18px;
+        border: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.03);
+      }
+
+      .workflow-note h4 {
+        margin: 0 0 6px;
+        font-family: Georgia, serif;
+        font-size: 1rem;
+      }
+
+      .workflow-note p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.45;
+      }
+
+      .protocol-side .workflow-note p,
+      .protocol-side .card p {
+        font-size: 0.88rem;
+        line-height: 1.4;
+      }
+
+      .protocol-side .card ul {
+        padding-left: 1.05rem;
+      }
+
+      .protocol-side .card li {
+        font-size: 0.88rem;
+        line-height: 1.35;
+      }
+
+      .summary-slide .slide-head {
+        margin-bottom: 18px;
+      }
+
+      .summary-slide .lede {
+        max-width: 840px;
+        font-size: 1.06rem;
+      }
+
+      .summary-slide .three-col {
+        gap: 14px;
+        flex: 0 0 auto;
+      }
+
+      .summary-slide .card {
+        padding: 18px 18px;
+      }
+
+      .summary-slide .card h3 {
+        font-size: 1.28rem;
+        margin-bottom: 10px;
+      }
+
+      .summary-slide .card li {
+        font-size: 0.94rem;
+        line-height: 1.42;
+      }
+
+      .summary-meta {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 14px;
+        align-items: start;
+        margin-top: 20px;
+      }
+
+      .summary-slide .big-quote {
+        margin-top: 0;
+        font-size: clamp(1.18rem, 1.72vw, 1.62rem);
+        line-height: 1.12;
+        max-width: 900px;
+      }
+
+      .summary-slide .links {
+        margin-top: 0;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-self: start;
+        align-self: start;
+        padding-top: 0;
+        padding-left: 0;
+        gap: 10px 12px;
+      }
+
+      .summary-slide .ghost {
+        width: auto;
+        justify-content: center;
+        padding: 9px 12px;
+        font-size: 0.92rem;
+        white-space: nowrap;
+      }
+
+      .callout-list {
+        display: grid;
+        gap: 12px;
+        margin-top: 16px;
+      }
+
+      .callout {
+        padding: 14px 16px;
+        border-radius: 16px;
+        border: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.03);
+      }
+
+      .callout h4 {
+        margin: 0 0 8px;
+        font-size: 1rem;
+        font-family: Georgia, serif;
+      }
+
+      .callout p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.55;
+        font-size: 0.96rem;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.96rem;
+      }
+
+      th, td {
+        border: 1px solid rgba(34, 51, 84, 0.95);
+        padding: 12px 12px;
+        vertical-align: top;
+      }
+
+      th {
+        text-align: left;
+        color: var(--text);
+        background: rgba(0, 212, 255, 0.08);
+      }
+
+      td {
+        color: #dce8f6;
+        line-height: 1.45;
+      }
+
+      .mini {
+        color: var(--muted);
+        font-size: 0.92rem;
+        line-height: 1.55;
+      }
+
+      .footer-line {
+        margin-top: auto;
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        color: var(--muted);
+        font-size: 0.95rem;
+        border-top: 1px solid rgba(34, 51, 84, 0.95);
+        padding-top: 16px;
+      }
+
+      .big-quote {
+        margin-top: 32px;
+        max-width: 960px;
+        font-family: Georgia, serif;
+        font-size: clamp(2rem, 3.4vw, 3.25rem);
+        line-height: 1.15;
+      }
+
+      .links {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-top: 18px;
+      }
+
+      .ghost {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 14px;
+        border-radius: 999px;
+        border: 1px solid var(--line);
+        color: var(--cyan);
+        text-decoration: none;
+        background: rgba(0, 212, 255, 0.06);
+      }
+
+      .ghost:hover {
+        border-color: rgba(0, 212, 255, 0.5);
+      }
+
+      .slide-marker {
+        color: rgba(255, 255, 255, 0.08);
+        font-family: Georgia, serif;
+        font-size: 6rem;
+        line-height: 1;
+      }
+
+      .speaker-notes {
+        display: none;
+      }
+
+      .notes-panel {
+        position: fixed;
+        left: 50%;
+        bottom: 20px;
+        width: min(980px, calc(100% - 48px));
+        transform: translateX(-50%) translateY(18px);
+        opacity: 0;
+        pointer-events: none;
+        z-index: 30;
+        border: 1px solid var(--line);
+        border-radius: 22px;
+        background: rgba(7, 11, 24, 0.96);
+        box-shadow: var(--shadow);
+        padding: 18px 22px;
+        transition: opacity 140ms ease, transform 140ms ease;
+      }
+
+      .notes-panel.open {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translateX(-50%) translateY(0);
+      }
+
+      .notes-kicker {
+        color: var(--cyan);
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        font-size: 0.8rem;
+        font-weight: 700;
+        margin-bottom: 10px;
+      }
+
+      .notes-body p {
+        margin: 0;
+        color: #dce8f6;
+        line-height: 1.65;
+        font-size: 0.98rem;
+      }
+
+      .notes-body p + p {
+        margin-top: 12px;
+      }
+
+      @media (max-width: 1200px) {
+        .workflow-note-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .robot {
+          display: none;
+        }
+
+        .deck {
+          height: calc(100vh - 120px);
+        }
+
+        .slide {
+          overflow-y: auto;
+        }
+      }
+
+      @media (max-width: 1040px) {
+        .three-col,
+        .build-grid,
+        .closing-grid,
+        .kpis,
+        .flow,
+        .mode-bar,
+        .compare-layout,
+        .protocol-grid,
+        .summary-meta,
+        .protocol-step-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="chrome">
+      <div class="progress-track">
+        <div class="progress-bar" id="progress"></div>
+      </div>
+      <div class="topbar">
+        <div class="brand"><strong>AgentLevy</strong> · Hackathon Deck · Slide Presentation</div>
+        <div class="controls">
+          <a class="back-link" href="index.html">Back to exports</a>
+          <button id="prevBtn" type="button">Prev</button>
+          <div class="counter" id="counter">1 / 4</div>
+          <button id="nextBtn" type="button">Next</button>
+          <button id="notesBtn" type="button">Show notes</button>
+        </div>
+      </div>
+    </div>
+
+    <main class="viewport">
+      <div class="deck" id="deck">
+        <section class="slide active">
+          <div class="slide-inner">
+            <div class="slide-head">
+              <div>
+                <div class="eyebrow">Problem + Solution</div>
+                <h2>Agents can already pay. They still cannot prove work before release.</h2>
+                <p class="lede">The gap is not discovery or pricing. It is protocol-level proof that delivered work satisfied the agreed task before value moves.</p>
+              </div>
+              <div class="slide-marker">01</div>
+            </div>
+
+            <div class="kpis">
+              <div class="card cyan">
+                <h3>Publisher Agent risk</h3>
+                <p>The Publisher Agent can pay before they can prove the work satisfied the agreed task.</p>
+              </div>
+              <div class="card orange">
+                <h3>Worker Agent risk</h3>
+                <p>The Worker Agent still needs protection from briefs changing after work begins.</p>
+              </div>
+              <div class="card green">
+                <h3>AgentLevy solution</h3>
+                <p>Commit task terms up front, escrow payment, verify output, then record settlement with proof.</p>
+              </div>
+            </div>
+
+            <div class="big-quote">x402 requests payment. AgentLevy verifies completion before value becomes claimable.</div>
+
+            <div class="footer-line">
+              <div>Problem: post-payment good faith. Solution: committed specs, escrow, verification, and proof.</div>
+              <div class="mini">Slide 1 of 4</div>
+            </div>
+
+            <div class="speaker-notes" hidden>
+              <p>AgentLevy is the atomic trust layer for agent-to-agent commerce. It upgrades x402 from a payment request standard into a protocol for verifiable work transactions.</p>
+              <p>In most current agent payment flows, the hard part is not charging for access. It is proving that the delivered work actually satisfied the agreed task before value is released. If a Worker Agent submits low-quality or malformed output, the requester has little protocol-level protection. If the requester changes the brief after work begins, the worker has little protection either.</p>
+              <p>AgentLevy solves that by committing the acceptance criteria before execution and tying settlement to verification.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="slide protocol-slide">
+          <div class="slide-inner">
+            <div class="slide-head">
+              <div>
+                <div class="eyebrow">Protocol Description</div>
+                <h2>Commit the task. Verify the output. Record settlement.</h2>
+                <p class="lede">One x402 flow, one machine-readable task spec, one settlement decision.</p>
+              </div>
+              <div class="slide-marker">02</div>
+            </div>
+
+            <div class="protocol-grid">
+              <div class="protocol-canvas">
+                <div class="protocol-band">
+                  <h3>The committed <code>specHash</code> freezes the acceptance contract.</h3>
+                  <p>The same task definition, output shape, and threshold stay fixed from escrow through verification and settlement.</p>
+                </div>
+
+                <div class="protocol-step-grid">
+                  <div class="protocol-step cyan">
+                    <div class="num">1</div>
+                    <h4>Request Job</h4>
+                    <p>Publisher Agent asks AgentLevy for a paid task.</p>
+                  </div>
+                  <div class="protocol-step cyan">
+                    <div class="num">2</div>
+                    <h4>Return 402</h4>
+                    <p>Protocol returns pricing, task metadata, and committed <code>specHash</code>.</p>
+                  </div>
+                  <div class="protocol-step green">
+                    <div class="num">3</div>
+                    <h4>Escrow</h4>
+                    <p>Funds enter Flare escrow instead of going directly to the worker.</p>
+                  </div>
+                  <div class="protocol-step orange">
+                    <div class="num">4</div>
+                    <h4>Submit Output</h4>
+                    <p>Worker Agent returns structured output for the committed task.</p>
+                  </div>
+                  <div class="protocol-step purple">
+                    <div class="num">5</div>
+                    <h4>Verify</h4>
+                    <p>Deterministic checks run against the exact committed specification.</p>
+                  </div>
+                  <div class="protocol-step green">
+                    <div class="num">6</div>
+                    <h4>Settle + Record</h4>
+                    <p>Settlement is recorded only if the result passes verification.</p>
+                  </div>
+                </div>
+              </div>
+              <div class="protocol-side">
+                <div class="workflow-note">
+                  <h4><span class="accent">Committed spec</span></h4>
+                  <p>The <code>specHash</code> freezes the acceptance contract before work begins, so the verifier checks the exact task both sides agreed to at escrow time.</p>
+                </div>
+                <div class="workflow-note">
+                  <h4><span class="success">Verifier path</span></h4>
+                  <p><strong>Hackathon:</strong> deterministic protocol verifier. <strong>Production:</strong> attested protocol verifier in confidential compute / TEE-backed infrastructure.</p>
+                </div>
+                <div class="card soft">
+                  <h3>What this means</h3>
+                  <ul>
+                    <li>Publisher Agent gets fixed task terms before payment.</li>
+                    <li>Worker Agent is judged against the exact committed contract.</li>
+                    <li>Flare records settlement only after verification passes.</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="footer-line">
+              <div>The protocol stays the same. The production path strengthens the trust guarantee around verification.</div>
+              <div class="mini">Slide 2 of 4</div>
+            </div>
+
+            <div class="speaker-notes" hidden>
+              <p>In the AgentLevy flow, the Publisher Agent requests a job and receives an x402-style payment challenge together with a machine-readable task specification and a committed spec hash.</p>
+              <p>That spec defines the task, the expected output shape, the deterministic checks, and the threshold for successful completion. Payment is escrowed instead of being sent directly to the Worker Agent. The Worker Agent completes the job and submits structured output. The protocol verifies the output against the exact committed specification.</p>
+              <p>Only if the result passes verification does settlement get recorded and value become claimable.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="slide">
+          <div class="slide-inner">
+            <div class="slide-head">
+              <div>
+                <div class="eyebrow">Agent Demo</div>
+                <h2>Two 0G agents transact under fixed task terms.</h2>
+                <p class="lede">0G powers the agents. Flare powers the trust, escrow, and proof layer.</p>
+              </div>
+              <div class="slide-marker">03</div>
+            </div>
+
+            <div class="build-grid">
+              <div class="card cyan">
+                <div class="tag-row"><span class="tag live">actor</span></div>
+                <h3>Publisher Agent</h3>
+                <ul>
+                  <li>Requests the job</li>
+                  <li>Receives <code>402</code></li>
+                  <li>Gets committed <code>specHash</code></li>
+                </ul>
+              </div>
+              <div class="card purple">
+                <div class="tag-row"><span class="tag live">actor</span></div>
+                <h3>Worker Agent</h3>
+                <ul>
+                  <li>Completes the task</li>
+                  <li>Submits structured output</li>
+                  <li>Is judged against the exact committed spec</li>
+                </ul>
+              </div>
+              <div class="card green">
+                <div class="tag-row"><span class="tag live">trust rail</span></div>
+                <h3>AgentLevy + Flare</h3>
+                <ul>
+                  <li>Escrow funds</li>
+                  <li>Run deterministic verification</li>
+                  <li>Record settlement and proof</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="banner compact">During the live demo: show the <code>402</code> response, committed <code>specHash</code>, escrow, worker submission, verification result, and settlement record.</div>
+
+            <div class="footer-line">
+              <div>The demo proves Publisher and Worker Agents can transact without relying on post-payment good faith.</div>
+              <div class="mini">Slide 3 of 4</div>
+            </div>
+
+            <div class="speaker-notes" hidden>
+              <p>For the hackathon, we demonstrate AgentLevy through an x402 happy path where 0G powers the agents and Flare powers the trust, escrow, and proof layer.</p>
+              <p>Now we cut to the live demo. The Publisher Agent requests a job, the Worker Agent completes it, and the protocol verifies the result against the exact committed specification.</p>
+              <p>What the judges should see is the <code>402</code> response, the committed <code>specHash</code>, the escrow step, the worker submission, the verification result, and the settlement record. The point is that both agents operate under committed task terms and produce an auditable settlement trail instead of relying on good faith.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="slide summary-slide">
+          <div class="slide-inner">
+            <div class="slide-head">
+              <div>
+                <div class="eyebrow">Summary</div>
+                <h2>What we built, what we used, and what comes next.</h2>
+                <p class="lede">The core primitive is already real. The next layer is packaging it for public adoption and the final hackathon demo.</p>
+              </div>
+              <div class="slide-marker">04</div>
+            </div>
+
+            <div class="three-col">
+              <div class="card green">
+                <div class="tag-row"><span class="tag live">built now</span></div>
+                <h3>Created</h3>
+                <ul>
+                  <li>Treasury contract on Flare Coston2</li>
+                  <li>x402 facilitator</li>
+                  <li>Task spec registry</li>
+                  <li>Deterministic verifier flow</li>
+                  <li>Dashboard scaffold</li>
+                  <li>Public skill and ERC draft</li>
+                </ul>
+              </div>
+
+              <div class="card cyan">
+                <div class="tag-row"><span class="tag live">stack</span></div>
+                <h3>Tools used</h3>
+                <ul>
+                  <li>Flare and 0G</li>
+                  <li>x402</li>
+                  <li>Solidity</li>
+                  <li>JavaScript and TypeScript</li>
+                  <li>React, Express, and Vite</li>
+                  <li>ethers.js</li>
+                </ul>
+              </div>
+
+              <div class="card purple">
+                <div class="tag-row"><span class="tag next">what's next</span></div>
+                <h3>Next</h3>
+                <ul>
+                  <li>Public protocol website</li>
+                  <li>Polished live demo console</li>
+                  <li>0G iNFT identity treatment in the UX</li>
+                  <li>TEE-backed attested verification path</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="summary-meta">
+              <div class="big-quote">0G powers the agents. Flare powers the proof. AgentLevy makes agent commerce trustworthy.</div>
+
+              <div class="links">
+                <a class="ghost" href="verifier-process.html">Open verifier visual</a>
+                <a class="ghost" href="../../demo/HACKATHON_DECK.md">Open deck source</a>
+                <a class="ghost" href="index.html">Open static exports</a>
+              </div>
+            </div>
+
+            <div class="footer-line">
+              <div>Three claims. One protocol story. Commit, verify, record.</div>
+              <div class="mini">Slide 4 of 4</div>
+            </div>
+
+            <div class="speaker-notes" hidden>
+              <p>What we built is real: a Treasury contract on Flare Coston2, an x402 facilitator, a task spec registry, a deterministic verifier flow, a dashboard scaffold, a public skill, and an ERC draft for the protocol shape.</p>
+              <p>We used Flare, 0G, x402, Solidity, JavaScript and TypeScript, React, Express, Vite, and ethers. What comes next is the public protocol website, a polished live demo console, 0G iNFT identity treatment in the UX, and the production path toward TEE-backed attested verification.</p>
+              <p>AgentLevy is not just about moving value between agents. It is about making agent work transactable under rules both sides can trust.</p>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <aside class="notes-panel" id="notesPanel" aria-live="polite">
+      <div class="notes-kicker">Speaker Notes</div>
+      <div class="notes-body" id="notesBody"></div>
+    </aside>
+
+    <script>
+      const slides = Array.from(document.querySelectorAll('.slide'));
+      const progress = document.getElementById('progress');
+      const counter = document.getElementById('counter');
+      const prevBtn = document.getElementById('prevBtn');
+      const nextBtn = document.getElementById('nextBtn');
+      const notesBtn = document.getElementById('notesBtn');
+      const notesPanel = document.getElementById('notesPanel');
+      const notesBody = document.getElementById('notesBody');
+      let index = 0;
+      let notesOpen = false;
+
+      function render() {
+        slides.forEach((slide, i) => slide.classList.toggle('active', i === index));
+        counter.textContent = `${index + 1} / ${slides.length}`;
+        progress.style.width = `${((index + 1) / slides.length) * 100}%`;
+        prevBtn.disabled = index === 0;
+        nextBtn.disabled = index === slides.length - 1;
+        const activeNotes = slides[index].querySelector('.speaker-notes');
+        notesBody.innerHTML = activeNotes ? activeNotes.innerHTML : '<p>No speaker notes for this slide.</p>';
+        notesPanel.classList.toggle('open', notesOpen);
+        notesBtn.textContent = notesOpen ? 'Hide notes' : 'Show notes';
+      }
+
+      function next() {
+        if (index < slides.length - 1) {
+          index += 1;
+          render();
+        }
+      }
+
+      function prev() {
+        if (index > 0) {
+          index -= 1;
+          render();
+        }
+      }
+
+      prevBtn.addEventListener('click', prev);
+      nextBtn.addEventListener('click', next);
+      notesBtn.addEventListener('click', () => {
+        notesOpen = !notesOpen;
+        render();
+      });
+
+      window.addEventListener('keydown', (event) => {
+        if (event.key === 'ArrowRight' || event.key === 'PageDown' || event.key === ' ') {
+          event.preventDefault();
+          next();
+        }
+        if (event.key === 'ArrowLeft' || event.key === 'PageUp') {
+          event.preventDefault();
+          prev();
+        }
+        if (event.key.toLowerCase() === 'n') {
+          event.preventDefault();
+          notesOpen = !notesOpen;
+          render();
+        }
+        const num = Number(event.key);
+        if (!Number.isNaN(num) && num >= 1 && num <= slides.length) {
+          index = num - 1;
+          render();
+        }
+      });
+
+      render();
+    </script>
+  </body>
+</html>

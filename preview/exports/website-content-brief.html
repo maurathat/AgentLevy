@@ -1,0 +1,349 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Website Content Brief</title>
+    <style>
+      :root {
+        --bg: #070b18;
+        --panel: #0f1629;
+        --panel-2: #111b31;
+        --line: #223354;
+        --text: #f5f7fb;
+        --muted: #8ea2c3;
+        --cyan: #00d4ff;
+        --green: #00e5a0;
+        --orange: #ff6b35;
+        --purple: #7b61ff;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        background:
+          radial-gradient(circle at top right, rgba(0, 212, 255, 0.10), transparent 28%),
+          radial-gradient(circle at 15% 0%, rgba(123, 97, 255, 0.08), transparent 24%),
+          var(--bg);
+        color: var(--text);
+        font-family: "Calibri Light", Calibri, Arial, sans-serif;
+      }
+      .shell {
+        max-width: 1120px;
+        margin: 0 auto;
+        padding: 32px 20px 64px;
+      }
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        flex-wrap: wrap;
+        margin-bottom: 22px;
+      }
+      .home {
+        color: var(--cyan);
+        text-decoration: none;
+        font-weight: 700;
+      }
+      .meta {
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+      .panel {
+        background: linear-gradient(180deg, rgba(17,27,49,0.96), rgba(15,22,41,0.98));
+        border: 1px solid var(--line);
+        border-radius: 22px;
+        overflow: hidden;
+        box-shadow: 0 24px 50px rgba(0, 0, 0, 0.24);
+      }
+      .hero {
+        padding: 26px 30px 20px;
+        border-bottom: 1px solid var(--line);
+      }
+      .eyebrow {
+        color: var(--cyan);
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+        font-size: 12px;
+        font-weight: 700;
+        margin-bottom: 10px;
+      }
+      h1.hero-title {
+        margin: 0;
+        font-family: Georgia, serif;
+        font-size: clamp(2rem, 3vw, 3.25rem);
+        line-height: 1.06;
+      }
+      .content {
+        padding: 32px 30px 44px;
+      }
+      .content h1,
+      .content h2,
+      .content h3,
+      .content h4 {
+        font-family: Georgia, serif;
+        line-height: 1.15;
+        margin-top: 1.7em;
+        margin-bottom: 0.6em;
+      }
+      .content h1:first-child,
+      .content h2:first-child {
+        margin-top: 0;
+      }
+      .content p,
+      .content li {
+        color: #dce8f6;
+        font-size: 1.02rem;
+        line-height: 1.72;
+      }
+      .content ul,
+      .content ol {
+        padding-left: 1.35rem;
+      }
+      .content strong {
+        color: #ffffff;
+      }
+      .content a {
+        color: var(--cyan);
+      }
+      .content hr {
+        border: 0;
+        border-top: 1px dashed var(--line);
+        margin: 30px 0;
+      }
+      .content code {
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        color: var(--cyan);
+        background: rgba(0, 212, 255, 0.08);
+        border: 1px solid rgba(0, 212, 255, 0.12);
+        padding: 0.14em 0.36em;
+        border-radius: 8px;
+      }
+      .content pre {
+        overflow: auto;
+        background: #091122;
+        border: 1px solid #1a2a45;
+        border-radius: 16px;
+        padding: 18px;
+      }
+      .content pre code {
+        background: transparent;
+        border: 0;
+        color: #dce8f6;
+        padding: 0;
+      }
+      .content table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 22px 0;
+      }
+      .content th,
+      .content td {
+        border: 1px solid #223354;
+        padding: 12px 14px;
+        text-align: left;
+        vertical-align: top;
+      }
+      .content th {
+        color: #ffffff;
+        background: rgba(0, 212, 255, 0.08);
+      }
+    </style>
+  </head>
+  <body>
+    <main class="shell">
+      <div class="topbar">
+        <a class="home" href="index.html">← Back to static exports</a>
+        <div class="meta">Source: /demo/WEBSITE_CONTENT_BRIEF.md</div>
+      </div>
+      <article class="panel">
+        <header class="hero">
+          <div class="eyebrow">Standalone Static Export</div>
+          <h1 class="hero-title">Website Content Brief</h1>
+        </header>
+        <section class="content">
+<div class="markdown-heading"><h1 class="heading-element">Website Content Brief</h1><a id="user-content-website-content-brief" class="anchor" aria-label="Permalink: Website Content Brief" href="#website-content-brief"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>This file defines the content and UX direction for the public website and live demo page.</p>
+<div class="markdown-heading"><h2 class="heading-element">Goal</h2><a id="user-content-goal" class="anchor" aria-label="Permalink: Goal" href="#goal"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>The website should serve two jobs:</p>
+<ol>
+<li>explain the protocol publicly</li>
+<li>support the live hackathon demo</li>
+</ol>
+<div class="markdown-heading"><h2 class="heading-element">Routes</h2><a id="user-content-routes" class="anchor" aria-label="Permalink: Routes" href="#routes"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>Recommended split:</p>
+<ul>
+<li>
+<code>/</code> public protocol page</li>
+<li>
+<code>/demo</code> live demo console</li>
+</ul>
+<div class="markdown-heading"><h2 class="heading-element">Visual Direction</h2><a id="user-content-visual-direction" class="anchor" aria-label="Permalink: Visual Direction" href="#visual-direction"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>Use the visual system from <a href="/Users/mauraclark/AgentLevy/documents/AgentLevy_Protocol_Hackathon_Deck.pptx">AgentLevy_Protocol_Hackathon_Deck.pptx</a>:</p>
+<ul>
+<li>dark background</li>
+<li>strong white headlines</li>
+<li>cyan emphasis</li>
+<li>robot icon or badge treatment</li>
+<li>orange only for warnings or failure states</li>
+</ul>
+<p>Do not reuse the older token-tax messaging from that deck.</p>
+<div class="markdown-heading"><h2 class="heading-element">Route <code>/</code>: Public Protocol Page</h2><a id="user-content-route--public-protocol-page" class="anchor" aria-label="Permalink: Route /: Public Protocol Page" href="#route--public-protocol-page"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<div class="markdown-heading"><h3 class="heading-element">Hero</h3><a id="user-content-hero" class="anchor" aria-label="Permalink: Hero" href="#hero"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>Goal:</p>
+<ul>
+<li>explain AgentLevy in one screen</li>
+</ul>
+<p>Suggested headline:</p>
+<p><strong>The atomic trust layer for agent-to-agent commerce.</strong></p>
+<p>Suggested subhead:</p>
+<p>AgentLevy upgrades x402 with committed specs, escrowed execution, and verified release. 0G powers the agents. Flare powers the escrow, verification, and proof.</p>
+<p>Optional accent line:</p>
+<p><strong>The missing trust layer for the agentic economy.</strong></p>
+<p>Primary actions:</p>
+<ul>
+<li><code>View Live Demo</code></li>
+<li><code>Download Agent Skill</code></li>
+</ul>
+<div class="markdown-heading"><h3 class="heading-element">Section: The Trust Gap</h3><a id="user-content-section-the-trust-gap" class="anchor" aria-label="Permalink: Section: The Trust Gap" href="#section-the-trust-gap"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>Explain:</p>
+<ul>
+<li>today an agent can ask for payment</li>
+<li>that does not prove the work was good</li>
+<li>AgentLevy fixes that with pre-committed acceptance criteria</li>
+</ul>
+<div class="markdown-heading"><h3 class="heading-element">Section: How It Works</h3><a id="user-content-section-how-it-works" class="anchor" aria-label="Permalink: Section: How It Works" href="#section-how-it-works"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>Show the flow:</p>
+<ol>
+<li>request job</li>
+<li>return <code>402</code>
+</li>
+<li>commit <code>specHash</code>
+</li>
+<li>escrow on Flare</li>
+<li>worker submits output</li>
+<li>verification runs</li>
+<li>settlement is recorded</li>
+</ol>
+<p>Use <a href="/Users/mauraclark/AgentLevy/demo/x402-comparison.svg">x402-comparison.svg</a> or a refined version of it.</p>
+<div class="markdown-heading"><h3 class="heading-element">Section: Why 0G</h3><a id="user-content-section-why-0g" class="anchor" aria-label="Permalink: Section: Why 0G" href="#section-why-0g"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>Explain:</p>
+<ul>
+<li>0G provides the agent layer</li>
+<li>agents can have persistent identity and ownership through iNFT</li>
+<li>Worker and Publisher are 0G agents</li>
+</ul>
+<div class="markdown-heading"><h3 class="heading-element">Section: Why Flare</h3><a id="user-content-section-why-flare" class="anchor" aria-label="Permalink: Section: Why Flare" href="#section-why-flare"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>Explain:</p>
+<ul>
+<li>escrow</li>
+<li>verification path</li>
+<li>proof</li>
+<li>settlement record</li>
+</ul>
+<div class="markdown-heading"><h3 class="heading-element">Section: For Agents</h3><a id="user-content-section-for-agents" class="anchor" aria-label="Permalink: Section: For Agents" href="#section-for-agents"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>This is where the public skill/download story lives.</p>
+<p>Include:</p>
+<ul>
+<li>what the skill does</li>
+<li>how an agent uses the protocol</li>
+<li>service discovery</li>
+<li>spec fetch</li>
+<li>submit flow</li>
+<li>status check</li>
+</ul>
+<p>Link to:</p>
+<ul>
+<li><a href="/Users/mauraclark/AgentLevy/openclaw/SKILL.md">openclaw/SKILL.md</a></li>
+</ul>
+<div class="markdown-heading"><h3 class="heading-element">Section: Protocol References</h3><a id="user-content-section-protocol-references" class="anchor" aria-label="Permalink: Section: Protocol References" href="#section-protocol-references"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>Include:</p>
+<ul>
+<li>treasury address</li>
+<li>facilitator URL</li>
+<li>available service types</li>
+<li>repo link</li>
+</ul>
+<div class="markdown-heading"><h2 class="heading-element">Route <code>/demo</code>: Live Demo Console</h2><a id="user-content-route-demo-live-demo-console" class="anchor" aria-label="Permalink: Route /demo: Live Demo Console" href="#route-demo-live-demo-console"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<div class="markdown-heading"><h3 class="heading-element">Top bar</h3><a id="user-content-top-bar" class="anchor" aria-label="Permalink: Top bar" href="#top-bar"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>Show:</p>
+<ul>
+<li>title</li>
+<li>active network</li>
+<li>contract address</li>
+<li><code>Run Happy Path</code></li>
+<li><code>Run Failure Path</code></li>
+<li><code>Reset</code></li>
+</ul>
+<div class="markdown-heading"><h3 class="heading-element">Agent roster</h3><a id="user-content-agent-roster" class="anchor" aria-label="Permalink: Agent roster" href="#agent-roster"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>Show two main cards:</p>
+<ul>
+<li><code>0G Publisher Agent</code></li>
+<li><code>0G Worker Agent</code></li>
+</ul>
+<p>Optional fields:</p>
+<ul>
+<li>iNFT identity</li>
+<li>owner</li>
+<li>role</li>
+<li>verified jobs</li>
+<li>status</li>
+</ul>
+<div class="markdown-heading"><h3 class="heading-element">Job board</h3><a id="user-content-job-board" class="anchor" aria-label="Permalink: Job board" href="#job-board"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>Seeded jobs only.</p>
+<p>Recommended examples:</p>
+<ul>
+<li>Solidity security triage</li>
+<li>structured data extraction</li>
+</ul>
+<div class="markdown-heading"><h3 class="heading-element">Protocol timeline</h3><a id="user-content-protocol-timeline" class="anchor" aria-label="Permalink: Protocol timeline" href="#protocol-timeline"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>This is the centerpiece.</p>
+<p>Show:</p>
+<ul>
+<li>task request</li>
+<li><code>402</code></li>
+<li><code>specHash</code></li>
+<li>escrow</li>
+<li>submit</li>
+<li>verify</li>
+<li>settlement</li>
+</ul>
+<div class="markdown-heading"><h3 class="heading-element">Proof drawer</h3><a id="user-content-proof-drawer" class="anchor" aria-label="Permalink: Proof drawer" href="#proof-drawer"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>Show:</p>
+<ul>
+<li>task ID</li>
+<li>spec hash</li>
+<li>tx hash</li>
+<li>verification result</li>
+<li>settlement record</li>
+</ul>
+<div class="markdown-heading"><h3 class="heading-element">Failure contrast</h3><a id="user-content-failure-contrast" class="anchor" aria-label="Permalink: Failure contrast" href="#failure-contrast"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>Keep this smaller than the success path.</p>
+<p>Show:</p>
+<ul>
+<li>failed verification</li>
+<li>no successful completion</li>
+<li>why the protocol matters</li>
+</ul>
+<div class="markdown-heading"><h2 class="heading-element">Website Writing Rules</h2><a id="user-content-website-writing-rules" class="anchor" aria-label="Permalink: Website Writing Rules" href="#website-writing-rules"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<ul>
+<li>keep the public page clear and declarative</li>
+<li>keep the demo page operational and lively</li>
+<li>use the deck's visual seriousness</li>
+<li>keep Smart Accounts as optional secondary material</li>
+<li>keep the main story on the x402 happy path</li>
+</ul>
+<div class="markdown-heading"><h2 class="heading-element">Content Sources</h2><a id="user-content-content-sources" class="anchor" aria-label="Permalink: Content Sources" href="#content-sources"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>Use:</p>
+<ul>
+<li><a href="/Users/mauraclark/AgentLevy/README.md">README.md</a></li>
+<li><a href="/Users/mauraclark/AgentLevy/demo/README.md">demo/README.md</a></li>
+<li><a href="/Users/mauraclark/AgentLevy/demo/JOB_EXAMPLES.md">demo/JOB_EXAMPLES.md</a></li>
+<li><a href="/Users/mauraclark/AgentLevy/openclaw/SKILL.md">openclaw/SKILL.md</a></li>
+<li><a href="/Users/mauraclark/AgentLevy/docs/PRESENTATION_STYLE_GUIDE.md">docs/PRESENTATION_STYLE_GUIDE.md</a></li>
+</ul>
+        </section>
+      </article>
+    </main>
+  </body>
+</html>

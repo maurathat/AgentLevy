@@ -1,0 +1,110 @@
+<svg width="100%" viewBox="0 0 1440 520" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">AgentLevy workflow</title>
+  <desc id="desc">A six-step workflow showing request, 402 plus spec hash, escrow, worker submission, verification, and settlement with proof.</desc>
+  <defs>
+    <linearGradient id="panel" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#111B31" />
+      <stop offset="100%" stop-color="#0F1629" />
+    </linearGradient>
+    <linearGradient id="cyanGlow" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#00D4FF" />
+      <stop offset="100%" stop-color="#00E5A0" />
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="160%">
+      <feDropShadow dx="0" dy="12" stdDeviation="12" flood-color="#02050B" flood-opacity="0.35"/>
+    </filter>
+    <marker id="arrow" viewBox="0 0 14 14" refX="11" refY="7" markerWidth="10" markerHeight="10" orient="auto-start-reverse">
+      <path d="M2 2L11 7L2 12" fill="none" stroke="context-stroke" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <style>
+      .frame { fill: #09111F; stroke: #223354; stroke-width: 2; }
+      .card { fill: url(#panel); stroke: #223354; stroke-width: 2; filter: url(#shadow); }
+      .card-cyan { stroke: rgba(0, 212, 255, 0.55); }
+      .card-green { stroke: rgba(0, 229, 160, 0.55); }
+      .card-orange { stroke: rgba(255, 107, 53, 0.55); }
+      .card-purple { stroke: rgba(123, 97, 255, 0.55); }
+      .eyebrow { fill: #8EA2C3; font: 700 14px Georgia, serif; letter-spacing: 0.18em; }
+      .rule { fill: rgba(0, 212, 255, 0.12); stroke: rgba(0, 212, 255, 0.35); stroke-width: 2; }
+      .rule-copy { fill: #F5F7FB; font: 700 24px Georgia, serif; }
+      .rule-sub { fill: #DCE8F6; font: 400 17px Calibri, Arial, sans-serif; }
+      .legend { fill: #8EA2C3; font: 400 15px Calibri, Arial, sans-serif; }
+      .num-circle { fill: url(#cyanGlow); }
+      .num { fill: #07101C; font: 700 18px Calibri, Arial, sans-serif; }
+      .step-title { fill: #F5F7FB; font: 700 24px Georgia, serif; }
+      .step-copy { fill: #DCE8F6; font: 400 17px Calibri, Arial, sans-serif; }
+      .accent-copy { fill: #00D4FF; font: 700 17px Calibri, Arial, sans-serif; }
+    </style>
+  </defs>
+
+  <rect x="18" y="18" width="1404" height="484" rx="30" class="frame"/>
+
+  <g transform="translate(48 42)">
+    <text class="eyebrow" x="0" y="0">AGENTLEVY WORKFLOW</text>
+    <rect x="0" y="24" width="860" height="70" rx="18" class="rule"/>
+    <text class="rule-copy" x="28" y="52">The committed spec hash freezes the acceptance contract.</text>
+    <text class="rule-sub" x="28" y="80">Read left to right, then continue on the bottom row.</text>
+  </g>
+
+  <g transform="translate(62 144)">
+    <line x1="384" y1="60" x2="430" y2="60" stroke="#2E5476" stroke-width="4" marker-end="url(#arrow)"/>
+    <line x1="826" y1="60" x2="872" y2="60" stroke="#2E5476" stroke-width="4" marker-end="url(#arrow)"/>
+
+    <line x1="1266" y1="132" x2="1266" y2="170" stroke="#2E5476" stroke-width="4" marker-end="url(#arrow)"/>
+
+    <line x1="1050" y1="302" x2="1004" y2="302" stroke="#2E5476" stroke-width="4" marker-end="url(#arrow)"/>
+    <line x1="608" y1="302" x2="562" y2="302" stroke="#2E5476" stroke-width="4" marker-end="url(#arrow)"/>
+
+    <g transform="translate(0 0)">
+      <rect x="0" y="0" width="384" height="132" rx="24" class="card card-cyan"/>
+      <circle cx="34" cy="34" r="18" class="num-circle"/>
+      <text class="num" x="28" y="41">1</text>
+      <text class="step-title" x="24" y="70">Request Job</text>
+      <text class="step-copy" x="24" y="98">Publisher Agent asks AgentLevy for a paid task.</text>
+    </g>
+
+    <g transform="translate(442 0)">
+      <rect x="0" y="0" width="384" height="132" rx="24" class="card card-cyan"/>
+      <circle cx="34" cy="34" r="18" class="num-circle"/>
+      <text class="num" x="28" y="41">2</text>
+      <text class="step-title" x="24" y="70">Return 402</text>
+      <text class="step-copy" x="24" y="98">Protocol returns <tspan class="accent-copy">pricing + specHash</tspan> and task metadata.</text>
+    </g>
+
+    <g transform="translate(884 0)">
+      <rect x="0" y="0" width="384" height="132" rx="24" class="card card-green"/>
+      <circle cx="34" cy="34" r="18" fill="#00E5A0"/>
+      <text class="num" x="28" y="41">3</text>
+      <text class="step-title" x="24" y="70">Escrow</text>
+      <text class="step-copy" x="24" y="98">Funds enter Flare escrow instead of going directly to the worker.</text>
+    </g>
+
+    <g transform="translate(884 242)">
+      <rect x="0" y="0" width="384" height="132" rx="24" class="card card-orange"/>
+      <circle cx="34" cy="34" r="18" fill="#FF6B35"/>
+      <text class="num" x="28" y="41">4</text>
+      <text class="step-title" x="24" y="70">Submit Output</text>
+      <text class="step-copy" x="24" y="98">Worker Agent returns structured output for the committed task.</text>
+    </g>
+
+    <g transform="translate(442 242)">
+      <rect x="0" y="0" width="384" height="132" rx="24" class="card card-purple"/>
+      <circle cx="34" cy="34" r="18" fill="#7B61FF"/>
+      <text class="num" x="28" y="41">5</text>
+      <text class="step-title" x="24" y="70">Verify</text>
+      <text class="step-copy" x="24" y="98">Deterministic checks run against the committed spec and threshold.</text>
+    </g>
+
+    <g transform="translate(0 242)">
+      <rect x="0" y="0" width="384" height="132" rx="24" class="card card-green"/>
+      <circle cx="34" cy="34" r="18" fill="#00E5A0"/>
+      <text class="num" x="28" y="41">6</text>
+      <text class="step-title" x="24" y="70">Settle + Record</text>
+      <text class="step-copy" x="24" y="98">If verification passes, value becomes claimable and Flare records the proof.</text>
+    </g>
+  </g>
+
+  <g transform="translate(60 466)">
+    <text class="legend" x="0" y="0">Hackathon today: deterministic protocol verifier in the app layer.</text>
+    <text class="legend" x="726" y="0">Production path: attested verifier in confidential compute / TEE-backed infrastructure.</text>
+  </g>
+</svg>

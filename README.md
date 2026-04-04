@@ -1,6 +1,6 @@
 # AgentLevy Protocol
 
-> The trust primitive for agent-to-agent commerce on Flare + XRPL.
+> The atomic trust layer for agent-to-agent commerce.
 
 **ETHGlobal Cannes 2026 · Built on Flare Network + XRP Ledger**
 
@@ -8,12 +8,12 @@
 
 ## The problem
 
-AI agents are transacting with each other at scale. Every existing payment protocol — x402, Handshake58, OpenAI's ACP — assumes good faith between parties. Agent A pays, Agent B delivers, and if the output is garbage, the money is already gone.
+AI agents are transacting with each other at scale. Every existing payment protocol — x402, Handshake58, OpenAI's ACP — assumes good faith between parties. The Publisher Agent pays, the Worker Agent delivers, and if the output is garbage, the money is already gone.
 
 This creates three failure modes that will get worse as agent commerce grows:
 
-- **Agent A changes the goalposts** — demands more after payment, claims the work didn't match the brief
-- **Agent B delivers junk** — collects payment for low-quality or incomplete output
+- **Publisher Agent changes the goalposts** — demands more after payment, claims the work didn't match the brief
+- **Worker Agent delivers junk** — collects payment for low-quality or incomplete output
 - **No audit trail** — nobody can prove what was agreed, what was delivered, or whether it met the bar
 
 AgentLevy solves all three by adding a trust layer that x402 doesn't have: verified task completion as a prerequisite for payment release.
@@ -25,21 +25,21 @@ AgentLevy solves all three by adding a trust layer that x402 doesn't have: verif
 AgentLevy is an **x402 payment facilitator** with one critical addition: a committed task specification, TEE-verified output quality, and a Protocol Managed Wallet that won't release funds until attestation confirms the work was done correctly.
 
 ```
-Agent A requests task
+Publisher Agent requests task
   → HTTP 402 returned with committed spec hash
-Agent A pays
+Publisher Agent pays
   → Funds escrow in Flare PMW (nobody controls this wallet)
-Agent B completes task
+Worker Agent completes task
   → Submits output to facilitator
 TEE verifies output against committed spec
   → Deterministic quality checks, no interpretation
 Attestation passes
-  → Task fee releases to Agent B
+  → Task fee releases to Worker Agent
   → 0.5% levy routes to protocol treasury (architectural, not enforced)
   → FDC records immutable proof on-chain
 ```
 
-**One sentence:** Agent A can't change the goalposts. Agent B knows exactly what they're evaluated against. The TEE is the neutral arbiter. The levy is a consequence of attestation, not a separate enforcement mechanism.
+**One sentence:** The Publisher Agent can't change the goalposts. The Worker Agent knows exactly what they're evaluated against. The TEE is the neutral arbiter. The levy is a consequence of attestation, not a separate enforcement mechanism.
 
 ---
 
@@ -73,21 +73,24 @@ The spec hash is computed from the full specification via SHA-256 and committed 
 
 `Treasury.sol` handles both the per-task escrow and the accumulated levy treasury in a single contract. Key functions:
 
-- `escrowPayment()` — Agent A locks funds with a committed spec hash
+- `escrowPayment()` — Publisher Agent locks funds with a committed spec hash
 - `submitAttestation()` — TEE submits verification result, auto-settles if passed
-- `_settle()` — atomic: task fee to Agent B, levy to treasury, event emitted
+- `_settle()` — atomic: task fee to Worker Agent, levy to treasury, event emitted
 
 The contract is designed as a Protocol Managed Wallet — in production, the private key lives inside a Flare TEE controlled by validator consensus. Nobody holds the key.
 
 ### x402 facilitator
 
-The facilitator sits between Agent A and Agent B, implementing the x402 HTTP 402 flow with AgentLevy's trust layer on top. Endpoints:
+The facilitator sits between the Publisher Agent and the Worker Agent, implementing the x402 HTTP 402 flow with AgentLevy's trust layer on top. Endpoints:
 
 - `GET /services` — discover available service types and pricing
 - `GET /task/:serviceId` — returns 402 with payment instructions and committed spec
 - `POST /pay` — escrow payment in Treasury.sol
-- `POST /submit` — Agent B submits output, TEE verifies, settlement triggered
+- `POST /pay/xrpl` — prepares XRPL Smart Account payment instructions + memo
+- `POST /pay/xrpl/confirm` — relays validated XRPL payment proof to Flare
+- `POST /submit` — Worker Agent submits output, TEE verifies, settlement triggered
 - `GET /status/:taskId` — task status (also the FDC attestation endpoint)
+- `GET /smart-account/:xrplAddress` — look up the mapped Flare Smart Account
 
 ### Flare Data Connector (FDC)
 
@@ -187,8 +190,14 @@ PRIVATE_KEY=               # Deployer private key (funded with C2FLR)
 COSTON2_RPC=https://coston2-api.flare.network/ext/C/rpc
 TREASURY_ADDRESS=          # Set after deploy
 XRPL_WALLET_SEED=          # Agent wallet seed
-AGENT_A_ADDRESS=           # Agent A XRPL address
-AGENT_B_ADDRESS=           # Agent B EVM address
+XRPL_WSS=wss://s.altnet.rippletest.net:51233
+AGENT_A_ADDRESS=           # Publisher Agent XRPL address
+AGENT_B_ADDRESS=           # Worker Agent EVM address
+OPERATOR_XRPL_ADDRESS=     # XRPL operator address that receives payment memos
+MASTER_ACCOUNT_CONTROLLER_ADDRESS=
+VERIFIER_URL_TESTNET=https://fdc-verifier-testnet.flare.network
+VERIFIER_API_KEY_TESTNET=00000000-0000-0000-0000-000000000000
+COSTON2_DA_LAYER_URL=https://fdc-da-layer-testnet.flare.network
 PORT=3001
 LEVY_BPS=50                # 50 basis points = 0.5%
 FACILITATOR_URL=http://localhost:3001

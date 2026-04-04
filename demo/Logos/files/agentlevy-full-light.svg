@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 200" width="680" height="200">
+  <!-- Robot icon -->
+  <g transform="translate(80, 100) scale(0.85)">
+    <line x1="0" y1="-72" x2="0" y2="-58" stroke="#0A0F1E" stroke-width="5" stroke-linecap="round"/>
+    <circle cx="0" cy="-76" r="6" fill="#185FA5"/>
+    <rect x="-42" y="-58" width="84" height="64" rx="12" fill="none" stroke="#0A0F1E" stroke-width="5"/>
+    <rect x="-26" y="-40" width="20" height="14" rx="4" fill="#185FA5"/>
+    <rect x="6" y="-40" width="20" height="14" rx="4" fill="#185FA5"/>
+    <line x1="0" y1="6" x2="0" y2="18" stroke="#0A0F1E" stroke-width="5" stroke-linecap="round"/>
+    <line x1="-38" y1="18" x2="38" y2="18" stroke="#0A0F1E" stroke-width="5" stroke-linecap="round"/>
+    <line x1="-28" y1="18" x2="-28" y2="50" stroke="#0A0F1E" stroke-width="4" stroke-linecap="round"/>
+    <line x1="-44" y1="50" x2="-12" y2="50" stroke="#0A0F1E" stroke-width="4" stroke-linecap="round"/>
+    <line x1="-44" y1="50" x2="-36" y2="70" stroke="#0A0F1E" stroke-width="3.5" stroke-linecap="round"/>
+    <line x1="-12" y1="50" x2="-20" y2="70" stroke="#0A0F1E" stroke-width="3.5" stroke-linecap="round"/>
+    <line x1="-36" y1="70" x2="-20" y2="70" stroke="#0A0F1E" stroke-width="3.5" stroke-linecap="round"/>
+    <line x1="28" y1="18" x2="28" y2="50" stroke="#0A0F1E" stroke-width="4" stroke-linecap="round"/>
+    <line x1="12" y1="50" x2="44" y2="50" stroke="#0A0F1E" stroke-width="4" stroke-linecap="round"/>
+    <line x1="12" y1="50" x2="20" y2="70" stroke="#0A0F1E" stroke-width="3.5" stroke-linecap="round"/>
+    <line x1="44" y1="50" x2="36" y2="70" stroke="#0A0F1E" stroke-width="3.5" stroke-linecap="round"/>
+    <line x1="20" y1="70" x2="36" y2="70" stroke="#0A0F1E" stroke-width="3.5" stroke-linecap="round"/>
+    <rect x="-46" y="74" width="36" height="8" rx="4" fill="#185FA5"/>
+    <rect x="10" y="74" width="36" height="8" rx="4" fill="#185FA5"/>
+  </g>
+  
+  <!-- Wordmark -->
+  <text x="160" y="88" font-family="Georgia, 'Times New Roman', serif" font-size="48" font-weight="700" fill="#0A0F1E" letter-spacing="-0.5">Agent</text>
+  <text x="340" y="88" font-family="Georgia, 'Times New Roman', serif" font-size="48" font-weight="700" fill="#185FA5" letter-spacing="-0.5">Levy</text>
+  
+  <!-- Tagline -->
+  <text x="162" y="122" font-family="'Calibri', 'Helvetica Neue', sans-serif" font-size="15" fill="#5F5E5A" letter-spacing="2" font-weight="300">THE ATOMIC TRUST LAYER</text>
+  <text x="162" y="144" font-family="'Calibri', 'Helvetica Neue', sans-serif" font-size="15" fill="#5F5E5A" letter-spacing="2" font-weight="300">FOR AGENT-TO-AGENT COMMERCE</text>
+</svg>

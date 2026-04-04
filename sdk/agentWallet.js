@@ -10,11 +10,11 @@
  */
 
 import * as xrpl from 'xrpl';
-import { ethers } from 'ethers';
 import 'dotenv/config';
 
 const XRPL_TESTNET  = 'wss://s.altnet.rippletest.net:51233';
 const FACILITATOR   = process.env.FACILITATOR_URL || 'http://localhost:3001';
+const XRPL_WSS      = process.env.XRPL_WSS || XRPL_TESTNET;
 
 // ─── AGENT WALLET REGISTRATION ───────────────────────────────────────────────
 
@@ -93,6 +93,111 @@ async function mockAgentA(serviceId = 'sentiment-analysis') {
 
   console.log(`[Agent A] Payment escrowed: ${payData.txHash}`);
   return { taskId: taskData.taskId, ...payData };
+}
+
+async function mockAgentAXrpl(serviceId = 'sentiment-analysis') {
+  console.log(`\n[Agent A] Requesting service over XRPL Smart Account: ${serviceId}`);
+
+  const taskRes = await fetch(`${FACILITATOR}/task/${serviceId}`);
+  const taskData = await taskRes.json();
+
+  if (taskRes.status !== 402) {
+    console.error('[Agent A] Expected 402, got:', taskRes.status);
+    return;
+  }
+
+  const xrplSeed = process.env.XRPL_WALLET_SEED;
+  const agentBAddress = process.env.AGENT_B_ADDRESS || '0x0000000000000000000000000000000000000001';
+
+  if (!xrplSeed) {
+    throw new Error('XRPL_WALLET_SEED is required for XRPL Smart Account demo');
+  }
+
+  const wallet = xrpl.Wallet.fromSeed(xrplSeed);
+
+  console.log(`[Agent A] Got 402 Payment Required`);
+  console.log(`[Agent A] XRPL address: ${wallet.address}`);
+  console.log(`[Agent A] Price: ${taskData.pricing.totalDue} RLUSD`);
+  console.log(`[Agent A] Spec hash: ${taskData.specHash}`);
+
+  const payRes = await fetch(`${FACILITATOR}/pay/xrpl`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      taskId: taskData.taskId,
+      serviceId,
+      agentB: agentBAddress,
+      xrplAddress: wallet.address,
+      inputItems: 100,
+    }),
+  });
+  const payData = await payRes.json();
+
+  if (!payRes.ok) {
+    throw new Error(payData.error || 'Failed to prepare XRPL Smart Account payment');
+  }
+
+  const destination = payData.xrplPayment?.destination;
+  const amountDrops = payData.xrplPayment?.amount;
+  const memoData = payData.xrplPayment?.memoData;
+
+  if (!destination || !amountDrops || !memoData) {
+    throw new Error('Facilitator did not return complete XRPL payment instructions');
+  }
+
+  console.log(`[Agent A] Sending XRPL payment to operator: ${destination}`);
+  console.log(`[Agent A] Smart Account: ${payData.smartAccount?.flareAddress || 'pending creation'}`);
+
+  const client = new xrpl.Client(XRPL_WSS);
+  await client.connect();
+
+  let submitResult;
+  try {
+    const paymentTx = {
+      TransactionType: 'Payment',
+      Account: wallet.address,
+      Destination: destination,
+      Amount: amountDrops,
+      Memos: [
+        {
+          Memo: {
+            MemoType: xrpl.convertStringToHex('agentlevy'),
+            MemoData: memoData.toUpperCase(),
+          },
+        },
+      ],
+    };
+
+    submitResult = await client.submitAndWait(paymentTx, { wallet });
+  } finally {
+    await client.disconnect();
+  }
+
+  const xrplTxHash = submitResult.result?.hash;
+  const txOutcome = submitResult.result?.meta?.TransactionResult;
+
+  if (!xrplTxHash || txOutcome !== 'tesSUCCESS') {
+    throw new Error(`XRPL payment failed: ${txOutcome || 'missing transaction hash'}`);
+  }
+
+  console.log(`[Agent A] XRPL payment submitted: ${xrplTxHash}`);
+
+  const confirmRes = await fetch(`${FACILITATOR}/pay/xrpl/confirm`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      taskId: taskData.taskId,
+      xrplTxHash,
+    }),
+  });
+  const confirmData = await confirmRes.json();
+
+  if (!confirmRes.ok) {
+    throw new Error(confirmData.error || 'Failed to relay XRPL payment to Flare');
+  }
+
+  console.log(`[Agent A] XRPL payment relayed to Flare: ${confirmData.txHash}`);
+  return { taskId: taskData.taskId, ...confirmData };
 }
 
 // ─── MOCK AGENT B (task worker) ──────────────────────────────────────────────
@@ -183,7 +288,39 @@ async function runFullDemo() {
   }
 }
 
+async function runFullXrplDemo() {
+  console.log('\n════════════════════════════════════════════════════════');
+  console.log('  AgentLevy Protocol — XRPL Smart Account Demo');
+  console.log('  XRPL Payment -> FDC Proof -> Flare Smart Account');
+  console.log('════════════════════════════════════════════════════════\n');
+
+  try {
+    const payment = await mockAgentAXrpl('sentiment-analysis');
+    if (!payment) return;
+
+    const result = await mockAgentB(payment.taskId, 'sentiment-analysis');
+
+    console.log('\n────────────────────────────────────────────────────────');
+    console.log('  XRPL Demo Complete');
+    console.log('────────────────────────────────────────────────────────');
+    console.log(`  Task:         ${payment.taskId}`);
+    console.log(`  XRPL TX:      ${payment.xrplTxHash}`);
+    console.log(`  Escrow TX:    ${payment.txHash}`);
+    console.log(`  Settle TX:    ${result.txHash}`);
+    console.log(`  Attestation:  ${result.attestationHash}`);
+    console.log('────────────────────────────────────────────────────────');
+    console.log('  Check the dashboard for the levy settlement.');
+
+  } catch (err) {
+    console.error('[XRPL Demo] Error:', err.message);
+  }
+}
+
 // Run demo if called directly
 if (process.argv[2] === '--demo') {
   runFullDemo();
+}
+
+if (process.argv[2] === '--demo-xrpl') {
+  runFullXrplDemo();
 }

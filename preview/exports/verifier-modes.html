@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Verifier Modes</title>
+    <style>
+      :root {
+        --bg: #070b18;
+        --panel: #0f1629;
+        --panel-2: #111b31;
+        --line: #223354;
+        --text: #f5f7fb;
+        --muted: #8ea2c3;
+        --cyan: #00d4ff;
+        --green: #00e5a0;
+        --orange: #ff6b35;
+        --purple: #7b61ff;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        background:
+          radial-gradient(circle at top right, rgba(0, 212, 255, 0.10), transparent 28%),
+          radial-gradient(circle at 15% 0%, rgba(123, 97, 255, 0.08), transparent 24%),
+          var(--bg);
+        color: var(--text);
+        font-family: "Calibri Light", Calibri, Arial, sans-serif;
+      }
+      .shell {
+        max-width: 1120px;
+        margin: 0 auto;
+        padding: 32px 20px 64px;
+      }
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        flex-wrap: wrap;
+        margin-bottom: 22px;
+      }
+      .home {
+        color: var(--cyan);
+        text-decoration: none;
+        font-weight: 700;
+      }
+      .meta {
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+      .panel {
+        background: linear-gradient(180deg, rgba(17,27,49,0.96), rgba(15,22,41,0.98));
+        border: 1px solid var(--line);
+        border-radius: 22px;
+        overflow: hidden;
+        box-shadow: 0 24px 50px rgba(0, 0, 0, 0.24);
+      }
+      .hero {
+        padding: 26px 30px 20px;
+        border-bottom: 1px solid var(--line);
+      }
+      .eyebrow {
+        color: var(--cyan);
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+        font-size: 12px;
+        font-weight: 700;
+        margin-bottom: 10px;
+      }
+      h1.hero-title {
+        margin: 0;
+        font-family: Georgia, serif;
+        font-size: clamp(2rem, 3vw, 3.25rem);
+        line-height: 1.06;
+      }
+      .content {
+        padding: 32px 30px 44px;
+      }
+      .content h1,
+      .content h2,
+      .content h3,
+      .content h4 {
+        font-family: Georgia, serif;
+        line-height: 1.15;
+        margin-top: 1.7em;
+        margin-bottom: 0.6em;
+      }
+      .content h1:first-child,
+      .content h2:first-child {
+        margin-top: 0;
+      }
+      .content p,
+      .content li {
+        color: #dce8f6;
+        font-size: 1.02rem;
+        line-height: 1.72;
+      }
+      .content ul,
+      .content ol {
+        padding-left: 1.35rem;
+      }
+      .content strong {
+        color: #ffffff;
+      }
+      .content a {
+        color: var(--cyan);
+      }
+      .content hr {
+        border: 0;
+        border-top: 1px dashed var(--line);
+        margin: 30px 0;
+      }
+      .content code {
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        color: var(--cyan);
+        background: rgba(0, 212, 255, 0.08);
+        border: 1px solid rgba(0, 212, 255, 0.12);
+        padding: 0.14em 0.36em;
+        border-radius: 8px;
+      }
+      .content pre {
+        overflow: auto;
+        background: #091122;
+        border: 1px solid #1a2a45;
+        border-radius: 16px;
+        padding: 18px;
+      }
+      .content pre code {
+        background: transparent;
+        border: 0;
+        color: #dce8f6;
+        padding: 0;
+      }
+      .content table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 22px 0;
+      }
+      .content th,
+      .content td {
+        border: 1px solid #223354;
+        padding: 12px 14px;
+        text-align: left;
+        vertical-align: top;
+      }
+      .content th {
+        color: #ffffff;
+        background: rgba(0, 212, 255, 0.08);
+      }
+    </style>
+  </head>
+  <body>
+    <main class="shell">
+      <div class="topbar">
+        <a class="home" href="index.html">← Back to static exports</a>
+        <div class="meta">Source: /docs/VERIFIER_MODES.md</div>
+      </div>
+      <article class="panel">
+        <header class="hero">
+          <div class="eyebrow">Standalone Static Export</div>
+          <h1 class="hero-title">Verifier Modes</h1>
+        </header>
+        <section class="content">
+<div class="markdown-heading"><h1 class="heading-element">Verifier Modes</h1><a id="user-content-verifier-modes" class="anchor" aria-label="Permalink: Verifier Modes" href="#verifier-modes"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>This file explains the difference between the hackathon verifier and the production verifier.</p>
+<div class="markdown-heading"><h2 class="heading-element">One Sentence</h2><a id="user-content-one-sentence" class="anchor" aria-label="Permalink: One Sentence" href="#one-sentence"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>The verifier is the same <strong>protocol role</strong> in both versions. The difference is how strongly its execution is proven.</p>
+<div class="markdown-heading"><h2 class="heading-element">What stays the same</h2><a id="user-content-what-stays-the-same" class="anchor" aria-label="Permalink: What stays the same" href="#what-stays-the-same"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>In both the hackathon and production architectures:</p>
+<ul>
+<li>the task spec is committed before work starts</li>
+<li>the worker output is checked against that committed spec</li>
+<li>the verifier produces a pass/fail result</li>
+<li>the treasury enforces the result</li>
+</ul>
+<p>So the protocol shape is the same.</p>
+<div class="markdown-heading"><h2 class="heading-element">Hackathon: deterministic protocol verifier</h2><a id="user-content-hackathon-deterministic-protocol-verifier" class="anchor" aria-label="Permalink: Hackathon: deterministic protocol verifier" href="#hackathon-deterministic-protocol-verifier"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<div class="markdown-heading"><h3 class="heading-element">What it is</h3><a id="user-content-what-it-is" class="anchor" aria-label="Permalink: What it is" href="#what-it-is"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>A deterministic verifier implemented in the protocol app layer.</p>
+<div class="markdown-heading"><h3 class="heading-element">Where it runs</h3><a id="user-content-where-it-runs" class="anchor" aria-label="Permalink: Where it runs" href="#where-it-runs"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<ul>
+<li>facilitator / verifier service</li>
+<li>standard server runtime</li>
+</ul>
+<div class="markdown-heading"><h3 class="heading-element">What it does</h3><a id="user-content-what-it-does" class="anchor" aria-label="Permalink: What it does" href="#what-it-does"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<ul>
+<li>loads the committed task spec</li>
+<li>validates output structure</li>
+<li>runs deterministic checks</li>
+<li>computes pass/fail and score</li>
+<li>returns a verification result that the protocol can use for settlement</li>
+</ul>
+<div class="markdown-heading"><h3 class="heading-element">Trust model</h3><a id="user-content-trust-model" class="anchor" aria-label="Permalink: Trust model" href="#trust-model"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>For the hackathon, users are trusting:</p>
+<ul>
+<li>the open protocol logic</li>
+<li>the committed spec</li>
+<li>the deterministic nature of the checks</li>
+<li>the operator running that verifier honestly</li>
+</ul>
+<div class="markdown-heading"><h3 class="heading-element">Why it is valid for the demo</h3><a id="user-content-why-it-is-valid-for-the-demo" class="anchor" aria-label="Permalink: Why it is valid for the demo" href="#why-it-is-valid-for-the-demo"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>It proves the most important product claim:</p>
+<p><strong>payment release depends on machine-verifiable completion, not good faith.</strong></p>
+<div class="markdown-heading"><h2 class="heading-element">Production: attested protocol verifier in confidential compute / TEE-backed infrastructure</h2><a id="user-content-production-attested-protocol-verifier-in-confidential-compute--tee-backed-infrastructure" class="anchor" aria-label="Permalink: Production: attested protocol verifier in confidential compute / TEE-backed infrastructure" href="#production-attested-protocol-verifier-in-confidential-compute--tee-backed-infrastructure"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<div class="markdown-heading"><h3 class="heading-element">What it is</h3><a id="user-content-what-it-is-1" class="anchor" aria-label="Permalink: What it is" href="#what-it-is-1"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>The same verifier role, but executed inside confidential compute or a Trusted Execution Environment.</p>
+<div class="markdown-heading"><h3 class="heading-element">Where it runs</h3><a id="user-content-where-it-runs-1" class="anchor" aria-label="Permalink: Where it runs" href="#where-it-runs-1"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<ul>
+<li>confidential compute</li>
+<li>TEE-backed runtime</li>
+<li>attested execution environment</li>
+</ul>
+<div class="markdown-heading"><h3 class="heading-element">What it does</h3><a id="user-content-what-it-does-1" class="anchor" aria-label="Permalink: What it does" href="#what-it-does-1"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<ul>
+<li>loads the same committed task spec or manifest</li>
+<li>runs the same deterministic verification logic</li>
+<li>produces a signed or attested result</li>
+<li>ties that result to the code hash and runtime identity</li>
+</ul>
+<div class="markdown-heading"><h3 class="heading-element">Trust model</h3><a id="user-content-trust-model-1" class="anchor" aria-label="Permalink: Trust model" href="#trust-model-1"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>In production, users are trusting:</p>
+<ul>
+<li>the committed spec</li>
+<li>the verifier runtime</li>
+<li>the hardware-backed attestation that proves the verifier code ran as expected</li>
+</ul>
+<p>They are no longer relying mainly on the honesty of the server operator.</p>
+<div class="markdown-heading"><h2 class="heading-element">The practical difference</h2><a id="user-content-the-practical-difference" class="anchor" aria-label="Permalink: The practical difference" href="#the-practical-difference"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<div class="markdown-heading"><h3 class="heading-element">Hackathon</h3><a id="user-content-hackathon" class="anchor" aria-label="Permalink: Hackathon" href="#hackathon"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<ul>
+<li>proves protocol logic</li>
+<li>proves UX and flow</li>
+<li>proves deterministic acceptance criteria</li>
+<li>does not yet provide the strongest possible execution proof</li>
+</ul>
+<div class="markdown-heading"><h3 class="heading-element">Production</h3><a id="user-content-production" class="anchor" aria-label="Permalink: Production" href="#production"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<ul>
+<li>proves protocol logic</li>
+<li>proves deterministic acceptance criteria</li>
+<li>adds strong evidence that the verifier execution itself was not tampered with</li>
+</ul>
+<div class="markdown-heading"><h2 class="heading-element">Best way to explain it publicly</h2><a id="user-content-best-way-to-explain-it-publicly" class="anchor" aria-label="Permalink: Best way to explain it publicly" href="#best-way-to-explain-it-publicly"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>Use this wording:</p>
+<p><strong>Hackathon:</strong> deterministic protocol verifier<br>
+<strong>Production:</strong> attested protocol verifier running in confidential compute / TEE-backed infrastructure</p>
+<p>And this clarifying line:</p>
+<p><strong>The protocol does not change. The trust guarantee around execution gets stronger.</strong></p>
+<div class="markdown-heading"><h2 class="heading-element">Related asset</h2><a id="user-content-related-asset" class="anchor" aria-label="Permalink: Related asset" href="#related-asset"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<ul>
+<li><a href="/Users/mauraclark/AgentLevy/demo/verifier-process.svg">verifier-process.svg</a></li>
+</ul>
+        </section>
+      </article>
+    </main>
+  </body>
+</html>

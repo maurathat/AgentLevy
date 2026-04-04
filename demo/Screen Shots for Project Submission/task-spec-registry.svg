@@ -1,0 +1,130 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 820" width="680" height="820">
+<style>
+  text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+  .th { font-size: 14px; font-weight: 500; }
+  .ts { font-size: 12px; font-weight: 400; }
+  .container rect { rx: 20; }
+  .teal-outer rect { fill: #E1F5EE; stroke: #0F6E56; }
+  .teal-outer > text.th { fill: #04342C; }
+  .teal-outer > text.ts { fill: #0F6E56; }
+  .teal rect { fill: #E1F5EE; stroke: #5DCAA5; }
+  .teal .th { fill: #04342C; }
+  .teal .ts { fill: #0F6E56; }
+  .purple rect { fill: #EEEDFE; stroke: #AFA9EC; }
+  .purple .th { fill: #26215C; }
+  .purple .ts { fill: #534AB7; }
+  .gray rect { fill: #F1EFE8; stroke: #B4B2A9; }
+  .gray .th { fill: #2C2C2A; }
+  .gray .ts { fill: #5F5E5A; }
+  .green rect { fill: #EAF3DE; stroke: #97C459; }
+  .green .th { fill: #173404; }
+  .green .ts { fill: #3B6D11; }
+  .red rect { fill: #FCEBEB; stroke: #F09595; }
+  .red .th { fill: #501313; }
+  .red .ts { fill: #A32D2D; }
+  .arr { stroke: #B4B2A9; stroke-width: 1.5; }
+  .note { font-size: 12px; fill: #888780; }
+</style>
+<defs>
+  <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </marker>
+</defs>
+
+<g class="teal-outer">
+  <rect x="40" y="20" width="600" height="290" rx="20" stroke-width="0.5"/>
+  <text class="th" x="340" y="48" text-anchor="middle">taskSpecRegistry.js</text>
+  <text class="ts" x="340" y="66" text-anchor="middle">5 service types with deterministic verification</text>
+</g>
+
+<g class="teal">
+  <rect x="65" y="86" width="175" height="56" rx="8" stroke-width="0.5"/>
+  <text class="th" x="152" y="108" text-anchor="middle" dominant-baseline="central">Sentiment analysis</text>
+  <text class="ts" x="152" y="126" text-anchor="middle" dominant-baseline="central">10 RLUSD · 7 checks</text>
+</g>
+
+<g class="teal">
+  <rect x="253" y="86" width="175" height="56" rx="8" stroke-width="0.5"/>
+  <text class="th" x="340" y="108" text-anchor="middle" dominant-baseline="central">Data extraction</text>
+  <text class="ts" x="340" y="126" text-anchor="middle" dominant-baseline="central">15 RLUSD · 6 checks</text>
+</g>
+
+<g class="teal">
+  <rect x="441" y="86" width="175" height="56" rx="8" stroke-width="0.5"/>
+  <text class="th" x="528" y="108" text-anchor="middle" dominant-baseline="central">Code review</text>
+  <text class="ts" x="528" y="126" text-anchor="middle" dominant-baseline="central">20 RLUSD · 6 checks</text>
+</g>
+
+<g class="teal">
+  <rect x="120" y="158" width="175" height="56" rx="8" stroke-width="0.5"/>
+  <text class="th" x="207" y="180" text-anchor="middle" dominant-baseline="central">Translation</text>
+  <text class="ts" x="207" y="198" text-anchor="middle" dominant-baseline="central">8 RLUSD · 6 checks</text>
+</g>
+
+<g class="teal">
+  <rect x="380" y="158" width="175" height="56" rx="8" stroke-width="0.5"/>
+  <text class="th" x="467" y="180" text-anchor="middle" dominant-baseline="central">Data validation</text>
+  <text class="ts" x="467" y="198" text-anchor="middle" dominant-baseline="central">5 RLUSD · 5 checks</text>
+</g>
+
+<g class="gray">
+  <rect x="120" y="240" width="430" height="50" rx="8" stroke-width="0.5"/>
+  <text class="th" x="335" y="260" text-anchor="middle" dominant-baseline="central">Each spec defines:</text>
+  <text class="ts" x="335" y="278" text-anchor="middle" dominant-baseline="central">Schema, quality criteria, checks, 75% pass threshold</text>
+</g>
+
+<line x1="340" y1="310" x2="340" y2="345" class="arr" marker-end="url(#arrow)"/>
+
+<g class="purple">
+  <rect x="190" y="348" width="300" height="56" rx="8" stroke-width="0.5"/>
+  <text class="th" x="340" y="370" text-anchor="middle" dominant-baseline="central">hashSpec(serviceId)</text>
+  <text class="ts" x="340" y="388" text-anchor="middle" dominant-baseline="central">SHA-256 of full specification</text>
+</g>
+
+<line x1="340" y1="404" x2="340" y2="440" class="arr" marker-end="url(#arrow)"/>
+
+<g class="purple">
+  <rect x="140" y="443" width="400" height="56" rx="8" stroke-width="0.5"/>
+  <text class="th" x="340" y="465" text-anchor="middle" dominant-baseline="central">specHash committed on-chain</text>
+  <text class="ts" x="340" y="483" text-anchor="middle" dominant-baseline="central">Treasury.sol escrowPayment() — immutable after this</text>
+</g>
+
+<line x1="340" y1="499" x2="340" y2="535" class="arr" marker-end="url(#arrow)"/>
+<text class="ts" style="fill:#888780" x="354" y="522">Agent B submits output</text>
+
+<g class="purple">
+  <rect x="125" y="538" width="430" height="56" rx="8" stroke-width="0.5"/>
+  <text class="th" x="340" y="560" text-anchor="middle" dominant-baseline="central">verifyAgainstSpec(serviceId, output)</text>
+  <text class="ts" x="340" y="578" text-anchor="middle" dominant-baseline="central">TEE runs deterministic checks against committed spec</text>
+</g>
+
+<line x1="220" y1="594" x2="220" y2="630" class="arr" marker-end="url(#arrow)"/>
+<line x1="460" y1="594" x2="460" y2="630" class="arr" marker-end="url(#arrow)"/>
+
+<g class="gray">
+  <rect x="65" y="633" width="310" height="130" rx="12" stroke-width="0.5"/>
+  <text class="th" x="220" y="658" text-anchor="middle" dominant-baseline="central">Deterministic checks</text>
+  <text class="ts" x="86" y="682" dominant-baseline="central">output_exists</text>
+  <text class="ts" x="86" y="700" dominant-baseline="central">schema_valid</text>
+  <text class="ts" x="86" y="718" dominant-baseline="central">completion_rate (95%+)</text>
+  <text class="ts" x="86" y="736" dominant-baseline="central">score_range, label_valid</text>
+  <text class="ts" x="86" y="754" dominant-baseline="central">score_variance, processing_time</text>
+</g>
+
+<g class="green">
+  <rect x="400" y="633" width="120" height="56" rx="8" stroke-width="0.5"/>
+  <text class="th" x="460" y="655" text-anchor="middle" dominant-baseline="central">Pass</text>
+  <text class="ts" x="460" y="673" text-anchor="middle" dominant-baseline="central">score >= 75%</text>
+</g>
+
+<g class="red">
+  <rect x="400" y="705" width="120" height="56" rx="8" stroke-width="0.5"/>
+  <text class="th" x="460" y="727" text-anchor="middle" dominant-baseline="central">Fail</text>
+  <text class="ts" x="460" y="745" text-anchor="middle" dominant-baseline="central">score &lt; 75%</text>
+</g>
+
+<text class="ts" style="fill:#3B6D11" x="528" y="664" dominant-baseline="central">Payment releases</text>
+<text class="ts" style="fill:#A32D2D" x="528" y="736" dominant-baseline="central">Funds stay in escrow</text>
+
+<text class="note" x="340" y="800" text-anchor="middle">Teal = spec registry · Purple = trust commitment layer · Green/red = outcome</text>
+</svg>

@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Verifier Process Visual</title>
+    <style>
+      :root {
+        --bg: #070b18;
+        --panel: #0f1629;
+        --line: #223354;
+        --text: #f5f7fb;
+        --muted: #8ea2c3;
+        --cyan: #00d4ff;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        background:
+          radial-gradient(circle at top right, rgba(0, 212, 255, 0.10), transparent 28%),
+          var(--bg);
+        color: var(--text);
+        font-family: "Calibri Light", Calibri, Arial, sans-serif;
+      }
+      .shell {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 32px 20px 64px;
+      }
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        flex-wrap: wrap;
+        margin-bottom: 22px;
+      }
+      .home {
+        color: var(--cyan);
+        text-decoration: none;
+        font-weight: 700;
+      }
+      .meta {
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+      .panel {
+        background: linear-gradient(180deg, rgba(17,27,49,0.96), rgba(15,22,41,0.98));
+        border: 1px solid var(--line);
+        border-radius: 22px;
+        overflow: hidden;
+        box-shadow: 0 24px 50px rgba(0, 0, 0, 0.24);
+      }
+      .hero {
+        padding: 26px 30px 20px;
+        border-bottom: 1px solid var(--line);
+      }
+      .eyebrow {
+        color: var(--cyan);
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+        font-size: 12px;
+        font-weight: 700;
+        margin-bottom: 10px;
+      }
+      h1 {
+        margin: 0;
+        font-family: Georgia, serif;
+        font-size: clamp(2rem, 3vw, 3.25rem);
+        line-height: 1.06;
+      }
+      .canvas {
+        padding: 24px;
+      }
+      img {
+        display: block;
+        width: 100%;
+        height: auto;
+        border-radius: 18px;
+        border: 1px solid #1c2945;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="shell">
+      <div class="topbar">
+        <a class="home" href="index.html">← Back to static exports</a>
+        <div class="meta">Source: /demo/verifier-process.svg</div>
+      </div>
+      <article class="panel">
+        <header class="hero">
+          <div class="eyebrow">Standalone Static Export</div>
+          <h1>Verifier Process Visual</h1>
+        </header>
+        <section class="canvas">
+          <img src="../../demo/verifier-process.svg" alt="Verifier process visual" />
+        </section>
+      </article>
+    </main>
+  </body>
+</html>

@@ -28,10 +28,13 @@ contract Treasury {
     // ─── STATE ────────────────────────────────────────────────────────────────
 
     address public owner;
+    address public pendingOwner;
     uint256 public levyBasisPoints = 50;   // 0.5% default
     uint256 public totalLevyCollected;
     uint256 public totalTasksSettled;
     uint256 public totalTaskVolume;
+    uint256 public totalPendingWithdrawals;
+    mapping(address => uint256) public pendingWithdrawals;
 
     // Registered TEE verifier addresses
     // In production: actual Flare TEE attestation addresses
@@ -129,8 +132,14 @@ contract Treasury {
 
     event TaskDisputed(bytes32 indexed taskId, address indexed disputedBy);
     event TaskRefunded(bytes32 indexed taskId, uint256 amount);
+    event WithdrawalQueued(address indexed recipient, uint256 amount);
+    event WithdrawalClaimed(address indexed recipient, uint256 amount);
+    event OwnershipTransferStarted(address indexed previousOwner, address indexed newOwner);
+    event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
     event LevyRateUpdated(uint256 oldRate, uint256 newRate);
     event SpecRegistered(bytes32 indexed specHash, string serviceId);
+    event TEERegistered(address indexed teeAddress);
+    event TEERevoked(address indexed teeAddress);
 
     // ─── MODIFIERS ────────────────────────────────────────────────────────────
 
@@ -141,6 +150,11 @@ contract Treasury {
 
     modifier onlyVerifiedTEE() {
         require(verifiedTEEs[msg.sender], "Treasury: not a verified TEE");
+        _;
+    }
+
+    modifier onlyPendingOwner() {
+        require(msg.sender == pendingOwner, "Treasury: not pending owner");
         _;
     }
 
@@ -155,6 +169,8 @@ contract Treasury {
     // ─── SPEC REGISTRATION ───────────────────────────────────────────────────
 
     function registerSpec(bytes32 specHash, string calldata serviceId) external onlyOwner {
+        require(specHash != bytes32(0), "Treasury: invalid spec hash");
+        require(bytes(serviceId).length > 0, "Treasury: service ID required");
         registeredSpecHashes[specHash]    = true;
         specHashToServiceId[specHash]     = serviceId;
         emit SpecRegistered(specHash, serviceId);
@@ -172,7 +188,13 @@ contract Treasury {
         require(escrows[taskId].status == TaskStatus.NonExistent, "Treasury: task already exists");
         require(agentB != address(0), "Treasury: invalid agent B address");
         require(agentB != msg.sender, "Treasury: agent A and B cannot be the same");
+        require(taskSpecHash != bytes32(0), "Treasury: task spec hash required");
         require(bytes(serviceId).length > 0, "Treasury: service ID required");
+        require(registeredSpecHashes[taskSpecHash], "Treasury: unregistered spec hash");
+        require(
+            keccak256(bytes(specHashToServiceId[taskSpecHash])) == keccak256(bytes(serviceId)),
+            "Treasury: service ID does not match spec hash"
+        );
 
         uint256 levy    = (msg.value * levyBasisPoints) / 10000;
         uint256 taskFee = msg.value - levy;
@@ -234,9 +256,9 @@ contract Treasury {
         escrow.status    = TaskStatus.Settled;
         escrow.settledAt = block.timestamp;
 
-        // Pay Agent B
-        (bool sent, ) = escrow.agentB.call{value: escrow.taskFee}("");
-        require(sent, "Treasury: payment to Agent B failed");
+        pendingWithdrawals[escrow.agentB] += escrow.taskFee;
+        totalPendingWithdrawals += escrow.taskFee;
+        emit WithdrawalQueued(escrow.agentB, escrow.taskFee);
 
         // Levy stays in contract (PMW treasury)
         totalLevyCollected += escrow.levyAmount;
@@ -280,6 +302,73 @@ contract Treasury {
         emit TaskDisputed(taskId, msg.sender);
     }
 
+    function claimRefund(bytes32 taskId) external {
+        EscrowRecord storage escrow = escrows[taskId];
+        require(msg.sender == escrow.agentA, "Treasury: not agent A");
+
+        if (escrow.status == TaskStatus.Verified) {
+            require(!attestations[taskId].passed, "Treasury: task passed verification");
+        } else if (escrow.status == TaskStatus.Disputed) {
+            require(
+                block.timestamp >= escrow.escrowedAt + DISPUTE_WINDOW,
+                "Treasury: dispute window still active"
+            );
+        } else {
+            revert("Treasury: refund not available");
+        }
+
+        _refund(taskId);
+    }
+
+    function claimTimeoutRefund(bytes32 taskId) external {
+        EscrowRecord storage escrow = escrows[taskId];
+        require(msg.sender == escrow.agentA, "Treasury: not agent A");
+        require(escrow.status == TaskStatus.Escrowed, "Treasury: task not awaiting attestation");
+        require(
+            block.timestamp >= escrow.escrowedAt + DISPUTE_WINDOW,
+            "Treasury: timeout window still active"
+        );
+
+        _refund(taskId);
+    }
+
+    function resolveDispute(bytes32 taskId) external onlyOwner {
+        EscrowRecord storage escrow = escrows[taskId];
+        require(escrow.status == TaskStatus.Disputed, "Treasury: task is not disputed");
+        _refund(taskId);
+    }
+
+    function withdraw() external {
+        uint256 amount = pendingWithdrawals[msg.sender];
+        require(amount > 0, "Treasury: no funds available");
+
+        pendingWithdrawals[msg.sender] = 0;
+        totalPendingWithdrawals -= amount;
+
+        (bool sent, ) = msg.sender.call{value: amount}("");
+        require(sent, "Treasury: withdrawal failed");
+
+        emit WithdrawalClaimed(msg.sender, amount);
+    }
+
+    function _refund(bytes32 taskId) internal {
+        EscrowRecord storage escrow = escrows[taskId];
+        require(
+            escrow.status == TaskStatus.Escrowed ||
+            escrow.status == TaskStatus.Verified ||
+            escrow.status == TaskStatus.Disputed,
+            "Treasury: task cannot be refunded"
+        );
+
+        escrow.status    = TaskStatus.Refunded;
+        escrow.settledAt = block.timestamp;
+
+        pendingWithdrawals[escrow.agentA] += escrow.totalAmount;
+        totalPendingWithdrawals += escrow.totalAmount;
+        emit WithdrawalQueued(escrow.agentA, escrow.totalAmount);
+        emit TaskRefunded(taskId, escrow.totalAmount);
+    }
+
     // ─── GOVERNANCE ───────────────────────────────────────────────────────────
 
     function setLevyRate(uint256 newBasisPoints) external onlyOwner {
@@ -288,12 +377,28 @@ contract Treasury {
         levyBasisPoints = newBasisPoints;
     }
 
+    function transferOwnership(address newOwner) external onlyOwner {
+        require(newOwner != address(0), "Treasury: invalid owner");
+        pendingOwner = newOwner;
+        emit OwnershipTransferStarted(owner, newOwner);
+    }
+
+    function acceptOwnership() external onlyPendingOwner {
+        address previousOwner = owner;
+        owner = msg.sender;
+        pendingOwner = address(0);
+        emit OwnershipTransferred(previousOwner, msg.sender);
+    }
+
     function registerTEE(address teeAddress) external onlyOwner {
+        require(teeAddress != address(0), "Treasury: invalid TEE");
         verifiedTEEs[teeAddress] = true;
+        emit TEERegistered(teeAddress);
     }
 
     function revokeTEE(address teeAddress) external onlyOwner {
         verifiedTEEs[teeAddress] = false;
+        emit TEERevoked(teeAddress);
     }
 
     // ─── VIEWS (for Taxai dashboard) ─────────────────────────────────────────
@@ -311,7 +416,7 @@ contract Treasury {
     }
 
     function getTreasuryBalance() external view returns (uint256) {
-        return address(this).balance;
+        return address(this).balance - totalPendingWithdrawals;
     }
 
     // Allow receiving ETH

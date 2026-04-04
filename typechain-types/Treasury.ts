@@ -98,7 +98,10 @@ export interface TreasuryInterface extends Interface {
     nameOrSignature:
       | "DISPUTE_WINDOW"
       | "MAX_LEVY_BPS"
+      | "acceptOwnership"
       | "attestations"
+      | "claimRefund"
+      | "claimTimeoutRefund"
       | "disputeTask"
       | "escrowPayment"
       | "escrows"
@@ -109,17 +112,23 @@ export interface TreasuryInterface extends Interface {
       | "levyBasisPoints"
       | "levyHistory"
       | "owner"
+      | "pendingOwner"
+      | "pendingWithdrawals"
       | "registerSpec"
       | "registerTEE"
       | "registeredSpecHashes"
+      | "resolveDispute"
       | "revokeTEE"
       | "setLevyRate"
       | "specHashToServiceId"
       | "submitAttestation"
       | "totalLevyCollected"
+      | "totalPendingWithdrawals"
       | "totalTaskVolume"
       | "totalTasksSettled"
+      | "transferOwnership"
       | "verifiedTEEs"
+      | "withdraw"
   ): FunctionFragment;
 
   getEvent(
@@ -127,10 +136,16 @@ export interface TreasuryInterface extends Interface {
       | "AttestationSubmitted"
       | "LevyRateUpdated"
       | "LevySettled"
+      | "OwnershipTransferStarted"
+      | "OwnershipTransferred"
       | "SpecRegistered"
+      | "TEERegistered"
+      | "TEERevoked"
       | "TaskDisputed"
       | "TaskEscrowed"
       | "TaskRefunded"
+      | "WithdrawalClaimed"
+      | "WithdrawalQueued"
   ): EventFragment;
 
   encodeFunctionData(
@@ -142,7 +157,19 @@ export interface TreasuryInterface extends Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
+    functionFragment: "acceptOwnership",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
     functionFragment: "attestations",
+    values: [BytesLike]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "claimRefund",
+    values: [BytesLike]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "claimTimeoutRefund",
     values: [BytesLike]
   ): string;
   encodeFunctionData(
@@ -180,6 +207,14 @@ export interface TreasuryInterface extends Interface {
   ): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
   encodeFunctionData(
+    functionFragment: "pendingOwner",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "pendingWithdrawals",
+    values: [AddressLike]
+  ): string;
+  encodeFunctionData(
     functionFragment: "registerSpec",
     values: [BytesLike, string]
   ): string;
@@ -189,6 +224,10 @@ export interface TreasuryInterface extends Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "registeredSpecHashes",
+    values: [BytesLike]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "resolveDispute",
     values: [BytesLike]
   ): string;
   encodeFunctionData(
@@ -212,6 +251,10 @@ export interface TreasuryInterface extends Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
+    functionFragment: "totalPendingWithdrawals",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
     functionFragment: "totalTaskVolume",
     values?: undefined
   ): string;
@@ -220,9 +263,14 @@ export interface TreasuryInterface extends Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
+    functionFragment: "transferOwnership",
+    values: [AddressLike]
+  ): string;
+  encodeFunctionData(
     functionFragment: "verifiedTEEs",
     values: [AddressLike]
   ): string;
+  encodeFunctionData(functionFragment: "withdraw", values?: undefined): string;
 
   decodeFunctionResult(
     functionFragment: "DISPUTE_WINDOW",
@@ -233,7 +281,19 @@ export interface TreasuryInterface extends Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "acceptOwnership",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "attestations",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "claimRefund",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "claimTimeoutRefund",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -268,6 +328,14 @@ export interface TreasuryInterface extends Interface {
   ): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
   decodeFunctionResult(
+    functionFragment: "pendingOwner",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "pendingWithdrawals",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "registerSpec",
     data: BytesLike
   ): Result;
@@ -277,6 +345,10 @@ export interface TreasuryInterface extends Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "registeredSpecHashes",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "resolveDispute",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "revokeTEE", data: BytesLike): Result;
@@ -297,6 +369,10 @@ export interface TreasuryInterface extends Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "totalPendingWithdrawals",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "totalTaskVolume",
     data: BytesLike
   ): Result;
@@ -305,9 +381,14 @@ export interface TreasuryInterface extends Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "transferOwnership",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "verifiedTEEs",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "withdraw", data: BytesLike): Result;
 }
 
 export namespace AttestationSubmittedEvent {
@@ -385,12 +466,62 @@ export namespace LevySettledEvent {
   export type LogDescription = TypedLogDescription<Event>;
 }
 
+export namespace OwnershipTransferStartedEvent {
+  export type InputTuple = [previousOwner: AddressLike, newOwner: AddressLike];
+  export type OutputTuple = [previousOwner: string, newOwner: string];
+  export interface OutputObject {
+    previousOwner: string;
+    newOwner: string;
+  }
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
+  export type Log = TypedEventLog<Event>;
+  export type LogDescription = TypedLogDescription<Event>;
+}
+
+export namespace OwnershipTransferredEvent {
+  export type InputTuple = [previousOwner: AddressLike, newOwner: AddressLike];
+  export type OutputTuple = [previousOwner: string, newOwner: string];
+  export interface OutputObject {
+    previousOwner: string;
+    newOwner: string;
+  }
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
+  export type Log = TypedEventLog<Event>;
+  export type LogDescription = TypedLogDescription<Event>;
+}
+
 export namespace SpecRegisteredEvent {
   export type InputTuple = [specHash: BytesLike, serviceId: string];
   export type OutputTuple = [specHash: string, serviceId: string];
   export interface OutputObject {
     specHash: string;
     serviceId: string;
+  }
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
+  export type Log = TypedEventLog<Event>;
+  export type LogDescription = TypedLogDescription<Event>;
+}
+
+export namespace TEERegisteredEvent {
+  export type InputTuple = [teeAddress: AddressLike];
+  export type OutputTuple = [teeAddress: string];
+  export interface OutputObject {
+    teeAddress: string;
+  }
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
+  export type Log = TypedEventLog<Event>;
+  export type LogDescription = TypedLogDescription<Event>;
+}
+
+export namespace TEERevokedEvent {
+  export type InputTuple = [teeAddress: AddressLike];
+  export type OutputTuple = [teeAddress: string];
+  export interface OutputObject {
+    teeAddress: string;
   }
   export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
   export type Filter = TypedDeferredTopicFilter<Event>;
@@ -458,6 +589,32 @@ export namespace TaskRefundedEvent {
   export type LogDescription = TypedLogDescription<Event>;
 }
 
+export namespace WithdrawalClaimedEvent {
+  export type InputTuple = [recipient: AddressLike, amount: BigNumberish];
+  export type OutputTuple = [recipient: string, amount: bigint];
+  export interface OutputObject {
+    recipient: string;
+    amount: bigint;
+  }
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
+  export type Log = TypedEventLog<Event>;
+  export type LogDescription = TypedLogDescription<Event>;
+}
+
+export namespace WithdrawalQueuedEvent {
+  export type InputTuple = [recipient: AddressLike, amount: BigNumberish];
+  export type OutputTuple = [recipient: string, amount: bigint];
+  export interface OutputObject {
+    recipient: string;
+    amount: bigint;
+  }
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
+  export type Log = TypedEventLog<Event>;
+  export type LogDescription = TypedLogDescription<Event>;
+}
+
 export interface Treasury extends BaseContract {
   connect(runner?: ContractRunner | null): Treasury;
   waitForDeployment(): Promise<this>;
@@ -505,6 +662,8 @@ export interface Treasury extends BaseContract {
 
   MAX_LEVY_BPS: TypedContractMethod<[], [bigint], "view">;
 
+  acceptOwnership: TypedContractMethod<[], [void], "nonpayable">;
+
   attestations: TypedContractMethod<
     [arg0: BytesLike],
     [
@@ -519,6 +678,14 @@ export interface Treasury extends BaseContract {
       }
     ],
     "view"
+  >;
+
+  claimRefund: TypedContractMethod<[taskId: BytesLike], [void], "nonpayable">;
+
+  claimTimeoutRefund: TypedContractMethod<
+    [taskId: BytesLike],
+    [void],
+    "nonpayable"
   >;
 
   disputeTask: TypedContractMethod<[taskId: BytesLike], [void], "nonpayable">;
@@ -602,6 +769,14 @@ export interface Treasury extends BaseContract {
 
   owner: TypedContractMethod<[], [string], "view">;
 
+  pendingOwner: TypedContractMethod<[], [string], "view">;
+
+  pendingWithdrawals: TypedContractMethod<
+    [arg0: AddressLike],
+    [bigint],
+    "view"
+  >;
+
   registerSpec: TypedContractMethod<
     [specHash: BytesLike, serviceId: string],
     [void],
@@ -618,6 +793,12 @@ export interface Treasury extends BaseContract {
     [arg0: BytesLike],
     [boolean],
     "view"
+  >;
+
+  resolveDispute: TypedContractMethod<
+    [taskId: BytesLike],
+    [void],
+    "nonpayable"
   >;
 
   revokeTEE: TypedContractMethod<
@@ -648,11 +829,21 @@ export interface Treasury extends BaseContract {
 
   totalLevyCollected: TypedContractMethod<[], [bigint], "view">;
 
+  totalPendingWithdrawals: TypedContractMethod<[], [bigint], "view">;
+
   totalTaskVolume: TypedContractMethod<[], [bigint], "view">;
 
   totalTasksSettled: TypedContractMethod<[], [bigint], "view">;
 
+  transferOwnership: TypedContractMethod<
+    [newOwner: AddressLike],
+    [void],
+    "nonpayable"
+  >;
+
   verifiedTEEs: TypedContractMethod<[arg0: AddressLike], [boolean], "view">;
+
+  withdraw: TypedContractMethod<[], [void], "nonpayable">;
 
   getFunction<T extends ContractMethod = ContractMethod>(
     key: string | FunctionFragment
@@ -664,6 +855,9 @@ export interface Treasury extends BaseContract {
   getFunction(
     nameOrSignature: "MAX_LEVY_BPS"
   ): TypedContractMethod<[], [bigint], "view">;
+  getFunction(
+    nameOrSignature: "acceptOwnership"
+  ): TypedContractMethod<[], [void], "nonpayable">;
   getFunction(
     nameOrSignature: "attestations"
   ): TypedContractMethod<
@@ -681,6 +875,12 @@ export interface Treasury extends BaseContract {
     ],
     "view"
   >;
+  getFunction(
+    nameOrSignature: "claimRefund"
+  ): TypedContractMethod<[taskId: BytesLike], [void], "nonpayable">;
+  getFunction(
+    nameOrSignature: "claimTimeoutRefund"
+  ): TypedContractMethod<[taskId: BytesLike], [void], "nonpayable">;
   getFunction(
     nameOrSignature: "disputeTask"
   ): TypedContractMethod<[taskId: BytesLike], [void], "nonpayable">;
@@ -773,6 +973,12 @@ export interface Treasury extends BaseContract {
     nameOrSignature: "owner"
   ): TypedContractMethod<[], [string], "view">;
   getFunction(
+    nameOrSignature: "pendingOwner"
+  ): TypedContractMethod<[], [string], "view">;
+  getFunction(
+    nameOrSignature: "pendingWithdrawals"
+  ): TypedContractMethod<[arg0: AddressLike], [bigint], "view">;
+  getFunction(
     nameOrSignature: "registerSpec"
   ): TypedContractMethod<
     [specHash: BytesLike, serviceId: string],
@@ -785,6 +991,9 @@ export interface Treasury extends BaseContract {
   getFunction(
     nameOrSignature: "registeredSpecHashes"
   ): TypedContractMethod<[arg0: BytesLike], [boolean], "view">;
+  getFunction(
+    nameOrSignature: "resolveDispute"
+  ): TypedContractMethod<[taskId: BytesLike], [void], "nonpayable">;
   getFunction(
     nameOrSignature: "revokeTEE"
   ): TypedContractMethod<[teeAddress: AddressLike], [void], "nonpayable">;
@@ -811,14 +1020,23 @@ export interface Treasury extends BaseContract {
     nameOrSignature: "totalLevyCollected"
   ): TypedContractMethod<[], [bigint], "view">;
   getFunction(
+    nameOrSignature: "totalPendingWithdrawals"
+  ): TypedContractMethod<[], [bigint], "view">;
+  getFunction(
     nameOrSignature: "totalTaskVolume"
   ): TypedContractMethod<[], [bigint], "view">;
   getFunction(
     nameOrSignature: "totalTasksSettled"
   ): TypedContractMethod<[], [bigint], "view">;
   getFunction(
+    nameOrSignature: "transferOwnership"
+  ): TypedContractMethod<[newOwner: AddressLike], [void], "nonpayable">;
+  getFunction(
     nameOrSignature: "verifiedTEEs"
   ): TypedContractMethod<[arg0: AddressLike], [boolean], "view">;
+  getFunction(
+    nameOrSignature: "withdraw"
+  ): TypedContractMethod<[], [void], "nonpayable">;
 
   getEvent(
     key: "AttestationSubmitted"
@@ -842,11 +1060,39 @@ export interface Treasury extends BaseContract {
     LevySettledEvent.OutputObject
   >;
   getEvent(
+    key: "OwnershipTransferStarted"
+  ): TypedContractEvent<
+    OwnershipTransferStartedEvent.InputTuple,
+    OwnershipTransferStartedEvent.OutputTuple,
+    OwnershipTransferStartedEvent.OutputObject
+  >;
+  getEvent(
+    key: "OwnershipTransferred"
+  ): TypedContractEvent<
+    OwnershipTransferredEvent.InputTuple,
+    OwnershipTransferredEvent.OutputTuple,
+    OwnershipTransferredEvent.OutputObject
+  >;
+  getEvent(
     key: "SpecRegistered"
   ): TypedContractEvent<
     SpecRegisteredEvent.InputTuple,
     SpecRegisteredEvent.OutputTuple,
     SpecRegisteredEvent.OutputObject
+  >;
+  getEvent(
+    key: "TEERegistered"
+  ): TypedContractEvent<
+    TEERegisteredEvent.InputTuple,
+    TEERegisteredEvent.OutputTuple,
+    TEERegisteredEvent.OutputObject
+  >;
+  getEvent(
+    key: "TEERevoked"
+  ): TypedContractEvent<
+    TEERevokedEvent.InputTuple,
+    TEERevokedEvent.OutputTuple,
+    TEERevokedEvent.OutputObject
   >;
   getEvent(
     key: "TaskDisputed"
@@ -868,6 +1114,20 @@ export interface Treasury extends BaseContract {
     TaskRefundedEvent.InputTuple,
     TaskRefundedEvent.OutputTuple,
     TaskRefundedEvent.OutputObject
+  >;
+  getEvent(
+    key: "WithdrawalClaimed"
+  ): TypedContractEvent<
+    WithdrawalClaimedEvent.InputTuple,
+    WithdrawalClaimedEvent.OutputTuple,
+    WithdrawalClaimedEvent.OutputObject
+  >;
+  getEvent(
+    key: "WithdrawalQueued"
+  ): TypedContractEvent<
+    WithdrawalQueuedEvent.InputTuple,
+    WithdrawalQueuedEvent.OutputTuple,
+    WithdrawalQueuedEvent.OutputObject
   >;
 
   filters: {
@@ -904,6 +1164,28 @@ export interface Treasury extends BaseContract {
       LevySettledEvent.OutputObject
     >;
 
+    "OwnershipTransferStarted(address,address)": TypedContractEvent<
+      OwnershipTransferStartedEvent.InputTuple,
+      OwnershipTransferStartedEvent.OutputTuple,
+      OwnershipTransferStartedEvent.OutputObject
+    >;
+    OwnershipTransferStarted: TypedContractEvent<
+      OwnershipTransferStartedEvent.InputTuple,
+      OwnershipTransferStartedEvent.OutputTuple,
+      OwnershipTransferStartedEvent.OutputObject
+    >;
+
+    "OwnershipTransferred(address,address)": TypedContractEvent<
+      OwnershipTransferredEvent.InputTuple,
+      OwnershipTransferredEvent.OutputTuple,
+      OwnershipTransferredEvent.OutputObject
+    >;
+    OwnershipTransferred: TypedContractEvent<
+      OwnershipTransferredEvent.InputTuple,
+      OwnershipTransferredEvent.OutputTuple,
+      OwnershipTransferredEvent.OutputObject
+    >;
+
     "SpecRegistered(bytes32,string)": TypedContractEvent<
       SpecRegisteredEvent.InputTuple,
       SpecRegisteredEvent.OutputTuple,
@@ -913,6 +1195,28 @@ export interface Treasury extends BaseContract {
       SpecRegisteredEvent.InputTuple,
       SpecRegisteredEvent.OutputTuple,
       SpecRegisteredEvent.OutputObject
+    >;
+
+    "TEERegistered(address)": TypedContractEvent<
+      TEERegisteredEvent.InputTuple,
+      TEERegisteredEvent.OutputTuple,
+      TEERegisteredEvent.OutputObject
+    >;
+    TEERegistered: TypedContractEvent<
+      TEERegisteredEvent.InputTuple,
+      TEERegisteredEvent.OutputTuple,
+      TEERegisteredEvent.OutputObject
+    >;
+
+    "TEERevoked(address)": TypedContractEvent<
+      TEERevokedEvent.InputTuple,
+      TEERevokedEvent.OutputTuple,
+      TEERevokedEvent.OutputObject
+    >;
+    TEERevoked: TypedContractEvent<
+      TEERevokedEvent.InputTuple,
+      TEERevokedEvent.OutputTuple,
+      TEERevokedEvent.OutputObject
     >;
 
     "TaskDisputed(bytes32,address)": TypedContractEvent<
@@ -946,6 +1250,28 @@ export interface Treasury extends BaseContract {
       TaskRefundedEvent.InputTuple,
       TaskRefundedEvent.OutputTuple,
       TaskRefundedEvent.OutputObject
+    >;
+
+    "WithdrawalClaimed(address,uint256)": TypedContractEvent<
+      WithdrawalClaimedEvent.InputTuple,
+      WithdrawalClaimedEvent.OutputTuple,
+      WithdrawalClaimedEvent.OutputObject
+    >;
+    WithdrawalClaimed: TypedContractEvent<
+      WithdrawalClaimedEvent.InputTuple,
+      WithdrawalClaimedEvent.OutputTuple,
+      WithdrawalClaimedEvent.OutputObject
+    >;
+
+    "WithdrawalQueued(address,uint256)": TypedContractEvent<
+      WithdrawalQueuedEvent.InputTuple,
+      WithdrawalQueuedEvent.OutputTuple,
+      WithdrawalQueuedEvent.OutputObject
+    >;
+    WithdrawalQueued: TypedContractEvent<
+      WithdrawalQueuedEvent.InputTuple,
+      WithdrawalQueuedEvent.OutputTuple,
+      WithdrawalQueuedEvent.OutputObject
     >;
   };
 }

@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AgentLevy Document Viewer</title>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+      :root {
+        --bg: #070b18;
+        --panel: #0f1629;
+        --panel-2: #111b31;
+        --line: #223354;
+        --text: #f5f7fb;
+        --muted: #8ea2c3;
+        --cyan: #00d4ff;
+        --green: #00e5a0;
+        --orange: #ff6b35;
+        --purple: #7b61ff;
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        background:
+          radial-gradient(circle at top right, rgba(0, 212, 255, 0.10), transparent 26%),
+          radial-gradient(circle at 15% 0%, rgba(123, 97, 255, 0.08), transparent 24%),
+          var(--bg);
+        color: var(--text);
+        font-family: "Calibri Light", Calibri, Arial, sans-serif;
+      }
+
+      .shell {
+        max-width: 1120px;
+        margin: 0 auto;
+        padding: 32px 20px 64px;
+      }
+
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 22px;
+        flex-wrap: wrap;
+      }
+
+      .home {
+        color: var(--cyan);
+        text-decoration: none;
+        font-weight: 700;
+      }
+
+      .meta {
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+
+      .panel {
+        background: linear-gradient(180deg, rgba(17,27,49,0.96), rgba(15,22,41,0.98));
+        border: 1px solid var(--line);
+        border-radius: 22px;
+        overflow: hidden;
+        box-shadow: 0 24px 50px rgba(0, 0, 0, 0.24);
+      }
+
+      .hero {
+        padding: 26px 30px 20px;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .eyebrow {
+        color: var(--cyan);
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+        font-size: 12px;
+        font-weight: 700;
+        margin-bottom: 10px;
+      }
+
+      h1 {
+        margin: 0;
+        font-family: Georgia, serif;
+        font-size: clamp(2rem, 3vw, 3.25rem);
+        line-height: 1.06;
+      }
+
+      .content {
+        padding: 32px 30px 44px;
+      }
+
+      .content h1,
+      .content h2,
+      .content h3,
+      .content h4 {
+        font-family: Georgia, serif;
+        line-height: 1.15;
+        margin-top: 1.7em;
+        margin-bottom: 0.6em;
+      }
+
+      .content h1:first-child,
+      .content h2:first-child {
+        margin-top: 0;
+      }
+
+      .content p,
+      .content li {
+        color: #dce8f6;
+        font-size: 1.02rem;
+        line-height: 1.72;
+      }
+
+      .content ul,
+      .content ol {
+        padding-left: 1.35rem;
+      }
+
+      .content strong {
+        color: #ffffff;
+      }
+
+      .content a {
+        color: var(--cyan);
+      }
+
+      .content hr {
+        border: 0;
+        border-top: 1px dashed var(--line);
+        margin: 30px 0;
+      }
+
+      .content code {
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        color: var(--cyan);
+        background: rgba(0, 212, 255, 0.08);
+        border: 1px solid rgba(0, 212, 255, 0.12);
+        padding: 0.14em 0.36em;
+        border-radius: 8px;
+      }
+
+      .content pre {
+        overflow: auto;
+        background: #091122;
+        border: 1px solid #1a2a45;
+        border-radius: 16px;
+        padding: 18px;
+      }
+
+      .content pre code {
+        background: transparent;
+        border: 0;
+        color: #dce8f6;
+        padding: 0;
+      }
+
+      .content table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 22px 0;
+        overflow: hidden;
+      }
+
+      .content th,
+      .content td {
+        border: 1px solid #223354;
+        padding: 12px 14px;
+        text-align: left;
+        vertical-align: top;
+      }
+
+      .content th {
+        color: #ffffff;
+        background: rgba(0, 212, 255, 0.08);
+      }
+
+      .error {
+        color: #ffd8cb;
+        background: rgba(255, 107, 53, 0.10);
+        border: 1px solid rgba(255, 107, 53, 0.75);
+        border-radius: 16px;
+        padding: 18px;
+        line-height: 1.65;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="shell">
+      <div class="topbar">
+        <a class="home" href="/preview/index.html">← Back to preview index</a>
+        <div id="meta" class="meta"></div>
+      </div>
+
+      <article class="panel">
+        <header class="hero">
+          <div class="eyebrow">Rendered Markdown</div>
+          <h1 id="title">Document</h1>
+        </header>
+        <section id="content" class="content"></section>
+      </article>
+    </main>
+
+    <script>
+      const params = new URLSearchParams(window.location.search);
+      const file = params.get("file");
+      const title = params.get("title") || "Document";
+
+      document.getElementById("title").textContent = title;
+      document.getElementById("meta").textContent = file ? file : "No file selected";
+
+      async function run() {
+        const container = document.getElementById("content");
+
+        if (!file) {
+          container.innerHTML = '<div class="error">No <code>file</code> query parameter was provided.</div>';
+          return;
+        }
+
+        try {
+          const res = await fetch(file);
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          const md = await res.text();
+          container.innerHTML = marked.parse(md);
+        } catch (err) {
+          container.innerHTML = `
+            <div class="error">
+              Could not load <code>${file}</code>.<br /><br />
+              Serve the repo over local HTTP first, then reopen this page.<br />
+              Recommended command from the repo root:<br /><br />
+              <code>python3 -m http.server 4173</code><br /><br />
+              Then open:<br />
+              <code>http://localhost:4173/preview/</code>
+            </div>
+          `;
+        }
+      }
+
+      run();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <!-- Antenna -->
+  <line x1="100" y1="28" x2="100" y2="42" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round"/>
+  <circle cx="100" cy="24" r="6" fill="#00D4FF"/>
+  
+  <!-- Head -->
+  <rect x="58" y="42" width="84" height="64" rx="12" fill="none" stroke="#FFFFFF" stroke-width="5"/>
+  
+  <!-- Eyes -->
+  <rect x="74" y="60" width="20" height="14" rx="4" fill="#00D4FF"/>
+  <rect x="106" y="60" width="20" height="14" rx="4" fill="#00D4FF"/>
+  
+  <!-- Neck -->
+  <line x1="100" y1="106" x2="100" y2="118" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round"/>
+  
+  <!-- Body/crossbar -->
+  <line x1="62" y1="118" x2="138" y2="118" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round"/>
+  
+  <!-- Balance scale - left -->
+  <line x1="72" y1="118" x2="72" y2="150" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round"/>
+  <line x1="56" y1="150" x2="88" y2="150" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round"/>
+  <!-- Left scale pan (triangle) -->
+  <line x1="56" y1="150" x2="64" y2="170" stroke="#FFFFFF" stroke-width="3.5" stroke-linecap="round"/>
+  <line x1="88" y1="150" x2="80" y2="170" stroke="#FFFFFF" stroke-width="3.5" stroke-linecap="round"/>
+  <line x1="64" y1="170" x2="80" y2="170" stroke="#FFFFFF" stroke-width="3.5" stroke-linecap="round"/>
+  
+  <!-- Balance scale - right -->
+  <line x1="128" y1="118" x2="128" y2="150" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round"/>
+  <line x1="112" y1="150" x2="144" y2="150" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round"/>
+  <!-- Right scale pan (triangle) -->
+  <line x1="112" y1="150" x2="120" y2="170" stroke="#FFFFFF" stroke-width="3.5" stroke-linecap="round"/>
+  <line x1="144" y1="150" x2="136" y2="170" stroke="#FFFFFF" stroke-width="3.5" stroke-linecap="round"/>
+  <line x1="120" y1="170" x2="136" y2="170" stroke="#FFFFFF" stroke-width="3.5" stroke-linecap="round"/>
+  
+  <!-- Feet/base -->
+  <rect x="54" y="174" width="36" height="8" rx="4" fill="#00D4FF"/>
+  <rect x="110" y="174" width="36" height="8" rx="4" fill="#00D4FF"/>
+</svg>

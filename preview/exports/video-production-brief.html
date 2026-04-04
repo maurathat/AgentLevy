@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Video Production Brief</title>
+    <style>
+      :root {
+        --bg: #070b18;
+        --panel: #0f1629;
+        --panel-2: #111b31;
+        --line: #223354;
+        --text: #f5f7fb;
+        --muted: #8ea2c3;
+        --cyan: #00d4ff;
+        --green: #00e5a0;
+        --orange: #ff6b35;
+        --purple: #7b61ff;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        background:
+          radial-gradient(circle at top right, rgba(0, 212, 255, 0.10), transparent 28%),
+          radial-gradient(circle at 15% 0%, rgba(123, 97, 255, 0.08), transparent 24%),
+          var(--bg);
+        color: var(--text);
+        font-family: "Calibri Light", Calibri, Arial, sans-serif;
+      }
+      .shell {
+        max-width: 1120px;
+        margin: 0 auto;
+        padding: 32px 20px 64px;
+      }
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        flex-wrap: wrap;
+        margin-bottom: 22px;
+      }
+      .home {
+        color: var(--cyan);
+        text-decoration: none;
+        font-weight: 700;
+      }
+      .meta {
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+      .panel {
+        background: linear-gradient(180deg, rgba(17,27,49,0.96), rgba(15,22,41,0.98));
+        border: 1px solid var(--line);
+        border-radius: 22px;
+        overflow: hidden;
+        box-shadow: 0 24px 50px rgba(0, 0, 0, 0.24);
+      }
+      .hero {
+        padding: 26px 30px 20px;
+        border-bottom: 1px solid var(--line);
+      }
+      .eyebrow {
+        color: var(--cyan);
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+        font-size: 12px;
+        font-weight: 700;
+        margin-bottom: 10px;
+      }
+      h1.hero-title {
+        margin: 0;
+        font-family: Georgia, serif;
+        font-size: clamp(2rem, 3vw, 3.25rem);
+        line-height: 1.06;
+      }
+      .content {
+        padding: 32px 30px 44px;
+      }
+      .content h1,
+      .content h2,
+      .content h3,
+      .content h4 {
+        font-family: Georgia, serif;
+        line-height: 1.15;
+        margin-top: 1.7em;
+        margin-bottom: 0.6em;
+      }
+      .content h1:first-child,
+      .content h2:first-child {
+        margin-top: 0;
+      }
+      .content p,
+      .content li {
+        color: #dce8f6;
+        font-size: 1.02rem;
+        line-height: 1.72;
+      }
+      .content ul,
+      .content ol {
+        padding-left: 1.35rem;
+      }
+      .content strong {
+        color: #ffffff;
+      }
+      .content a {
+        color: var(--cyan);
+      }
+      .content hr {
+        border: 0;
+        border-top: 1px dashed var(--line);
+        margin: 30px 0;
+      }
+      .content code {
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        color: var(--cyan);
+        background: rgba(0, 212, 255, 0.08);
+        border: 1px solid rgba(0, 212, 255, 0.12);
+        padding: 0.14em 0.36em;
+        border-radius: 8px;
+      }
+      .content pre {
+        overflow: auto;
+        background: #091122;
+        border: 1px solid #1a2a45;
+        border-radius: 16px;
+        padding: 18px;
+      }
+      .content pre code {
+        background: transparent;
+        border: 0;
+        color: #dce8f6;
+        padding: 0;
+      }
+      .content table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 22px 0;
+      }
+      .content th,
+      .content td {
+        border: 1px solid #223354;
+        padding: 12px 14px;
+        text-align: left;
+        vertical-align: top;
+      }
+      .content th {
+        color: #ffffff;
+        background: rgba(0, 212, 255, 0.08);
+      }
+    </style>
+  </head>
+  <body>
+    <main class="shell">
+      <div class="topbar">
+        <a class="home" href="index.html">← Back to static exports</a>
+        <div class="meta">Source: /demo/VIDEO_PRODUCTION_BRIEF.md</div>
+      </div>
+      <article class="panel">
+        <header class="hero">
+          <div class="eyebrow">Standalone Static Export</div>
+          <h1 class="hero-title">Video Production Brief</h1>
+        </header>
+        <section class="content">
+<div class="markdown-heading"><h1 class="heading-element">Demo Video Production Brief</h1><a id="user-content-demo-video-production-brief" class="anchor" aria-label="Permalink: Demo Video Production Brief" href="#demo-video-production-brief"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>This file complements <a href="/Users/mauraclark/AgentLevy/demo/VIDEO_SCRIPT_3MIN.md">VIDEO_SCRIPT_3MIN.md</a> by listing the context, scenes, overlays, and visual rules needed to turn the script into a clean submission video.</p>
+<div class="markdown-heading"><h2 class="heading-element">Goal</h2><a id="user-content-goal" class="anchor" aria-label="Permalink: Goal" href="#goal"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>Produce a short video that shows:</p>
+<ul>
+<li>a real agent-to-agent workflow</li>
+<li>the x402 happy path</li>
+<li>committed task specs</li>
+<li>verification before release</li>
+<li>0G as the agent layer</li>
+<li>Flare as the trust and proof layer</li>
+</ul>
+<div class="markdown-heading"><h2 class="heading-element">Visual Style</h2><a id="user-content-visual-style" class="anchor" aria-label="Permalink: Visual Style" href="#visual-style"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>Use the existing deck in <a href="/Users/mauraclark/AgentLevy/documents/AgentLevy_Protocol_Hackathon_Deck.pptx">AgentLevy_Protocol_Hackathon_Deck.pptx</a> as the visual reference.</p>
+<p>Reuse:</p>
+<ul>
+<li>dark background</li>
+<li>white + cyan title treatment</li>
+<li>robot iconography</li>
+<li>orange only for warning/failure moments</li>
+</ul>
+<p>Do not reuse the deck's older token-tax storyline.</p>
+<div class="markdown-heading"><h2 class="heading-element">Required Scenes</h2><a id="user-content-required-scenes" class="anchor" aria-label="Permalink: Required Scenes" href="#required-scenes"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<div class="markdown-heading"><h3 class="heading-element">Scene 1: Problem</h3><a id="user-content-scene-1-problem" class="anchor" aria-label="Permalink: Scene 1: Problem" href="#scene-1-problem"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>Visuals:</p>
+<ul>
+<li>title card</li>
+<li>one simple x402 problem statement</li>
+<li>one comparison visual from <a href="/Users/mauraclark/AgentLevy/demo/x402-comparison.svg">x402-comparison.svg</a>
+</li>
+</ul>
+<p>Narrative:</p>
+<ul>
+<li>current payment requests still assume trust after payment</li>
+</ul>
+<div class="markdown-heading"><h3 class="heading-element">Scene 2: Meet the agents</h3><a id="user-content-scene-2-meet-the-agents" class="anchor" aria-label="Permalink: Scene 2: Meet the agents" href="#scene-2-meet-the-agents"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>Visuals:</p>
+<ul>
+<li><code>0G Publisher Agent</code></li>
+<li><code>0G Worker Agent</code></li>
+<li>optional iNFT ownership badge on each card</li>
+</ul>
+<p>Narrative:</p>
+<ul>
+<li>0G powers the agents and agent identity</li>
+</ul>
+<div class="markdown-heading"><h3 class="heading-element">Scene 3: Request and <code>402</code>
+</h3><a id="user-content-scene-3-request-and-402" class="anchor" aria-label="Permalink: Scene 3: Request and 402" href="#scene-3-request-and-402"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>Visuals:</p>
+<ul>
+<li>job request</li>
+<li><code>402 Payment Required</code></li>
+<li><code>taskId</code></li>
+<li><code>specHash</code></li>
+</ul>
+<p>Narrative:</p>
+<ul>
+<li>the committed spec is the acceptance contract</li>
+</ul>
+<div class="markdown-heading"><h3 class="heading-element">Scene 4: Escrow on Flare</h3><a id="user-content-scene-4-escrow-on-flare" class="anchor" aria-label="Permalink: Scene 4: Escrow on Flare" href="#scene-4-escrow-on-flare"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>Visuals:</p>
+<ul>
+<li>payment action</li>
+<li>escrowed state</li>
+<li>tx hash or task state</li>
+</ul>
+<p>Narrative:</p>
+<ul>
+<li>value is locked pending verification</li>
+</ul>
+<div class="markdown-heading"><h3 class="heading-element">Scene 5: Worker output</h3><a id="user-content-scene-5-worker-output" class="anchor" aria-label="Permalink: Scene 5: Worker output" href="#scene-5-worker-output"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>Visuals:</p>
+<ul>
+<li>structured output</li>
+<li>a simple deterministic task example</li>
+</ul>
+<p>Recommended examples:</p>
+<ul>
+<li>Solidity security triage</li>
+<li>structured data extraction</li>
+</ul>
+<div class="markdown-heading"><h3 class="heading-element">Scene 6: Verification and proof</h3><a id="user-content-scene-6-verification-and-proof" class="anchor" aria-label="Permalink: Scene 6: Verification and proof" href="#scene-6-verification-and-proof"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>Visuals:</p>
+<ul>
+<li>verification checks</li>
+<li>pass result</li>
+<li>attestation or settlement record</li>
+<li>dashboard proof panel</li>
+</ul>
+<p>Narrative:</p>
+<ul>
+<li>Flare is the trust layer</li>
+</ul>
+<div class="markdown-heading"><h3 class="heading-element">Scene 7: Failure path</h3><a id="user-content-scene-7-failure-path" class="anchor" aria-label="Permalink: Scene 7: Failure path" href="#scene-7-failure-path"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>Visuals:</p>
+<ul>
+<li>malformed output</li>
+<li>verification failure</li>
+<li>no successful settlement</li>
+</ul>
+<p>Narrative:</p>
+<ul>
+<li>failure proves the protocol matters</li>
+</ul>
+<p>Keep this short.</p>
+<div class="markdown-heading"><h3 class="heading-element">Scene 8: Closing frame</h3><a id="user-content-scene-8-closing-frame" class="anchor" aria-label="Permalink: Scene 8: Closing frame" href="#scene-8-closing-frame"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>Visuals:</p>
+<ul>
+<li>AgentLevy wordmark</li>
+<li>protocol stack line</li>
+<li>skill download or website URL if available</li>
+</ul>
+<p>Narrative:</p>
+<ul>
+<li>the atomic trust layer for agent-to-agent commerce</li>
+</ul>
+<div class="markdown-heading"><h2 class="heading-element">Overlay Language</h2><a id="user-content-overlay-language" class="anchor" aria-label="Permalink: Overlay Language" href="#overlay-language"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>Prefer overlays like:</p>
+<ul>
+<li><code>Committed Spec</code></li>
+<li><code>Escrow Locked</code></li>
+<li><code>Verification Passed</code></li>
+<li><code>Settlement Recorded</code></li>
+<li><code>Failure: No Successful Completion</code></li>
+</ul>
+<p>Avoid overlays like:</p>
+<ul>
+<li><code>Worker Paid Instantly</code></li>
+</ul>
+<p>unless the video explicitly shows withdrawal.</p>
+<div class="markdown-heading"><h2 class="heading-element">Assets To Reuse</h2><a id="user-content-assets-to-reuse" class="anchor" aria-label="Permalink: Assets To Reuse" href="#assets-to-reuse"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<ul>
+<li><a href="/Users/mauraclark/AgentLevy/documents/AgentLevy_Protocol_Hackathon_Deck.pptx">AgentLevy_Protocol_Hackathon_Deck.pptx</a></li>
+<li><a href="/Users/mauraclark/AgentLevy/demo/x402-comparison.svg">x402-comparison.svg</a></li>
+<li><a href="/Users/mauraclark/AgentLevy/demo/JOB_EXAMPLES.md">JOB_EXAMPLES.md</a></li>
+<li><a href="/Users/mauraclark/AgentLevy/demo/LIVE_DEMO_SCRIPT.md">LIVE_DEMO_SCRIPT.md</a></li>
+<li><a href="/Users/mauraclark/AgentLevy/demo/VIDEO_SCRIPT_3MIN.md">VIDEO_SCRIPT_3MIN.md</a></li>
+</ul>
+<div class="markdown-heading"><h2 class="heading-element">Video Rules</h2><a id="user-content-video-rules" class="anchor" aria-label="Permalink: Video Rules" href="#video-rules"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<ul>
+<li>show success before failure</li>
+<li>keep Smart Accounts out of the main flow</li>
+<li>keep the video under 3 minutes</li>
+<li>make 0G visible, not just spoken</li>
+<li>make Flare visible, not just spoken</li>
+<li>keep the protocol concrete and operational</li>
+</ul>
+        </section>
+      </article>
+    </main>
+  </body>
+</html>

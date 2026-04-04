@@ -1,0 +1,14 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <title>AgentLevy Robot Mark</title>
+  <desc>Standalone robot mark for AgentLevy branding.</desc>
+  <rect x="88" y="84" width="336" height="248" rx="56" stroke="#F5F7FB" stroke-width="28"/>
+  <rect x="146" y="186" width="84" height="72" rx="18" fill="#00D4FF"/>
+  <rect x="282" y="186" width="84" height="72" rx="18" fill="#00D4FF"/>
+  <path d="M256 46V94" stroke="#F5F7FB" stroke-width="28" stroke-linecap="round"/>
+  <path d="M172 340L136 474" stroke="#F5F7FB" stroke-width="28" stroke-linecap="round"/>
+  <path d="M340 340L376 474" stroke="#F5F7FB" stroke-width="28" stroke-linecap="round"/>
+  <path d="M110 394H202" stroke="#F5F7FB" stroke-width="28" stroke-linecap="round"/>
+  <path d="M310 394H402" stroke="#F5F7FB" stroke-width="28" stroke-linecap="round"/>
+  <path d="M94 474H210" stroke="#00D4FF" stroke-width="28" stroke-linecap="round"/>
+  <path d="M302 474H418" stroke="#00D4FF" stroke-width="28" stroke-linecap="round"/>
+</svg>

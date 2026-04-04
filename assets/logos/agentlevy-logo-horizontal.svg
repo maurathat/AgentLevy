@@ -1,0 +1,22 @@
+<svg width="1200" height="360" viewBox="0 0 1200 360" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <title>AgentLevy Horizontal Logo</title>
+  <desc>Horizontal AgentLevy logo with robot mark and wordmark.</desc>
+  <g transform="translate(36 26)">
+    <rect x="24" y="24" width="264" height="194" rx="42" stroke="#F5F7FB" stroke-width="20"/>
+    <rect x="70" y="104" width="66" height="56" rx="14" fill="#00D4FF"/>
+    <rect x="176" y="104" width="66" height="56" rx="14" fill="#00D4FF"/>
+    <path d="M156 0V40" stroke="#F5F7FB" stroke-width="20" stroke-linecap="round"/>
+    <path d="M90 224L62 324" stroke="#F5F7FB" stroke-width="20" stroke-linecap="round"/>
+    <path d="M222 224L250 324" stroke="#F5F7FB" stroke-width="20" stroke-linecap="round"/>
+    <path d="M42 264H112" stroke="#F5F7FB" stroke-width="20" stroke-linecap="round"/>
+    <path d="M200 264H270" stroke="#F5F7FB" stroke-width="20" stroke-linecap="round"/>
+    <path d="M30 324H120" stroke="#00D4FF" stroke-width="20" stroke-linecap="round"/>
+    <path d="M192 324H282" stroke="#00D4FF" stroke-width="20" stroke-linecap="round"/>
+  </g>
+
+  <g transform="translate(390 78)">
+    <text x="0" y="98" fill="#F5F7FB" font-family="Georgia, serif" font-size="120" font-weight="700" letter-spacing="-2">Agent</text>
+    <text x="395" y="98" fill="#00D4FF" font-family="Georgia, serif" font-size="120" font-weight="700" letter-spacing="-2">Levy</text>
+    <text x="6" y="164" fill="#8EA2C3" font-family="Calibri Light, Calibri, Arial, sans-serif" font-size="34" letter-spacing="3.5">THE ATOMIC TRUST LAYER FOR AGENT COMMERCE</text>
+  </g>
+</svg>

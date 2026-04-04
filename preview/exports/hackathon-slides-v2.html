@@ -1,0 +1,1216 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AgentLevy Hackathon Deck Slides</title>
+    <style>
+      :root {
+        --bg: #070b18;
+        --bg-2: #0d1326;
+        --panel: rgba(17, 27, 49, 0.92);
+        --panel-soft: rgba(15, 22, 41, 0.88);
+        --line: #223354;
+        --text: #f5f7fb;
+        --muted: #8ea2c3;
+        --cyan: #00d4ff;
+        --green: #00e5a0;
+        --orange: #ff6b35;
+        --purple: #7b61ff;
+        --shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+      }
+
+      * { box-sizing: border-box; }
+
+      html, body {
+        margin: 0;
+        height: 100%;
+        background:
+          radial-gradient(circle at top right, rgba(0, 212, 255, 0.10), transparent 24%),
+          radial-gradient(circle at 10% 15%, rgba(123, 97, 255, 0.10), transparent 22%),
+          var(--bg);
+        color: var(--text);
+        font-family: "Calibri Light", Calibri, Arial, sans-serif;
+        overflow: hidden;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        background:
+          radial-gradient(circle at 85% 8%, rgba(0, 229, 160, 0.08), transparent 18%),
+          radial-gradient(circle at 90% 50%, rgba(0, 212, 255, 0.05), transparent 16%);
+      }
+
+      .chrome {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 20;
+        padding: 18px 24px 0;
+      }
+
+      .progress-track {
+        height: 4px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.08);
+        overflow: hidden;
+      }
+
+      .progress-bar {
+        height: 100%;
+        width: 14%;
+        background: linear-gradient(90deg, var(--cyan), var(--green));
+        transition: width 180ms ease;
+      }
+
+      .topbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 16px;
+        margin-top: 14px;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        color: var(--muted);
+        font-size: 0.95rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .brand-logo {
+        display: block;
+        height: 30px;
+        width: auto;
+        flex-shrink: 0;
+      }
+
+      .brand-copy {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        min-width: 0;
+      }
+
+      .brand strong { color: var(--cyan); }
+
+      .controls {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .counter {
+        color: var(--muted);
+        font-size: 0.95rem;
+        min-width: 86px;
+        text-align: center;
+      }
+
+      button,
+      .back-link {
+        border: 1px solid var(--line);
+        background: rgba(17, 27, 49, 0.88);
+        color: var(--text);
+        padding: 10px 14px;
+        border-radius: 999px;
+        cursor: pointer;
+        font: inherit;
+        text-decoration: none;
+        transition: transform 100ms ease, border-color 100ms ease, background 100ms ease;
+      }
+
+      button:hover,
+      .back-link:hover {
+        transform: translateY(-1px);
+        border-color: rgba(0, 212, 255, 0.5);
+        background: rgba(20, 33, 61, 0.95);
+      }
+
+      .viewport {
+        height: 100%;
+        display: grid;
+        place-items: center;
+        padding: 78px 24px 32px;
+      }
+
+      .deck {
+        width: min(1380px, 100%);
+        height: min(820px, calc(100vh - 120px));
+        position: relative;
+      }
+
+      .slide {
+        position: absolute;
+        inset: 0;
+        display: none;
+        background:
+          linear-gradient(180deg, rgba(13, 19, 38, 0.98), rgba(7, 11, 24, 0.98));
+        border: 1px solid rgba(34, 51, 84, 0.95);
+        border-radius: 28px;
+        box-shadow: var(--shadow);
+        overflow: hidden;
+      }
+
+      .slide.active { display: block; }
+
+      .slide-inner {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        padding: 42px 48px 34px;
+      }
+
+      .slide-head {
+        display: flex;
+        justify-content: space-between;
+        gap: 18px;
+        align-items: flex-start;
+        margin-bottom: 24px;
+      }
+
+      .eyebrow {
+        color: var(--cyan);
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        font-size: 12px;
+        font-weight: 700;
+        margin-bottom: 12px;
+      }
+
+      .slide h1,
+      .slide h2 {
+        margin: 0;
+        font-family: Georgia, serif;
+        line-height: 1.02;
+      }
+
+      .slide h1 {
+        font-size: clamp(2.8rem, 5vw, 5.4rem);
+      }
+
+      .slide h2 {
+        font-size: clamp(2rem, 3.4vw, 3.4rem);
+      }
+
+      .lede {
+        max-width: 760px;
+        color: var(--muted);
+        font-size: 1.15rem;
+        line-height: 1.55;
+        margin-top: 12px;
+      }
+
+      .robot {
+        width: 180px;
+        height: 180px;
+        border-radius: 24px;
+        border: 1px solid rgba(0, 212, 255, 0.18);
+        display: grid;
+        place-items: center;
+        background:
+          radial-gradient(circle at 50% 30%, rgba(0, 212, 255, 0.08), transparent 50%),
+          rgba(255, 255, 255, 0.02);
+        flex-shrink: 0;
+      }
+
+      .banner {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        margin-top: 28px;
+        padding: 14px 18px;
+        border-radius: 16px;
+        border: 1px solid rgba(255, 107, 53, 0.8);
+        background: rgba(255, 107, 53, 0.08);
+        color: #ffd8cb;
+        font-size: 1rem;
+      }
+
+      .banner.compact {
+        margin-top: 18px;
+        padding: 10px 14px;
+        font-size: 0.92rem;
+      }
+
+      .chip-row,
+      .tag-row {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      .chip-row { margin-top: 18px; }
+
+      .chip,
+      .tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 12px;
+        border-radius: 999px;
+        border: 1px solid var(--line);
+        font-size: 0.88rem;
+        color: #dce8f6;
+        background: rgba(255, 255, 255, 0.03);
+      }
+
+      .chip strong,
+      .tag strong {
+        color: var(--text);
+      }
+
+      .tag.live {
+        border-color: rgba(0, 229, 160, 0.32);
+        color: #c9ffe8;
+        background: rgba(0, 229, 160, 0.08);
+      }
+
+      .tag.build {
+        border-color: rgba(255, 107, 53, 0.38);
+        color: #ffe0d5;
+        background: rgba(255, 107, 53, 0.08);
+      }
+
+      .tag.next {
+        border-color: rgba(123, 97, 255, 0.38);
+        color: #e0d9ff;
+        background: rgba(123, 97, 255, 0.08);
+      }
+
+      .hero-footer {
+        margin-top: auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        gap: 18px;
+      }
+
+      .hero-stack {
+        color: var(--muted);
+        font-size: 1.05rem;
+        line-height: 1.7;
+      }
+
+      .hero-stack strong { color: var(--text); }
+
+      .kpis,
+      .three-col,
+      .build-grid,
+      .closing-grid {
+        display: grid;
+        gap: 18px;
+      }
+
+      .kpis {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        margin-top: 18px;
+      }
+
+      .three-col {
+        grid-template-columns: 1.05fr 1.1fr 0.9fr;
+        align-items: stretch;
+        flex: 1;
+        min-height: 0;
+      }
+
+      .flow-layout,
+      .compare-layout {
+        display: grid;
+        gap: 18px;
+        flex: 1;
+        min-height: 0;
+      }
+
+      .compare-layout {
+        grid-template-columns: 1.25fr 0.75fr;
+      }
+
+      .build-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        flex: 1;
+      }
+
+      .closing-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        margin-top: 28px;
+      }
+
+      .card,
+      .pillars,
+      .table-wrap {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 22px;
+        padding: 20px 22px;
+      }
+
+      .card.soft { background: var(--panel-soft); }
+      .card.cyan { border-color: rgba(0, 212, 255, 0.35); }
+      .card.green { border-color: rgba(0, 229, 160, 0.35); }
+      .card.orange { border-color: rgba(255, 107, 53, 0.35); }
+      .card.purple { border-color: rgba(123, 97, 255, 0.35); }
+
+      .card h3,
+      .pillars h3 {
+        margin: 0 0 12px;
+        font-family: Georgia, serif;
+        font-size: 1.45rem;
+      }
+
+      .card p,
+      .card li,
+      .pillars li {
+        color: #dce8f6;
+        line-height: 1.6;
+      }
+
+      .card ul,
+      .pillars ul {
+        margin: 0;
+        padding-left: 1.15rem;
+      }
+
+      .stat {
+        display: inline-block;
+        font-size: 0.85rem;
+        color: var(--muted);
+        margin-top: 12px;
+      }
+
+      .accent {
+        color: var(--cyan);
+      }
+
+      .success { color: var(--green); }
+      .warn { color: var(--orange); }
+      .violet { color: #b7a7ff; }
+
+      .flow {
+        display: grid;
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+        gap: 12px;
+        margin-top: 14px;
+      }
+
+      .step {
+        padding: 14px 14px 16px;
+        border-radius: 18px;
+        background: rgba(15, 22, 41, 0.92);
+        border: 1px solid var(--line);
+        min-height: 140px;
+      }
+
+      .step .num {
+        display: inline-flex;
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        align-items: center;
+        justify-content: center;
+        background: rgba(0, 212, 255, 0.14);
+        color: var(--cyan);
+        font-weight: 700;
+        margin-bottom: 12px;
+      }
+
+      .step h4 {
+        margin: 0 0 8px;
+        font-size: 1rem;
+        font-family: Georgia, serif;
+      }
+
+      .step p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.95rem;
+        line-height: 1.5;
+      }
+
+      .mode-bar {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+        margin-top: 18px;
+      }
+
+      .mode {
+        border-radius: 18px;
+        padding: 16px 18px;
+        border: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.02);
+      }
+
+      .mode h4 {
+        margin: 0 0 8px;
+        font-family: Georgia, serif;
+        font-size: 1.05rem;
+      }
+
+      .mode p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.55;
+      }
+
+      .asset-frame {
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+      }
+
+      .asset-frame.tall img {
+        height: 100%;
+        object-fit: contain;
+      }
+
+      .asset-frame img {
+        width: 100%;
+        height: auto;
+        border-radius: 20px;
+        border: 1px solid rgba(34, 51, 84, 0.95);
+        background: rgba(255, 255, 255, 0.02);
+      }
+
+      .asset-caption {
+        color: var(--muted);
+        font-size: 0.95rem;
+        margin-top: 12px;
+        line-height: 1.55;
+      }
+
+      .asset-frame.workflow {
+        gap: 14px;
+      }
+
+      .asset-frame.workflow img {
+        width: 100%;
+        height: auto;
+        border-radius: 22px;
+        border: 1px solid rgba(34, 51, 84, 0.95);
+        background: rgba(9, 17, 31, 0.65);
+      }
+
+      .protocol-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1.45fr) minmax(290px, 0.82fr);
+        gap: 18px;
+        align-items: start;
+        flex: 1;
+        min-height: 0;
+      }
+
+      .protocol-grid .asset-frame.tall {
+        min-height: 0;
+      }
+
+      .protocol-grid .asset-frame.tall img {
+        max-height: 520px;
+        object-fit: contain;
+      }
+
+      .protocol-grid .asset-frame.workflow {
+        min-height: 0;
+      }
+
+      .protocol-grid .asset-frame.workflow img {
+        height: 100%;
+        max-height: 400px;
+        object-fit: contain;
+      }
+
+      .protocol-slide .slide-inner {
+        padding-top: 34px;
+        padding-bottom: 14px;
+      }
+
+      .protocol-slide .slide-head {
+        margin-bottom: 16px;
+      }
+
+      .protocol-slide h2 {
+        font-size: clamp(1.9rem, 2.45vw, 2.55rem);
+        max-width: 1160px;
+      }
+
+      .protocol-slide .lede {
+        max-width: 920px;
+        font-size: 1rem;
+        margin-top: 8px;
+      }
+
+      .protocol-canvas {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        min-height: 0;
+      }
+
+      .protocol-band {
+        padding: 13px 16px;
+        border-radius: 18px;
+        border: 1px solid rgba(0, 212, 255, 0.28);
+        background: rgba(0, 212, 255, 0.08);
+      }
+
+      .protocol-band h3 {
+        margin: 0 0 4px;
+        font-family: Georgia, serif;
+        font-size: 1.12rem;
+      }
+
+      .protocol-band p {
+        margin: 0;
+        color: #dce8f6;
+        font-size: 0.9rem;
+        line-height: 1.42;
+      }
+
+      .protocol-step-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .protocol-step {
+        padding: 12px 13px 14px;
+        border-radius: 18px;
+        background: rgba(15, 22, 41, 0.92);
+        border: 1px solid var(--line);
+        min-height: 112px;
+      }
+
+      .protocol-step.cyan { border-color: rgba(0, 212, 255, 0.38); }
+      .protocol-step.green { border-color: rgba(0, 229, 160, 0.38); }
+      .protocol-step.orange { border-color: rgba(255, 107, 53, 0.38); }
+      .protocol-step.purple { border-color: rgba(123, 97, 255, 0.38); }
+
+      .protocol-step .num {
+        display: inline-flex;
+        width: 30px;
+        height: 30px;
+        border-radius: 999px;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        color: #07111f;
+        background: var(--cyan);
+        margin-bottom: 8px;
+      }
+
+      .protocol-step.green .num { background: var(--green); }
+      .protocol-step.orange .num { background: var(--orange); }
+      .protocol-step.purple .num { background: #9f8dff; }
+
+      .protocol-step h4 {
+        margin: 0 0 4px;
+        font-family: Georgia, serif;
+        font-size: 1rem;
+      }
+
+      .protocol-step p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.82rem;
+        line-height: 1.34;
+      }
+
+      .protocol-side {
+        display: grid;
+        gap: 10px;
+        align-content: start;
+      }
+
+      .workflow-note-grid {
+        display: grid;
+        grid-template-columns: 1.06fr 0.94fr;
+        gap: 16px;
+      }
+
+      .workflow-note {
+        padding: 13px 15px;
+        border-radius: 18px;
+        border: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.03);
+      }
+
+      .workflow-note h4 {
+        margin: 0 0 6px;
+        font-family: Georgia, serif;
+        font-size: 1rem;
+      }
+
+      .workflow-note p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.45;
+      }
+
+      .protocol-side .workflow-note p,
+      .protocol-side .card p {
+        font-size: 0.88rem;
+        line-height: 1.4;
+      }
+
+      .protocol-side .card ul {
+        padding-left: 1.05rem;
+      }
+
+      .protocol-side .card li {
+        font-size: 0.88rem;
+        line-height: 1.35;
+      }
+
+      .summary-slide .slide-head {
+        margin-bottom: 18px;
+      }
+
+      .summary-slide .lede {
+        max-width: 840px;
+        font-size: 1.06rem;
+      }
+
+      .summary-slide .three-col {
+        gap: 14px;
+        flex: 0 0 auto;
+      }
+
+      .summary-slide .card {
+        padding: 18px 18px;
+      }
+
+      .summary-slide .card h3 {
+        font-size: 1.28rem;
+        margin-bottom: 10px;
+      }
+
+      .summary-slide .card li {
+        font-size: 0.94rem;
+        line-height: 1.42;
+      }
+
+      .summary-meta {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 14px;
+        align-items: start;
+        margin-top: 20px;
+      }
+
+      .summary-slide .big-quote {
+        margin-top: 0;
+        font-size: clamp(1.18rem, 1.72vw, 1.62rem);
+        line-height: 1.12;
+        max-width: 900px;
+      }
+
+      .summary-slide .links {
+        margin-top: 0;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-self: start;
+        align-self: start;
+        padding-top: 0;
+        padding-left: 0;
+        gap: 10px 12px;
+      }
+
+      .summary-slide .ghost {
+        width: auto;
+        justify-content: center;
+        padding: 9px 12px;
+        font-size: 0.92rem;
+        white-space: nowrap;
+      }
+
+      .callout-list {
+        display: grid;
+        gap: 12px;
+        margin-top: 16px;
+      }
+
+      .callout {
+        padding: 14px 16px;
+        border-radius: 16px;
+        border: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.03);
+      }
+
+      .callout h4 {
+        margin: 0 0 8px;
+        font-size: 1rem;
+        font-family: Georgia, serif;
+      }
+
+      .callout p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.55;
+        font-size: 0.96rem;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.96rem;
+      }
+
+      th, td {
+        border: 1px solid rgba(34, 51, 84, 0.95);
+        padding: 12px 12px;
+        vertical-align: top;
+      }
+
+      th {
+        text-align: left;
+        color: var(--text);
+        background: rgba(0, 212, 255, 0.08);
+      }
+
+      td {
+        color: #dce8f6;
+        line-height: 1.45;
+      }
+
+      .mini {
+        color: var(--muted);
+        font-size: 0.92rem;
+        line-height: 1.55;
+      }
+
+      .footer-line {
+        margin-top: auto;
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        color: var(--muted);
+        font-size: 0.95rem;
+        border-top: 1px solid rgba(34, 51, 84, 0.95);
+        padding-top: 16px;
+      }
+
+      .big-quote {
+        margin-top: 32px;
+        max-width: 960px;
+        font-family: Georgia, serif;
+        font-size: clamp(2rem, 3.4vw, 3.25rem);
+        line-height: 1.15;
+      }
+
+      .links {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-top: 18px;
+      }
+
+      .ghost {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 14px;
+        border-radius: 999px;
+        border: 1px solid var(--line);
+        color: var(--cyan);
+        text-decoration: none;
+        background: rgba(0, 212, 255, 0.06);
+      }
+
+      .ghost:hover {
+        border-color: rgba(0, 212, 255, 0.5);
+      }
+
+      .slide-marker {
+        color: rgba(255, 255, 255, 0.08);
+        font-family: Georgia, serif;
+        font-size: 6rem;
+        line-height: 1;
+      }
+
+      .speaker-notes {
+        display: none;
+      }
+
+      .notes-panel {
+        position: fixed;
+        left: 50%;
+        bottom: 20px;
+        width: min(980px, calc(100% - 48px));
+        transform: translateX(-50%) translateY(18px);
+        opacity: 0;
+        pointer-events: none;
+        z-index: 30;
+        border: 1px solid var(--line);
+        border-radius: 22px;
+        background: rgba(7, 11, 24, 0.96);
+        box-shadow: var(--shadow);
+        padding: 18px 22px;
+        transition: opacity 140ms ease, transform 140ms ease;
+      }
+
+      .notes-panel.open {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translateX(-50%) translateY(0);
+      }
+
+      .notes-kicker {
+        color: var(--cyan);
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        font-size: 0.8rem;
+        font-weight: 700;
+        margin-bottom: 10px;
+      }
+
+      .notes-body p {
+        margin: 0;
+        color: #dce8f6;
+        line-height: 1.65;
+        font-size: 0.98rem;
+      }
+
+      .notes-body p + p {
+        margin-top: 12px;
+      }
+
+      @media (max-width: 1200px) {
+        .workflow-note-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .robot {
+          display: none;
+        }
+
+        .deck {
+          height: calc(100vh - 120px);
+        }
+
+        .slide {
+          overflow-y: auto;
+        }
+      }
+
+      @media (max-width: 1040px) {
+        .three-col,
+        .build-grid,
+        .closing-grid,
+        .kpis,
+        .flow,
+        .mode-bar,
+        .compare-layout,
+        .protocol-grid,
+        .summary-meta,
+        .protocol-step-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="chrome">
+      <div class="progress-track">
+        <div class="progress-bar" id="progress"></div>
+      </div>
+      <div class="topbar">
+        <div class="brand">
+          <img class="brand-logo" src="../../assets/logos/agentlevy-logo-horizontal.svg" alt="AgentLevy logo" />
+          <div class="brand-copy"><strong>AgentLevy</strong> · Hackathon Deck V2 · Slide Presentation</div>
+        </div>
+        <div class="controls">
+          <a class="back-link" href="index.html">Back to exports</a>
+          <button id="prevBtn" type="button">Prev</button>
+          <div class="counter" id="counter">1 / 4</div>
+          <button id="nextBtn" type="button">Next</button>
+          <button id="notesBtn" type="button">Show notes</button>
+        </div>
+      </div>
+    </div>
+
+    <main class="viewport">
+      <div class="deck" id="deck">
+        <section class="slide active">
+          <div class="slide-inner">
+            <div class="slide-head">
+              <div>
+                <div class="eyebrow">What AgentLevy Is</div>
+                <h2>The atomic trust and settlement layer for the agent economy.</h2>
+                <p class="lede">Agents can already pay each other. AgentLevy makes sure money is released only when the work is actually done.</p>
+              </div>
+              <div class="slide-marker">01</div>
+            </div>
+
+            <div class="chip-row">
+              <div class="chip"><strong>Lock the job</strong></div>
+              <div class="chip"><strong>Hold funds on Flare</strong></div>
+              <div class="chip"><strong>Release on proof</strong></div>
+            </div>
+
+            <div class="footer-line">
+              <div>AgentLevy upgrades x402 from a payment request into a trustworthy work transaction.</div>
+              <div class="mini">Slide 1 of 4</div>
+            </div>
+
+            <div class="speaker-notes" hidden>
+              <p>AgentLevy is the atomic trust and settlement layer for the agent economy. Today, agents can already pay each other, but that does not mean they can trust the outcome.</p>
+              <p>If the work is incomplete, low quality, or not what was agreed, the money may already be gone. AgentLevy fixes that by turning payment into a safer flow: the job terms are locked, the funds are held, the result is checked, and payment is only released when the work actually meets the brief.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="slide protocol-slide">
+          <div class="slide-inner">
+            <div class="slide-head">
+              <div>
+                <div class="eyebrow">How It Works</div>
+                <h2>From payment request to verified completion.</h2>
+                <p class="lede">The job terms are fixed up front, the money is held on Flare, and payment is released only after the result is checked.</p>
+              </div>
+              <div class="slide-marker">02</div>
+            </div>
+
+            <div class="protocol-grid">
+              <div class="asset-frame tall">
+                <img src="../../demo/Screen%20Shots%20for%20Project%20Submission/x402-comparison.svg" alt="Standard x402 versus AgentLevy x402 comparison" />
+              </div>
+
+              <div class="protocol-side">
+                <div class="workflow-note">
+                  <h4><span class="accent">Lock the job terms</span></h4>
+                  <p>The task and the acceptance rules are fixed before money moves.</p>
+                </div>
+                <div class="workflow-note">
+                  <h4><span class="violet">Hold funds on Flare</span></h4>
+                  <p>Escrow keeps payment in place while the work is checked.</p>
+                </div>
+                <div class="workflow-note">
+                  <h4><span class="success">Verify, then settle</span></h4>
+                  <p>Flare records settlement only if the result passes.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="footer-line">
+              <div>Flare is where escrow, settlement, and proof live.</div>
+              <div class="mini">Slide 2 of 4</div>
+            </div>
+
+            <div class="speaker-notes" hidden>
+              <p>Here is the flow in plain language. First, the job terms are fixed before money moves. The Publisher Agent gets the task rules up front, and both sides know exactly what counts as success.</p>
+              <p>Second, the payment is held on Flare instead of going straight to the worker. Third, the result is checked, and only then is settlement recorded.</p>
+              <p>In our prototype, Flare is doing the important trust work: it holds the escrow in our treasury contract on Coston2, records settlement onchain, and gives us the path to stronger proof through Flare data and confidential verification.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="slide">
+          <div class="slide-inner">
+            <div class="slide-head">
+              <div>
+                <div class="eyebrow">Live Demo</div>
+                <h2>Watch one agent hire another safely.</h2>
+                <p class="lede">0G powers the agents. Flare holds the money and records the proof.</p>
+              </div>
+              <div class="slide-marker">03</div>
+            </div>
+
+            <div class="build-grid">
+              <div class="card cyan">
+                <div class="tag-row"><span class="tag live">actor</span></div>
+                <h3>Publisher Agent</h3>
+                <ul>
+                  <li>starts the job</li>
+                  <li>receives the payment challenge</li>
+                  <li>sees the fixed job terms</li>
+                </ul>
+              </div>
+              <div class="card purple">
+                <div class="tag-row"><span class="tag live">actor</span></div>
+                <h3>Worker Agent</h3>
+                <ul>
+                  <li>completes the work</li>
+                  <li>submits the result</li>
+                  <li>gets paid only if it passes</li>
+                </ul>
+              </div>
+              <div class="card green">
+                <div class="tag-row"><span class="tag live">what you'll see</span></div>
+                <h3>Demo Flow</h3>
+                <ul>
+                  <li>request</li>
+                  <li>escrow</li>
+                  <li>check</li>
+                  <li>settlement</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="banner compact">This is a trustworthy job transaction, not just another payment flow.</div>
+
+            <div class="footer-line">
+              <div>In the demo: request, locked job terms, escrow, result check, settlement.</div>
+              <div class="mini">Slide 3 of 4</div>
+            </div>
+
+            <div class="speaker-notes" hidden>
+              <p>Now we show the live demo. A 0G Publisher Agent hires a 0G Worker Agent through AgentLevy.</p>
+              <p>What matters here is not the interface, but the trust trail: the request, the locked job terms, the escrow step, the result being checked, and the settlement being recorded.</p>
+              <p>The point is simple: the worker does not get paid just because work was requested. Payment only moves when the job actually passes.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="slide summary-slide">
+          <div class="slide-inner">
+            <div class="slide-head">
+              <div>
+                <div class="eyebrow">Built Now</div>
+                <h2>A working trust layer for agent commerce.</h2>
+                <p class="lede">Working now on Flare Coston2. Public packaging next.</p>
+              </div>
+              <div class="slide-marker">04</div>
+            </div>
+
+            <div class="build-grid">
+              <div class="card green">
+                <div class="tag-row"><span class="tag live">built now</span></div>
+                <h3>Built</h3>
+                <ul>
+                  <li>Treasury contract</li>
+                  <li>x402 facilitator</li>
+                  <li>task spec registry</li>
+                  <li>agent skill</li>
+                </ul>
+              </div>
+
+              <div class="card cyan">
+                <div class="tag-row"><span class="tag live">Flare</span></div>
+                <h3>Flare</h3>
+                <ul>
+                  <li>Coston2 deployment</li>
+                  <li>escrow</li>
+                  <li>settlement</li>
+                  <li>proof path</li>
+                </ul>
+              </div>
+
+              <div class="card purple">
+                <div class="tag-row"><span class="tag next">what's next</span></div>
+                <h3>Next</h3>
+                <ul>
+                  <li>public protocol page</li>
+                  <li>polished demo console</li>
+                  <li>stronger verifier path</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="summary-meta">
+              <div class="big-quote">Trustworthy agent commerce.</div>
+
+              <div class="links">
+                <a class="ghost" href="verifier-process.html">Open verifier visual</a>
+                <a class="ghost" href="../../demo/HACKATHON_DECK_V2.md">Open deck source</a>
+                <a class="ghost" href="index.html">Open static exports</a>
+              </div>
+            </div>
+
+            <div class="footer-line">
+              <div>0G powers the agents. Flare powers trust and settlement. AgentLevy makes agent commerce dependable.</div>
+              <div class="mini">Slide 4 of 4</div>
+            </div>
+
+            <div class="speaker-notes" hidden>
+              <p>What we built is real and working now: a treasury contract on Flare Coston2, an x402 facilitator, a task spec registry, a verifier flow, and a public skill so other agents can adopt the protocol.</p>
+              <p>0G powers the agents. Flare powers the escrow, settlement, and proof path.</p>
+              <p>Next, we are packaging this into a public protocol page and a cleaner demo console, while pushing toward even stronger verification. The closing message is that AgentLevy makes agent work dependable enough to transact with confidence.</p>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <aside class="notes-panel" id="notesPanel" aria-live="polite">
+      <div class="notes-kicker">Speaker Notes</div>
+      <div class="notes-body" id="notesBody"></div>
+    </aside>
+
+    <script>
+      const slides = Array.from(document.querySelectorAll('.slide'));
+      const progress = document.getElementById('progress');
+      const counter = document.getElementById('counter');
+      const prevBtn = document.getElementById('prevBtn');
+      const nextBtn = document.getElementById('nextBtn');
+      const notesBtn = document.getElementById('notesBtn');
+      const notesPanel = document.getElementById('notesPanel');
+      const notesBody = document.getElementById('notesBody');
+      let index = 0;
+      let notesOpen = false;
+
+      function render() {
+        slides.forEach((slide, i) => slide.classList.toggle('active', i === index));
+        counter.textContent = `${index + 1} / ${slides.length}`;
+        progress.style.width = `${((index + 1) / slides.length) * 100}%`;
+        prevBtn.disabled = index === 0;
+        nextBtn.disabled = index === slides.length - 1;
+        const activeNotes = slides[index].querySelector('.speaker-notes');
+        notesBody.innerHTML = activeNotes ? activeNotes.innerHTML : '<p>No speaker notes for this slide.</p>';
+        notesPanel.classList.toggle('open', notesOpen);
+        notesBtn.textContent = notesOpen ? 'Hide notes' : 'Show notes';
+      }
+
+      function next() {
+        if (index < slides.length - 1) {
+          index += 1;
+          render();
+        }
+      }
+
+      function prev() {
+        if (index > 0) {
+          index -= 1;
+          render();
+        }
+      }
+
+      prevBtn.addEventListener('click', prev);
+      nextBtn.addEventListener('click', next);
+      notesBtn.addEventListener('click', () => {
+        notesOpen = !notesOpen;
+        render();
+      });
+
+      window.addEventListener('keydown', (event) => {
+        if (event.key === 'ArrowRight' || event.key === 'PageDown' || event.key === ' ') {
+          event.preventDefault();
+          next();
+        }
+        if (event.key === 'ArrowLeft' || event.key === 'PageUp') {
+          event.preventDefault();
+          prev();
+        }
+        if (event.key.toLowerCase() === 'n') {
+          event.preventDefault();
+          notesOpen = !notesOpen;
+          render();
+        }
+        const num = Number(event.key);
+        if (!Number.isNaN(num) && num >= 1 && num <= slides.length) {
+          index = num - 1;
+          render();
+        }
+      });
+
+      render();
+    </script>
+  </body>
+</html>

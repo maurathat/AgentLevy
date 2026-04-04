@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Jury Outputs Brief</title>
+    <style>
+      :root {
+        --bg: #070b18;
+        --panel: #0f1629;
+        --panel-2: #111b31;
+        --line: #223354;
+        --text: #f5f7fb;
+        --muted: #8ea2c3;
+        --cyan: #00d4ff;
+        --green: #00e5a0;
+        --orange: #ff6b35;
+        --purple: #7b61ff;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        background:
+          radial-gradient(circle at top right, rgba(0, 212, 255, 0.10), transparent 28%),
+          radial-gradient(circle at 15% 0%, rgba(123, 97, 255, 0.08), transparent 24%),
+          var(--bg);
+        color: var(--text);
+        font-family: "Calibri Light", Calibri, Arial, sans-serif;
+      }
+      .shell {
+        max-width: 1120px;
+        margin: 0 auto;
+        padding: 32px 20px 64px;
+      }
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        flex-wrap: wrap;
+        margin-bottom: 22px;
+      }
+      .home {
+        color: var(--cyan);
+        text-decoration: none;
+        font-weight: 700;
+      }
+      .meta {
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+      .panel {
+        background: linear-gradient(180deg, rgba(17,27,49,0.96), rgba(15,22,41,0.98));
+        border: 1px solid var(--line);
+        border-radius: 22px;
+        overflow: hidden;
+        box-shadow: 0 24px 50px rgba(0, 0, 0, 0.24);
+      }
+      .hero {
+        padding: 26px 30px 20px;
+        border-bottom: 1px solid var(--line);
+      }
+      .eyebrow {
+        color: var(--cyan);
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+        font-size: 12px;
+        font-weight: 700;
+        margin-bottom: 10px;
+      }
+      h1.hero-title {
+        margin: 0;
+        font-family: Georgia, serif;
+        font-size: clamp(2rem, 3vw, 3.25rem);
+        line-height: 1.06;
+      }
+      .content {
+        padding: 32px 30px 44px;
+      }
+      .content h1,
+      .content h2,
+      .content h3,
+      .content h4 {
+        font-family: Georgia, serif;
+        line-height: 1.15;
+        margin-top: 1.7em;
+        margin-bottom: 0.6em;
+      }
+      .content h1:first-child,
+      .content h2:first-child {
+        margin-top: 0;
+      }
+      .content p,
+      .content li {
+        color: #dce8f6;
+        font-size: 1.02rem;
+        line-height: 1.72;
+      }
+      .content ul,
+      .content ol {
+        padding-left: 1.35rem;
+      }
+      .content strong {
+        color: #ffffff;
+      }
+      .content a {
+        color: var(--cyan);
+      }
+      .content hr {
+        border: 0;
+        border-top: 1px dashed var(--line);
+        margin: 30px 0;
+      }
+      .content code {
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        color: var(--cyan);
+        background: rgba(0, 212, 255, 0.08);
+        border: 1px solid rgba(0, 212, 255, 0.12);
+        padding: 0.14em 0.36em;
+        border-radius: 8px;
+      }
+      .content pre {
+        overflow: auto;
+        background: #091122;
+        border: 1px solid #1a2a45;
+        border-radius: 16px;
+        padding: 18px;
+      }
+      .content pre code {
+        background: transparent;
+        border: 0;
+        color: #dce8f6;
+        padding: 0;
+      }
+      .content table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 22px 0;
+      }
+      .content th,
+      .content td {
+        border: 1px solid #223354;
+        padding: 12px 14px;
+        text-align: left;
+        vertical-align: top;
+      }
+      .content th {
+        color: #ffffff;
+        background: rgba(0, 212, 255, 0.08);
+      }
+    </style>
+  </head>
+  <body>
+    <main class="shell">
+      <div class="topbar">
+        <a class="home" href="index.html">← Back to static exports</a>
+        <div class="meta">Source: /docs/JURY_OUTPUTS_BRIEF.md</div>
+      </div>
+      <article class="panel">
+        <header class="hero">
+          <div class="eyebrow">Standalone Static Export</div>
+          <h1 class="hero-title">Jury Outputs Brief</h1>
+        </header>
+        <section class="content">
+<div class="markdown-heading"><h1 class="heading-element">Jury Outputs Brief</h1><a id="user-content-jury-outputs-brief" class="anchor" aria-label="Permalink: Jury Outputs Brief" href="#jury-outputs-brief"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>This file consolidates the three outputs we expect the jury to evaluate:</p>
+<ol>
+<li>The root <code>README.md</code>
+</li>
+<li>The recorded demo video</li>
+<li>The public website and live demo surface</li>
+</ol>
+<p>It also defines which materials in the repo are the current source of truth for content and which materials should be used only for visual direction.</p>
+<div class="markdown-heading"><h2 class="heading-element">Current Positioning</h2><a id="user-content-current-positioning" class="anchor" aria-label="Permalink: Current Positioning" href="#current-positioning"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>The current AgentLevy story is:</p>
+<p><strong>AgentLevy is the atomic trust layer for agent-to-agent commerce. 0G powers the agents. Flare powers the escrow, verification, and proof.</strong></p>
+<p>This is the story that should drive the README, video, and website.</p>
+<div class="markdown-heading"><h2 class="heading-element">Important Brand Note</h2><a id="user-content-important-brand-note" class="anchor" aria-label="Permalink: Important Brand Note" href="#important-brand-note"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>The existing slide deck in <a href="/Users/mauraclark/AgentLevy/documents/AgentLevy_Protocol_Hackathon_Deck.pptx">AgentLevy_Protocol_Hackathon_Deck.pptx</a> is useful as a <strong>visual style reference</strong>, but its narrative reflects an older AgentLevy thesis centered on token-consumption levy collection and workforce-retraining funding.</p>
+<p>I only found one tracked presentation file in the repo, so until a newer deck is added, this file should be treated as the current visual reference and not as the current messaging source.</p>
+<p>For the current hackathon project:</p>
+<ul>
+<li>reuse the deck's <strong>visual language</strong>
+</li>
+<li>do <strong>not</strong> reuse its older product narrative as the main story</li>
+</ul>
+<p>The current technical and product source of truth is the repo itself:</p>
+<ul>
+<li><a href="/Users/mauraclark/AgentLevy/README.md">README.md</a></li>
+<li><a href="/Users/mauraclark/AgentLevy/demo/README.md">demo/README.md</a></li>
+<li><a href="/Users/mauraclark/AgentLevy/demo/LIVE_DEMO_SCRIPT.md">demo/LIVE_DEMO_SCRIPT.md</a></li>
+<li><a href="/Users/mauraclark/AgentLevy/demo/VIDEO_SCRIPT_3MIN.md">demo/VIDEO_SCRIPT_3MIN.md</a></li>
+<li><a href="/Users/mauraclark/AgentLevy/demo/JOB_EXAMPLES.md">demo/JOB_EXAMPLES.md</a></li>
+<li><a href="/Users/mauraclark/AgentLevy/openclaw/SKILL.md">openclaw/SKILL.md</a></li>
+<li><a href="/Users/mauraclark/AgentLevy/sdk/taskSpecRegistry.js">sdk/taskSpecRegistry.js</a></li>
+<li><a href="/Users/mauraclark/AgentLevy/sdk/x402Facilitator.js">sdk/x402Facilitator.js</a></li>
+<li><a href="/Users/mauraclark/AgentLevy/contracts/Treasury.sol">contracts/Treasury.sol</a></li>
+</ul>
+<p>Recovered deck structure and theme guidance live here:</p>
+<ul>
+<li><a href="/Users/mauraclark/AgentLevy/docs/DECK_RECONSTRUCTION_BRIEF.md">DECK_RECONSTRUCTION_BRIEF.md</a></li>
+<li><a href="/Users/mauraclark/AgentLevy/docs/PRESENTATION_STYLE_GUIDE.md">PRESENTATION_STYLE_GUIDE.md</a></li>
+</ul>
+<div class="markdown-heading"><h2 class="heading-element">Output 1: Root README</h2><a id="user-content-output-1-root-readme" class="anchor" aria-label="Permalink: Output 1: Root README" href="#output-1-root-readme"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<div class="markdown-heading"><h3 class="heading-element">Job</h3><a id="user-content-job" class="anchor" aria-label="Permalink: Job" href="#job"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>The README has to do four things quickly:</p>
+<ul>
+<li>explain the problem</li>
+<li>explain the protocol flow</li>
+<li>explain why 0G and Flare matter</li>
+<li>make the repo runnable and credible</li>
+</ul>
+<div class="markdown-heading"><h3 class="heading-element">What the jury should understand</h3><a id="user-content-what-the-jury-should-understand" class="anchor" aria-label="Permalink: What the jury should understand" href="#what-the-jury-should-understand"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<ul>
+<li>AgentLevy is not just another payment request flow</li>
+<li>it upgrades x402 with pre-committed acceptance criteria</li>
+<li>a worker only gets value after verification</li>
+<li>0G is the agent infrastructure layer</li>
+<li>Flare is the trust, escrow, and proof layer</li>
+</ul>
+<div class="markdown-heading"><h3 class="heading-element">What the README must show</h3><a id="user-content-what-the-readme-must-show" class="anchor" aria-label="Permalink: What the README must show" href="#what-the-readme-must-show"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<ul>
+<li>one-sentence positioning near the top</li>
+<li>x402 vs AgentLevy comparison</li>
+<li>end-to-end flow with <code>402</code>, <code>specHash</code>, escrow, submit, verify, settle</li>
+<li>short architecture section</li>
+<li>sponsor fit section covering 0G agents and iNFT identity</li>
+<li>sponsor fit section covering Flare verification, treasury, and proof</li>
+<li>clear local demo steps</li>
+<li>explicit note that Smart Accounts are supported but not the primary hackathon path</li>
+</ul>
+<div class="markdown-heading"><h3 class="heading-element">What to avoid</h3><a id="user-content-what-to-avoid" class="anchor" aria-label="Permalink: What to avoid" href="#what-to-avoid"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<ul>
+<li>old token-tax / retraining-fund framing as the primary message</li>
+<li>long policy essays</li>
+<li>claiming universal verification for non-deterministic work</li>
+<li>saying the worker is instantly paid if the current flow only unlocks withdrawal</li>
+</ul>
+<div class="markdown-heading"><h2 class="heading-element">Output 2: Demo Video</h2><a id="user-content-output-2-demo-video" class="anchor" aria-label="Permalink: Output 2: Demo Video" href="#output-2-demo-video"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<div class="markdown-heading"><h3 class="heading-element">Job</h3><a id="user-content-job-1" class="anchor" aria-label="Permalink: Job" href="#job-1"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>The video must communicate the whole product in under 3 minutes.</p>
+<div class="markdown-heading"><h3 class="heading-element">Structure</h3><a id="user-content-structure" class="anchor" aria-label="Permalink: Structure" href="#structure"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>Use:</p>
+<ol>
+<li>problem</li>
+<li>two agents</li>
+<li>x402 request</li>
+<li>committed spec</li>
+<li>escrow on Flare</li>
+<li>worker submission</li>
+<li>verification and proof</li>
+<li>short failure case</li>
+<li>closing architecture line</li>
+</ol>
+<div class="markdown-heading"><h3 class="heading-element">What the jury should remember</h3><a id="user-content-what-the-jury-should-remember" class="anchor" aria-label="Permalink: What the jury should remember" href="#what-the-jury-should-remember"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<ul>
+<li>the demo is agent-to-agent commerce, not just a dashboard</li>
+<li>the key primitive is payment release after verification</li>
+<li>0G is visibly part of the workflow</li>
+<li>Flare is visibly part of the trust layer</li>
+</ul>
+<div class="markdown-heading"><h3 class="heading-element">What the video should not do</h3><a id="user-content-what-the-video-should-not-do" class="anchor" aria-label="Permalink: What the video should not do" href="#what-the-video-should-not-do"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<ul>
+<li>lead with Smart Accounts</li>
+<li>spend too much time on backend plumbing</li>
+<li>present failure before success</li>
+<li>drift back into the older slide-deck thesis</li>
+</ul>
+<div class="markdown-heading"><h2 class="heading-element">Output 3: Website</h2><a id="user-content-output-3-website" class="anchor" aria-label="Permalink: Output 3: Website" href="#output-3-website"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<div class="markdown-heading"><h3 class="heading-element">Job</h3><a id="user-content-job-2" class="anchor" aria-label="Permalink: Job" href="#job-2"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>The website should do two things at once:</p>
+<ul>
+<li>act as the public protocol page</li>
+<li>support the live hackathon demo</li>
+</ul>
+<div class="markdown-heading"><h3 class="heading-element">Recommended shape</h3><a id="user-content-recommended-shape" class="anchor" aria-label="Permalink: Recommended shape" href="#recommended-shape"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<ul>
+<li>
+<code>/</code> public protocol page</li>
+<li>
+<code>/demo</code> live demo console</li>
+</ul>
+<div class="markdown-heading"><h3 class="heading-element">Public protocol page must include</h3><a id="user-content-public-protocol-page-must-include" class="anchor" aria-label="Permalink: Public protocol page must include" href="#public-protocol-page-must-include"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<ul>
+<li>what AgentLevy is</li>
+<li>how the protocol works</li>
+<li>why x402 needs a trust layer</li>
+<li>where 0G fits</li>
+<li>where Flare fits</li>
+<li>a downloadable agent skill</li>
+<li>protocol addresses and endpoint references</li>
+</ul>
+<div class="markdown-heading"><h3 class="heading-element">Demo page must include</h3><a id="user-content-demo-page-must-include" class="anchor" aria-label="Permalink: Demo page must include" href="#demo-page-must-include"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<ul>
+<li>job list</li>
+<li>publisher and worker agents</li>
+<li>live protocol timeline</li>
+<li>proof drawer</li>
+<li>happy path and failure path controls</li>
+</ul>
+<div class="markdown-heading"><h2 class="heading-element">Shared Messaging Pillars</h2><a id="user-content-shared-messaging-pillars" class="anchor" aria-label="Permalink: Shared Messaging Pillars" href="#shared-messaging-pillars"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>All three outputs should repeat the same three claims:</p>
+<ol>
+<li><strong>AgentLevy is the atomic trust layer for agent-to-agent commerce.</strong></li>
+<li><strong>0G powers the agents and agent identity.</strong></li>
+<li><strong>Flare powers the escrow, verification, and proof layer.</strong></li>
+</ol>
+<div class="markdown-heading"><h2 class="heading-element">Shared Demo Boundaries</h2><a id="user-content-shared-demo-boundaries" class="anchor" aria-label="Permalink: Shared Demo Boundaries" href="#shared-demo-boundaries"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>These constraints should remain consistent across README, video, and website:</p>
+<ul>
+<li>the main live path is the x402 happy path</li>
+<li>Smart Accounts are secondary</li>
+<li>iNFT is used for agent identity and ownership, not trial-to-own or agent purchase flow</li>
+<li>failure path is a second beat, not the main beat</li>
+<li>the protocol is for deterministic, machine-verifiable tasks</li>
+</ul>
+<div class="markdown-heading"><h2 class="heading-element">Next File References</h2><a id="user-content-next-file-references" class="anchor" aria-label="Permalink: Next File References" href="#next-file-references"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>Use these companion files when producing the final materials:</p>
+<ul>
+<li><a href="/Users/mauraclark/AgentLevy/docs/PRESENTATION_STYLE_GUIDE.md">PRESENTATION_STYLE_GUIDE.md</a></li>
+<li><a href="/Users/mauraclark/AgentLevy/demo/README_EDITORIAL_BRIEF.md">README_EDITORIAL_BRIEF.md</a></li>
+<li><a href="/Users/mauraclark/AgentLevy/demo/VIDEO_PRODUCTION_BRIEF.md">VIDEO_PRODUCTION_BRIEF.md</a></li>
+<li><a href="/Users/mauraclark/AgentLevy/demo/WEBSITE_CONTENT_BRIEF.md">WEBSITE_CONTENT_BRIEF.md</a></li>
+</ul>
+        </section>
+      </article>
+    </main>
+  </body>
+</html>

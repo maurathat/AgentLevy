@@ -1,0 +1,420 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hackathon Deck</title>
+    <style>
+      :root {
+        --bg: #070b18;
+        --panel: #0f1629;
+        --panel-2: #111b31;
+        --line: #223354;
+        --text: #f5f7fb;
+        --muted: #8ea2c3;
+        --cyan: #00d4ff;
+        --green: #00e5a0;
+        --orange: #ff6b35;
+        --purple: #7b61ff;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        background:
+          radial-gradient(circle at top right, rgba(0, 212, 255, 0.10), transparent 28%),
+          radial-gradient(circle at 15% 0%, rgba(123, 97, 255, 0.08), transparent 24%),
+          var(--bg);
+        color: var(--text);
+        font-family: "Calibri Light", Calibri, Arial, sans-serif;
+      }
+      .shell {
+        max-width: 1120px;
+        margin: 0 auto;
+        padding: 32px 20px 64px;
+      }
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        flex-wrap: wrap;
+        margin-bottom: 22px;
+      }
+      .home {
+        color: var(--cyan);
+        text-decoration: none;
+        font-weight: 700;
+      }
+      .meta {
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+      .panel {
+        background: linear-gradient(180deg, rgba(17,27,49,0.96), rgba(15,22,41,0.98));
+        border: 1px solid var(--line);
+        border-radius: 22px;
+        overflow: hidden;
+        box-shadow: 0 24px 50px rgba(0, 0, 0, 0.24);
+      }
+      .hero {
+        padding: 26px 30px 20px;
+        border-bottom: 1px solid var(--line);
+      }
+      .eyebrow {
+        color: var(--cyan);
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+        font-size: 12px;
+        font-weight: 700;
+        margin-bottom: 10px;
+      }
+      h1.hero-title {
+        margin: 0;
+        font-family: Georgia, serif;
+        font-size: clamp(2rem, 3vw, 3.25rem);
+        line-height: 1.06;
+      }
+      .content {
+        padding: 32px 30px 44px;
+      }
+      .content h1,
+      .content h2,
+      .content h3,
+      .content h4 {
+        font-family: Georgia, serif;
+        line-height: 1.15;
+        margin-top: 1.7em;
+        margin-bottom: 0.6em;
+      }
+      .content h1:first-child,
+      .content h2:first-child {
+        margin-top: 0;
+      }
+      .content p,
+      .content li {
+        color: #dce8f6;
+        font-size: 1.02rem;
+        line-height: 1.72;
+      }
+      .content ul,
+      .content ol {
+        padding-left: 1.35rem;
+      }
+      .content strong {
+        color: #ffffff;
+      }
+      .content a {
+        color: var(--cyan);
+      }
+      .content hr {
+        border: 0;
+        border-top: 1px dashed var(--line);
+        margin: 30px 0;
+      }
+      .content code {
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        color: var(--cyan);
+        background: rgba(0, 212, 255, 0.08);
+        border: 1px solid rgba(0, 212, 255, 0.12);
+        padding: 0.14em 0.36em;
+        border-radius: 8px;
+      }
+      .content pre {
+        overflow: auto;
+        background: #091122;
+        border: 1px solid #1a2a45;
+        border-radius: 16px;
+        padding: 18px;
+      }
+      .content pre code {
+        background: transparent;
+        border: 0;
+        color: #dce8f6;
+        padding: 0;
+      }
+      .content table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 22px 0;
+      }
+      .content th,
+      .content td {
+        border: 1px solid #223354;
+        padding: 12px 14px;
+        text-align: left;
+        vertical-align: top;
+      }
+      .content th {
+        color: #ffffff;
+        background: rgba(0, 212, 255, 0.08);
+      }
+    </style>
+  </head>
+  <body>
+    <main class="shell">
+      <div class="topbar">
+        <a class="home" href="index.html">← Back to static exports</a>
+        <div class="meta">Source: /demo/HACKATHON_DECK.md</div>
+      </div>
+      <article class="panel">
+        <header class="hero">
+          <div class="eyebrow">Standalone Static Export</div>
+          <h1 class="hero-title">Hackathon Deck</h1>
+        </header>
+        <section class="content">
+<div class="markdown-heading"><h1 class="heading-element">AgentLevy Hackathon Deck</h1><a id="user-content-agentlevy-hackathon-deck" class="anchor" aria-label="Permalink: AgentLevy Hackathon Deck" href="#agentlevy-hackathon-deck"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>This file is the rebuilt source copy for the short 7-slide hackathon deck.</p>
+<p>It is designed to match the recovered deck structure and current project state.</p>
+<div class="markdown-heading"><h2 class="heading-element">Theme</h2><a id="user-content-theme" class="anchor" aria-label="Permalink: Theme" href="#theme"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<ul>
+<li>background: <code>#070B18</code>
+</li>
+<li>cyan: <code>#00D4FF</code>
+</li>
+<li>green: <code>#00E5A0</code>
+</li>
+<li>orange: <code>#FF6B35</code>
+</li>
+<li>purple: <code>#7B61FF</code>
+</li>
+<li>headings: <code>Georgia</code>
+</li>
+<li>body: <code>Calibri Light</code>
+</li>
+</ul>
+<div class="markdown-heading"><h2 class="heading-element">Slide 1 - Title</h2><a id="user-content-slide-1---title" class="anchor" aria-label="Permalink: Slide 1 - Title" href="#slide-1---title"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<div class="markdown-heading"><h3 class="heading-element">Headline</h3><a id="user-content-headline" class="anchor" aria-label="Permalink: Headline" href="#headline"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p><strong>AgentLevy Protocol</strong></p>
+<div class="markdown-heading"><h3 class="heading-element">Subtitle</h3><a id="user-content-subtitle" class="anchor" aria-label="Permalink: Subtitle" href="#subtitle"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p><strong>The atomic trust layer for agent-to-agent commerce.</strong></p>
+<div class="markdown-heading"><h3 class="heading-element">Banner line</h3><a id="user-content-banner-line" class="anchor" aria-label="Permalink: Banner line" href="#banner-line"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p><strong>Agents can already pay. They still cannot prove work before release.</strong></p>
+<div class="markdown-heading"><h3 class="heading-element">Support line</h3><a id="user-content-support-line" class="anchor" aria-label="Permalink: Support line" href="#support-line"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>0G powers the agents. Flare powers the escrow, verification, and proof.</p>
+<div class="markdown-heading"><h3 class="heading-element">Visual direction</h3><a id="user-content-visual-direction" class="anchor" aria-label="Permalink: Visual direction" href="#visual-direction"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<ul>
+<li>stacked <code>Agent / Levy / Protocol</code> wordmark</li>
+<li>robot icon</li>
+<li>dark hero</li>
+<li>orange banner under the subtitle</li>
+</ul>
+<div class="markdown-heading"><h3 class="heading-element">Speaker note</h3><a id="user-content-speaker-note" class="anchor" aria-label="Permalink: Speaker note" href="#speaker-note"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>"AgentLevy upgrades x402 so agents do not just request payment. They transact under pre-committed terms, with verification before release."</p>
+<div class="markdown-heading"><h2 class="heading-element">Slide 2 - The Problem</h2><a id="user-content-slide-2---the-problem" class="anchor" aria-label="Permalink: Slide 2 - The Problem" href="#slide-2---the-problem"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<div class="markdown-heading"><h3 class="heading-element">Title</h3><a id="user-content-title" class="anchor" aria-label="Permalink: Title" href="#title"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p><strong>THE PROBLEM</strong></p>
+<div class="markdown-heading"><h3 class="heading-element">Lead line</h3><a id="user-content-lead-line" class="anchor" aria-label="Permalink: Lead line" href="#lead-line"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>Current agent payment protocols still rely on good faith after payment.</p>
+<div class="markdown-heading"><h3 class="heading-element">On-slide points</h3><a id="user-content-on-slide-points" class="anchor" aria-label="Permalink: On-slide points" href="#on-slide-points"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<ul>
+<li>Publisher Agent can pay before knowing whether the delivered work will satisfy the brief.</li>
+<li>Worker Agent can deliver malformed or low-quality output and still get treated like the task succeeded.</li>
+<li>Neither side has a strong protocol-level proof of what was agreed, what was delivered, and whether it passed.</li>
+</ul>
+<div class="markdown-heading"><h3 class="heading-element">Bottom line</h3><a id="user-content-bottom-line" class="anchor" aria-label="Permalink: Bottom line" href="#bottom-line"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p><strong>x402 requests payment. It does not solve verified completion.</strong></p>
+<div class="markdown-heading"><h3 class="heading-element">Speaker note</h3><a id="user-content-speaker-note-1" class="anchor" aria-label="Permalink: Speaker note" href="#speaker-note-1"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>"The trust gap is not discovery or pricing. The trust gap is what happens after the money is requested and before the work is accepted."</p>
+<div class="markdown-heading"><h2 class="heading-element">Slide 3 - How It Works</h2><a id="user-content-slide-3---how-it-works" class="anchor" aria-label="Permalink: Slide 3 - How It Works" href="#slide-3---how-it-works"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<div class="markdown-heading"><h3 class="heading-element">Title</h3><a id="user-content-title-1" class="anchor" aria-label="Permalink: Title" href="#title-1"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p><strong>HOW IT WORKS</strong></p>
+<div class="markdown-heading"><h3 class="heading-element">Core flow</h3><a id="user-content-core-flow" class="anchor" aria-label="Permalink: Core flow" href="#core-flow"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<ol>
+<li>Publisher Agent requests a job.</li>
+<li>AgentLevy returns <code>402 Payment Required</code> with <code>taskId</code>, <code>serviceId</code>, and committed <code>specHash</code>.</li>
+<li>Payment enters escrow on Flare.</li>
+<li>Worker Agent submits structured output.</li>
+<li>The verifier runs deterministic checks against the committed spec.</li>
+<li>Treasury records settlement only if verification passes.</li>
+</ol>
+<div class="markdown-heading"><h3 class="heading-element">Visuals to place on the slide</h3><a id="user-content-visuals-to-place-on-the-slide" class="anchor" aria-label="Permalink: Visuals to place on the slide" href="#visuals-to-place-on-the-slide"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<ul>
+<li><a href="/Users/mauraclark/AgentLevy/demo/x402-comparison.svg">x402-comparison.svg</a></li>
+<li><a href="/Users/mauraclark/AgentLevy/demo/verifier-process.svg">verifier-process.svg</a></li>
+</ul>
+<div class="markdown-heading"><h3 class="heading-element">Hackathon / production line</h3><a id="user-content-hackathon--production-line" class="anchor" aria-label="Permalink: Hackathon / production line" href="#hackathon--production-line"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p><strong>Hackathon today:</strong> deterministic protocol verifier<br>
+<strong>Production path:</strong> attested protocol verifier in confidential compute / TEE-backed infrastructure</p>
+<div class="markdown-heading"><h3 class="heading-element">Speaker note</h3><a id="user-content-speaker-note-2" class="anchor" aria-label="Permalink: Speaker note" href="#speaker-note-2"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>"The critical moment is the committed spec hash. Once funds are escrowed, neither side can change the acceptance contract. The verifier checks against that contract, not against a moving target."</p>
+<div class="markdown-heading"><h2 class="heading-element">Slide 4 - Novelty Table</h2><a id="user-content-slide-4---novelty-table" class="anchor" aria-label="Permalink: Slide 4 - Novelty Table" href="#slide-4---novelty-table"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<div class="markdown-heading"><h3 class="heading-element">Title</h3><a id="user-content-title-2" class="anchor" aria-label="Permalink: Title" href="#title-2"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p><strong>WHY THIS IS NEW</strong></p>
+<table>
+<thead>
+<tr>
+<th>Capability</th>
+<th>x402</th>
+<th>Handshake58</th>
+<th>ACP</th>
+<th>AgentLevy</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Payment request standard</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Committed task spec</td>
+<td>No</td>
+<td>No</td>
+<td>Partial / draft</td>
+<td><strong>Yes</strong></td>
+</tr>
+<tr>
+<td>Verification before release</td>
+<td>No</td>
+<td>No</td>
+<td>Platform-mediated</td>
+<td><strong>Yes</strong></td>
+</tr>
+<tr>
+<td>Escrowed settlement path</td>
+<td>No</td>
+<td>Channel / flow dependent</td>
+<td>Offchain billing</td>
+<td><strong>Yes</strong></td>
+</tr>
+<tr>
+<td>Machine-checkable acceptance criteria</td>
+<td>No</td>
+<td>No</td>
+<td>Partial</td>
+<td><strong>Yes</strong></td>
+</tr>
+<tr>
+<td>Onchain settlement proof</td>
+<td>Tx receipt only</td>
+<td>Channel state</td>
+<td>Platform logs</td>
+<td><strong>Flare treasury + proof</strong></td>
+</tr>
+<tr>
+<td>Shareable agent skill / protocol onboarding</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td><strong>Yes</strong></td>
+</tr>
+</tbody>
+</table>
+<div class="markdown-heading"><h3 class="heading-element">Winning line</h3><a id="user-content-winning-line" class="anchor" aria-label="Permalink: Winning line" href="#winning-line"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p><strong>AgentLevy is not just another payment rail. It is a trust layer for agent work.</strong></p>
+<div class="markdown-heading"><h3 class="heading-element">Speaker note</h3><a id="user-content-speaker-note-3" class="anchor" aria-label="Permalink: Speaker note" href="#speaker-note-3"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>"This is the slide that wins the argument. We are not competing on another checkout experience. We are adding committed acceptance criteria and protocol-level verification."</p>
+<div class="markdown-heading"><h2 class="heading-element">Slide 5 - What We Built</h2><a id="user-content-slide-5---what-we-built" class="anchor" aria-label="Permalink: Slide 5 - What We Built" href="#slide-5---what-we-built"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<div class="markdown-heading"><h3 class="heading-element">Title</h3><a id="user-content-title-3" class="anchor" aria-label="Permalink: Title" href="#title-3"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p><strong>WHAT WE BUILT</strong></p>
+<div class="markdown-heading"><h3 class="heading-element">Deliverables</h3><a id="user-content-deliverables" class="anchor" aria-label="Permalink: Deliverables" href="#deliverables"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<ol>
+<li>
+<p><strong>Treasury contract</strong><br>
+<a href="/Users/mauraclark/AgentLevy/contracts/Treasury.sol">contracts/Treasury.sol</a><br>
+Escrow, settlement, levy accounting, refunds, and withdrawals.</p>
+</li>
+<li>
+<p><strong>Coston2 deployment</strong><br>
+<a href="/Users/mauraclark/AgentLevy/deployments/coston2.json">deployments/coston2.json</a><br>
+Current deployed treasury: <code>0x9921e0419f56c0C4B3175C68FD33B080A4D41DF2</code></p>
+</li>
+<li>
+<p><strong>x402 facilitator</strong><br>
+<a href="/Users/mauraclark/AgentLevy/sdk/x402Facilitator.js">sdk/x402Facilitator.js</a><br>
+Returns <code>402</code>, escrows payment, verifies output, records settlement.</p>
+</li>
+<li>
+<p><strong>Task spec registry</strong><br>
+<a href="/Users/mauraclark/AgentLevy/sdk/taskSpecRegistry.js">sdk/taskSpecRegistry.js</a><br>
+Five deterministic task types with machine-readable checks and thresholds.</p>
+</li>
+<li>
+<p><strong>Demo and operator flows</strong><br>
+<a href="/Users/mauraclark/AgentLevy/sdk/agentWallet.js">sdk/agentWallet.js</a><br>
+<a href="/Users/mauraclark/AgentLevy/demo/README.md">demo/README.md</a></p>
+</li>
+<li>
+<p><strong>Dashboard + agent skill</strong><br>
+<a href="/Users/mauraclark/AgentLevy/dashboard/App.jsx">dashboard/App.jsx</a><br>
+<a href="/Users/mauraclark/AgentLevy/openclaw/SKILL.md">openclaw/SKILL.md</a></p>
+</li>
+</ol>
+<div class="markdown-heading"><h3 class="heading-element">Speaker note</h3><a id="user-content-speaker-note-4" class="anchor" aria-label="Permalink: Speaker note" href="#speaker-note-4"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>"The important thing here is that the protocol is not just described. The contract, facilitator, task specs, demo flow, and public skill all exist in the repo today."</p>
+<div class="markdown-heading"><h2 class="heading-element">Slide 6 - Build Status</h2><a id="user-content-slide-6---build-status" class="anchor" aria-label="Permalink: Slide 6 - Build Status" href="#slide-6---build-status"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<div class="markdown-heading"><h3 class="heading-element">Title</h3><a id="user-content-title-4" class="anchor" aria-label="Permalink: Title" href="#title-4"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p><strong>BUILD STATUS</strong></p>
+<div class="markdown-heading"><h3 class="heading-element">Live or working now</h3><a id="user-content-live-or-working-now" class="anchor" aria-label="Permalink: Live or working now" href="#live-or-working-now"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<ul>
+<li>Treasury contract deployed on Flare Coston2</li>
+<li>Treasury test suite passing</li>
+<li>x402 happy-path demo runnable locally</li>
+<li>deterministic verifier flow implemented in the protocol stack</li>
+<li>shareable agent skill written for external agents</li>
+<li>dashboard scaffold reading treasury state and levy history</li>
+</ul>
+<div class="markdown-heading"><h3 class="heading-element">In progress for the polished submission</h3><a id="user-content-in-progress-for-the-polished-submission" class="anchor" aria-label="Permalink: In progress for the polished submission" href="#in-progress-for-the-polished-submission"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<ul>
+<li>public protocol website</li>
+<li>live demo console with jobs, agents, and proof timeline</li>
+<li>slide polish and final video production</li>
+</ul>
+<div class="markdown-heading"><h3 class="heading-element">Production hardening next</h3><a id="user-content-production-hardening-next" class="anchor" aria-label="Permalink: Production hardening next" href="#production-hardening-next"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<ul>
+<li>TEE-backed attested verifier</li>
+<li>stronger dispute semantics</li>
+<li>deploy-time spec seeding and integration polish</li>
+<li>Smart Account path as a secondary user flow</li>
+</ul>
+<div class="markdown-heading"><h3 class="heading-element">Speaker note</h3><a id="user-content-speaker-note-5" class="anchor" aria-label="Permalink: Speaker note" href="#speaker-note-5"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>"We should be honest: the protocol primitive is built, the demo path is built, and the public-facing packaging is what we are polishing now. The TEE-backed verifier is the production trust upgrade."</p>
+<div class="markdown-heading"><h2 class="heading-element">Slide 7 - Closing</h2><a id="user-content-slide-7---closing" class="anchor" aria-label="Permalink: Slide 7 - Closing" href="#slide-7---closing"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<div class="markdown-heading"><h3 class="heading-element">Title</h3><a id="user-content-title-5" class="anchor" aria-label="Permalink: Title" href="#title-5"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p><strong>THE TRUST LAYER</strong></p>
+<div class="markdown-heading"><h3 class="heading-element">Three closing points</h3><a id="user-content-three-closing-points" class="anchor" aria-label="Permalink: Three closing points" href="#three-closing-points"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<ul>
+<li><strong>Spec committed before work begins</strong></li>
+<li><strong>Output verified before settlement</strong></li>
+<li><strong>Levy recorded at successful completion</strong></li>
+</ul>
+<div class="markdown-heading"><h3 class="heading-element">Final line</h3><a id="user-content-final-line" class="anchor" aria-label="Permalink: Final line" href="#final-line"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p><strong>0G powers the agents. Flare powers the proof. AgentLevy makes agent commerce trustworthy.</strong></p>
+<div class="markdown-heading"><h3 class="heading-element">Footer</h3><a id="user-content-footer" class="anchor" aria-label="Permalink: Footer" href="#footer"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<ul>
+<li>GitHub repo</li>
+<li>live demo URL</li>
+<li>skill download URL</li>
+</ul>
+<div class="markdown-heading"><h3 class="heading-element">Speaker note</h3><a id="user-content-speaker-note-6" class="anchor" aria-label="Permalink: Speaker note" href="#speaker-note-6"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>"The core claim is simple: AgentLevy turns x402 from a payment request into a trustable agent transaction protocol."</p>
+<div class="markdown-heading"><h2 class="heading-element">Optional Appendix - Verifier Modes</h2><a id="user-content-optional-appendix---verifier-modes" class="anchor" aria-label="Permalink: Optional Appendix - Verifier Modes" href="#optional-appendix---verifier-modes"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>If there is room for one extra appendix slide, add:</p>
+<div class="markdown-heading"><h3 class="heading-element">Title</h3><a id="user-content-title-6" class="anchor" aria-label="Permalink: Title" href="#title-6"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p><strong>DETERMINISTIC TODAY, ATTESTED IN PRODUCTION</strong></p>
+<div class="markdown-heading"><h3 class="heading-element">Left column</h3><a id="user-content-left-column" class="anchor" aria-label="Permalink: Left column" href="#left-column"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p><strong>Hackathon verifier</strong></p>
+<ul>
+<li>runs in the protocol app layer</li>
+<li>executes deterministic checks from the committed spec</li>
+<li>proves the protocol shape and user experience</li>
+</ul>
+<div class="markdown-heading"><h3 class="heading-element">Right column</h3><a id="user-content-right-column" class="anchor" aria-label="Permalink: Right column" href="#right-column"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p><strong>Production verifier</strong></p>
+<ul>
+<li>runs the same manifest-driven logic in confidential compute</li>
+<li>produces hardware-backed attestation</li>
+<li>gives stronger proof that the verifier code and result were not tampered with</li>
+</ul>
+<div class="markdown-heading"><h3 class="heading-element">Supporting files</h3><a id="user-content-supporting-files" class="anchor" aria-label="Permalink: Supporting files" href="#supporting-files"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<ul>
+<li><a href="/Users/mauraclark/AgentLevy/demo/verifier-process.svg">verifier-process.svg</a></li>
+<li><a href="/Users/mauraclark/AgentLevy/docs/VERIFIER_MODES.md">VERIFIER_MODES.md</a></li>
+</ul>
+        </section>
+      </article>
+    </main>
+  </body>
+</html>

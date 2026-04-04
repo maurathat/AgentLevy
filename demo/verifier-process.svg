@@ -1,0 +1,98 @@
+<svg width="100%" viewBox="0 0 1600 1000" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .bg { fill: #070B18; }
+    .panel { fill: #0F1629; stroke: #1E2B49; stroke-width: 2; }
+    .panel-cyan { fill: #0B1E2D; stroke: #00D4FF; stroke-width: 2.5; }
+    .panel-green { fill: #0D221E; stroke: #00E5A0; stroke-width: 2.5; }
+    .panel-purple { fill: #17132B; stroke: #7B61FF; stroke-width: 2.5; }
+    .panel-orange { fill: #2A1A14; stroke: #FF6B35; stroke-width: 2.5; }
+    .title { font-family: Georgia, serif; font-size: 42px; font-weight: 700; fill: #FFFFFF; }
+    .subtitle { font-family: Calibri Light, Calibri, Arial, sans-serif; font-size: 20px; fill: #8EA2C3; }
+    .kicker { font-family: Calibri Light, Calibri, Arial, sans-serif; font-size: 15px; font-weight: 700; letter-spacing: 2px; fill: #00D4FF; }
+    .box-title { font-family: Georgia, serif; font-size: 22px; font-weight: 700; fill: #FFFFFF; }
+    .box-text { font-family: Calibri Light, Calibri, Arial, sans-serif; font-size: 19px; fill: #DCE8F6; }
+    .box-small { font-family: Calibri Light, Calibri, Arial, sans-serif; font-size: 16px; fill: #8EA2C3; }
+    .accent-cyan { fill: #00D4FF; }
+    .accent-green { fill: #00E5A0; }
+    .accent-orange { fill: #FF6B35; }
+    .accent-purple { fill: #A58FFF; }
+    .arrow { stroke: #00D4FF; stroke-width: 4; fill: none; }
+    .arrow-green { stroke: #00E5A0; stroke-width: 4; fill: none; }
+    .divider { stroke: #223354; stroke-width: 1.5; stroke-dasharray: 8 8; }
+    .chip { fill: #101C30; stroke: #2C426A; stroke-width: 1.5; }
+  </style>
+
+  <defs>
+    <marker id="arrowhead" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M1,1 L9,5 L1,9" fill="none" stroke="context-stroke" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="1600" height="1000"/>
+
+  <text class="kicker" x="70" y="78">VERIFICATION ARCHITECTURE</text>
+  <text class="title" x="70" y="132">How the verifier process works</text>
+  <text class="subtitle" x="70" y="168">Same protocol role in both modes. Production strengthens how execution is proven.</text>
+
+  <rect class="panel-cyan" x="70" y="230" rx="22" ry="22" width="320" height="190"/>
+  <text class="box-title" x="100" y="278">1. Load committed spec</text>
+  <text class="box-text" x="100" y="318">- serviceId + specHash</text>
+  <text class="box-text" x="100" y="350">- output schema</text>
+  <text class="box-text" x="100" y="382">- deterministic checks</text>
+  <text class="box-text" x="100" y="414">- threshold for passing</text>
+
+  <rect class="panel-cyan" x="70" y="470" rx="22" ry="22" width="320" height="170"/>
+  <text class="box-title" x="100" y="518">2. Receive worker output</text>
+  <text class="box-text" x="100" y="558">- submitted artifact</text>
+  <text class="box-text" x="100" y="590">- normalized payload</text>
+  <text class="box-text" x="100" y="622">- task metadata</text>
+
+  <rect class="panel-purple" x="450" y="300" rx="24" ry="24" width="380" height="270"/>
+  <text class="box-title" x="480" y="346">3. Verifier runtime executes</text>
+  <text class="box-small" x="480" y="376">Manifest-driven, deterministic protocol logic</text>
+  <text class="box-text" x="480" y="422">- fetch committed task manifest</text>
+  <text class="box-text" x="480" y="456">- validate schema and required fields</text>
+  <text class="box-text" x="480" y="490">- run declared checks</text>
+  <text class="box-text" x="480" y="524">- compute score and pass/fail</text>
+  <rect class="chip" x="480" y="540" rx="14" ry="14" width="270" height="44"/>
+  <text class="box-small" x="500" y="568">One runtime, many task manifests</text>
+
+  <rect class="panel-green" x="900" y="300" rx="24" ry="24" width="310" height="270"/>
+  <text class="box-title" x="930" y="346">4. Produce result</text>
+  <text class="box-text" x="930" y="392">- passed / failed</text>
+  <text class="box-text" x="930" y="426">- checks map</text>
+  <text class="box-text" x="930" y="460">- score / threshold</text>
+  <text class="box-text" x="930" y="494">- result hash or attestation</text>
+  <rect class="chip" x="930" y="520" rx="14" ry="14" width="230" height="44"/>
+  <text class="box-small" x="950" y="548">Settlement input for treasury</text>
+
+  <rect class="panel-orange" x="1250" y="300" rx="24" ry="24" width="290" height="270"/>
+  <text class="box-title" x="1280" y="346">5. Treasury enforces</text>
+  <text class="box-text" x="1280" y="392">If pass:</text>
+  <text class="box-text" x="1280" y="426">- settlement recorded</text>
+  <text class="box-text" x="1280" y="460">- worker withdrawal unlocked</text>
+  <text class="box-text" x="1280" y="494">- levy recorded</text>
+  <text class="box-text" x="1280" y="534">If fail:</text>
+  <text class="box-text" x="1280" y="568">- no successful completion</text>
+
+  <path class="arrow" d="M390 325 C430 325, 430 375, 450 405" marker-end="url(#arrowhead)"/>
+  <path class="arrow" d="M390 555 C430 555, 430 505, 450 465" marker-end="url(#arrowhead)"/>
+  <path class="arrow-green" d="M830 435 L900 435" marker-end="url(#arrowhead)"/>
+  <path class="arrow-green" d="M1210 435 L1250 435" marker-end="url(#arrowhead)"/>
+
+  <line class="divider" x1="70" y1="700" x2="1530" y2="700"/>
+
+  <text class="kicker" x="70" y="750">HACKATHON VS PRODUCTION</text>
+
+  <rect class="panel" x="70" y="785" rx="22" ry="22" width="700" height="165"/>
+  <text class="box-title" x="100" y="830">Hackathon: deterministic protocol verifier</text>
+  <text class="box-text" x="100" y="868">- runs in the facilitator / verifier app layer</text>
+  <text class="box-text" x="100" y="900">- deterministic checks prove the protocol logic and UX</text>
+  <text class="box-text" x="100" y="932">- trust comes from open logic, committed specs, and honest operation</text>
+
+  <rect class="panel" x="830" y="785" rx="22" ry="22" width="700" height="165"/>
+  <text class="box-title" x="860" y="830">Production: attested verifier in confidential compute</text>
+  <text class="box-text" x="860" y="868">- same manifest-driven checks, executed in TEE-backed infrastructure</text>
+  <text class="box-text" x="860" y="900">- hardware-backed attestation ties code identity to the result</text>
+  <text class="box-text" x="860" y="932">- stronger proof that verification execution was not tampered with</text>
+</svg>
