@@ -1,190 +1,206 @@
-[README.md](https://github.com/user-attachments/files/25695821/README.md)
 # AgentLevy Protocol
 
-> **A token-consumption withholding mechanism for the agentic economy.**
+> The trust primitive for agent-to-agent commerce on Flare + XRPL.
+
+**ETHGlobal Cannes 2026 · Built on Flare Network + XRP Ledger**
 
 ---
 
-## The Problem
+## The problem
 
-Governments fund social safety nets through income tax. AI agents are replacing the human workers who paid that tax — at scale, and accelerating. Block Inc. cut 4,000 jobs in February 2026. Klarna replaced 700 customer service workers. Salesforce let go of 4,000 support staff. Jack Dorsey's assessment: most companies will reach the same conclusion within a year.
+AI agents are transacting with each other at scale. Every existing payment protocol — x402, Handshake58, OpenAI's ACP — assumes good faith between parties. Agent A pays, Agent B delivers, and if the output is garbage, the money is already gone.
 
-Agents pay $0 in tax. The income tax base is collapsing in real time.
+This creates three failure modes that will get worse as agent commerce grows:
 
-The political response — wealth taxes on accumulated assets — is blunt, capital-flight-inducing, and misses the point entirely. The problem isn't that some people have too much. The problem is that the mechanism connecting economic activity to public revenue is broken.
+- **Agent A changes the goalposts** — demands more after payment, claims the work didn't match the brief
+- **Agent B delivers junk** — collects payment for low-quality or incomplete output
+- **No audit trail** — nobody can prove what was agreed, what was delivered, or whether it met the bar
 
-AgentLevy fixes the mechanism.
-
----
-
-## The Insight
-
-The IRS didn't solve income tax compliance by chasing millions of individual workers. It made employers withhold at source.
-
-AgentLevy applies the same logic to the agentic economy.
-
-**Tax at the token. Not the agent.**
-
-Token consumption at enterprise API scale is the proxy for economic activity that previously generated income tax revenue. A company burning millions of tokens a month on autonomous agents is generating real economic value — value that a human workforce previously created, and paid taxes on.
-
-Rather than classifying agents, tracking workflows, or building complex identity registries, AgentLevy collects a micro-levy at the AI provider billing layer — the same way a gas tax is collected at the refinery, invisible at the pump.
+AgentLevy solves all three by adding a trust layer that x402 doesn't have: verified task completion as a prerequisite for payment release.
 
 ---
 
-## How It Works
+## What it does
+
+AgentLevy is an **x402 payment facilitator** with one critical addition: a committed task specification, TEE-verified output quality, and a Protocol Managed Wallet that won't release funds until attestation confirms the work was done correctly.
 
 ```
-Enterprise uses AI provider API
-        ↓
-Billing cycle closes (monthly / quarterly)
-        ↓
-AgentLevy SDK calculates levy on enterprise token consumption
-        ↓
-Flare Data Connector verifies and attests the billing event on-chain
-        ↓
-Single settlement transaction to Flare treasury contract
-        ↓
-Taxai dashboard shows enterprise their contribution + compliance proof
-        ↓
-XRP Ledger disburses periodically to verified retraining funds
+Agent A requests task
+  → HTTP 402 returned with committed spec hash
+Agent A pays
+  → Funds escrow in Flare PMW (nobody controls this wallet)
+Agent B completes task
+  → Submits output to facilitator
+TEE verifies output against committed spec
+  → Deterministic quality checks, no interpretation
+Attestation passes
+  → Task fee releases to Agent B
+  → 0.5% levy routes to protocol treasury (architectural, not enforced)
+  → FDC records immutable proof on-chain
 ```
 
-No workflow classification. No agent registration. No real-time streaming. No complex cross-chain bridges. One billing event. One settlement. One treasury. Like every tax system ever built.
+**One sentence:** Agent A can't change the goalposts. Agent B knows exactly what they're evaluated against. The TEE is the neutral arbiter. The levy is a consequence of attestation, not a separate enforcement mechanism.
 
 ---
 
-## The Protocol Stack
+## How it differs from existing protocols
 
-| Layer | Component | Role |
-|-------|-----------|------|
-| **Collection** | AgentLevy SDK | Embedded in AI provider billing. Calculates levy on enterprise token consumption at billing cycle close. |
-| **Verification** | Flare Data Connector + FTSO | Verifies billing events from provider APIs on-chain. Native enshrined oracle — no third party. |
-| **Treasury** | Flare Smart Contract | Receives levy per billing cycle. Immutable audit trail. Single settlement transaction. |
-| **Settlement** | XRP Ledger | Periodic institutional disbursements to government retraining funds via existing Flare ↔ XRPL bridge. |
+| | x402 | Handshake58 | ACP (OpenAI) | **AgentLevy** |
+|---|---|---|---|---|
+| Task verification | None | None | Draft spec | **TEE quality checks** |
+| Spec commitment | None | None | Partial | **Hash committed at escrow** |
+| Payment guarantee | Signature-based | Channel-based | Stripe | **PMW escrow + attestation** |
+| Audit trail | Tx receipt | Channel state | Stripe logs | **On-chain attestation via FDC** |
+| Social mandate | None | None | None | **Architectural levy for retraining** |
 
----
+### Standard x402 vs AgentLevy x402
 
-## Why Flare
-
-Flare is the only blockchain with a native, enshrined oracle designed specifically to verify real-world data on-chain without a third-party dependency. This matters for AgentLevy because the core attestation problem — verifying that a billing event from OpenAI or Anthropic is accurate — requires exactly what Flare Data Connector was built to do.
-
-- **Flare Data Connector** — pulls verifiable data from external APIs and web2 sources directly onto Flare, no middleware
-- **FTSO** — native decentralized price oracle for USD denomination of levy amounts
-- **Flare AI Kit** — open-source SDK for building verifiable AI agent applications on Flare; handles provider attestation layer
-- **EVM Compatible** — Solidity smart contracts, composable with existing DeFi infrastructure
-- **XRPL Bridge** — existing live bridge between Flare and XRP Ledger for institutional settlement
+<p align="center">
+  <img src="docs/x402-comparison.svg" alt="x402 vs AgentLevy flow comparison" width="680"/>
+</p>
 
 ---
 
-## Why Provider-Level Collection
+## Architecture
 
-An enterprise deploying AI agents on AWS Bedrock, OpenAI, or Anthropic is already a known entity with completed KYC, an active billing relationship, and metered usage data. The provider already knows exactly how many tokens each enterprise account consumed. The infrastructure for collection already exists — AgentLevy adds a levy calculation to a billing event that is already happening.
+### Task spec registry
 
-This approach:
+Five standard service types with machine-readable specifications: `sentiment-analysis`, `data-extraction`, `code-review`, `translation`, `data-validation`. Each spec defines input/output schemas, quality criteria with specific thresholds, and a list of deterministic checks the TEE runs.
 
-- **Eliminates the classification problem** — no need to determine whether an agent is "replacing" a human workflow; token consumption at enterprise scale is the unit of measurement
-- **Eliminates the registration problem** — enterprises don't register agents; they're already in the provider's billing system
-- **Eliminates the enforcement problem** — ~15 AI providers cover ~90% of global enterprise agentic activity; integration at that layer covers the market
-- **Mirrors proven tax collection precedents** — payroll withholding, gas tax, streaming royalties all collect upstream from a small number of aggregators rather than chasing millions of end participants
+The spec hash is computed from the full specification via SHA-256 and committed on-chain at escrow time. Neither party can modify it after payment is locked.
 
----
+### Treasury contract (Flare Coston2)
 
-## Governance
+`Treasury.sol` handles both the per-task escrow and the accumulated levy treasury in a single contract. Key functions:
 
-AgentLevy separates three distinct governance concerns, each with appropriate mechanisms:
+- `escrowPayment()` — Agent A locks funds with a committed spec hash
+- `submitAttestation()` — TEE submits verification result, auto-settles if passed
+- `_settle()` — atomic: task fee to Agent B, levy to treasury, event emitted
 
-### Rate Setting — Multi-Stakeholder Council
-An 11-seat council with representation from AI providers (3 seats), enterprise operators (3 seats), worker advocacy organizations (2 seats), independent economists (2 seats), and a non-voting government observer (1 seat). Rate changes require an 8/11 supermajority and a mandatory 180-day notice period before taking effect. No surprise rate changes. Enterprises can plan around it.
+The contract is designed as a Protocol Managed Wallet — in production, the private key lives inside a Flare TEE controlled by validator consensus. Nobody holds the key.
 
-### Fund Disbursement — On-Chain Grants Process
-Treasury disbursements are public on-chain proposals visible for 30 days before execution. Any council member can veto within that window. Recipient organizations must be KYC-verified retraining programs. Fully auditable — no black box.
+### x402 facilitator
 
-### Protocol Parameters — Timelocked Multisig
-Thresholds, enterprise tier definitions, and provider qualification criteria are set at launch and can only be modified through a 7-of-10 multisig held by geographically distributed technical stewards. Separates technical governance from political governance entirely.
+The facilitator sits between Agent A and Agent B, implementing the x402 HTTP 402 flow with AgentLevy's trust layer on top. Endpoints:
 
-### On Legitimacy
-AgentLevy does not claim democratic legitimacy. Neither does SWIFT, VISA's interchange structure, or the Basel banking accords in their early years. These are technical standards that *enable* legitimate regulatory oversight rather than replacing it.
+- `GET /services` — discover available service types and pricing
+- `GET /task/:serviceId` — returns 402 with payment instructions and committed spec
+- `POST /pay` — escrow payment in Treasury.sol
+- `POST /submit` — Agent B submits output, TEE verifies, settlement triggered
+- `GET /status/:taskId` — task status (also the FDC attestation endpoint)
 
-The EU mandated participation in existing private carbon credit registries rather than building their own. That is the template. AgentLevy is designed so that when governments are ready to legislate, the infrastructure already exists, the audit trail is already there, and compliance is already happening.
+### Flare Data Connector (FDC)
 
----
+The FDC brings the TEE attestation on-chain using Web2Json attestation type. It queries the facilitator's `/status/:taskId` endpoint with an ABI signature of `(bool taskExists, string taskId, string status, uint256 completedAt)` and produces a Merkle proof that can be verified in the Treasury contract.
 
-## Taxai
+### Taxai dashboard
 
-Taxai is the enterprise-facing compliance dashboard built on top of AgentLevy Protocol. It gives CFOs and compliance teams:
-
-- Real-time view of token consumption across all AI provider accounts
-- Levy calculation and contribution history
-- Exportable audit trail for ESG reporting and regulatory compliance
-- Proof of contribution to verified retraining programs
-
-Taxai is to AgentLevy what a tax portal is to a tax authority — the human-readable interface to an automated underlying system.
+A React dashboard that reads `LevySettled` events from the Treasury contract via RPC. Shows total levy collected, treasury balance, tasks settled, and a full settlement history table with CSV export for audit.
 
 ---
 
-## Roadmap
+## Project structure
 
-### Phase 1 — Protocol + Voluntary (2026)
-- ETHGlobal Cannes hackathon — proof of concept on Flare testnet
-- Open-source protocol and SDK
-- Enterprise early adopters with strong ESG commitments
-- Taxai compliance dashboard MVP
-- Establish voluntary market, carbon credit precedent model
+```
+contracts/
+  Treasury.sol              Core Flare contract — escrow, levy, attestation
 
-### Phase 2 — Enterprise Scale (2026–2027)
-- Provider SDK integrations (targeting 3–5 major providers)
-- Retraining fund treasury live on Flare mainnet
-- Enterprise onboarding — companies facing regulatory and PR pressure
-- Council governance formation
-- XRP settlement to first verified retraining programs
+sdk/
+  x402Facilitator.js        x402 HTTP facilitator with trust layer
+  agentWallet.js            Agent wallet registration + demo simulation
+  taskSpecRegistry.js       5 service types with deterministic verification
 
-### Phase 3 — Legislative Foundation (2027+)
-- Government API layer for jurisdiction-specific compliance reporting
-- Protocol positioned as the compliance rail for incoming AI labor legislation
-- Voluntary market transitions to mandatory participation in adopting jurisdictions
-- Multi-jurisdictional treasury contracts
+oracle/
+  fdcVerify.js              Flare Data Connector attestation integration
 
----
+dashboard/src/
+  App.jsx                   Taxai React dashboard
 
-## Hackathon Scope — ETHGlobal Cannes, April 2026
+scripts/
+  deploy.js                 Hardhat deploy to Coston2
 
-The v0 hackathon build demonstrates the core primitive works end-to-end:
+demo/
+  README.md                 Demo walkthrough
 
-- [ ] Mock AI provider API emitting a billing event with enterprise token consumption data
-- [ ] AgentLevy SDK calculating levy amount from billing event
-- [ ] Flare Data Connector integration verifying and attesting the billing event on-chain
-- [ ] Flare treasury smart contract receiving the levy settlement
-- [ ] Taxai dashboard displaying enterprise contribution in real time
-- [ ] XRP settlement transaction to a mock retraining fund wallet
-
-One provider. One enterprise account. One billing cycle. One settlement. Complete proof of concept.
+.env.example                Environment variable template
+```
 
 ---
 
-## The Case for Providers
+## Quick start
 
-AI providers are the largest regulatory target in technology history. Every government is attempting to regulate AI. A provider that walks into Brussels, Washington, or Westminster with a built-in displacement levy — auditable, transparent, on-chain — has an extraordinary regulatory shield.
+```bash
+# Clone and install
+git clone https://github.com/maurathat/AgentLevy.git
+cd AgentLevy && npm install --legacy-peer-deps
 
-The first provider to implement AgentLevy doesn't just do good. They set the standard every other provider must meet. That is a competitive advantage in a world where regulatory risk is existential.
+# Configure environment
+cp .env.example .env
+# Add your private key (funded with C2FLR from faucet.towolabs.com)
+
+# Deploy to Coston2
+npx hardhat run scripts/deploy.js --network coston2
+# Copy the printed TREASURY_ADDRESS into .env and VITE_TREASURY_ADDRESS
+
+# Start the facilitator
+node sdk/x402Facilitator.js
+
+# Run the end-to-end demo (new terminal)
+node sdk/agentWallet.js --demo
+
+# Start the Taxai dashboard (new terminal)
+cd dashboard && npm install && npm run dev
+```
 
 ---
 
-## Status
+## Hackathon scope vs production
 
-🟡 **Pre-launch — protocol architecture complete, seeking technical co-builder**
+| Component | Hackathon | Production |
+|---|---|---|
+| TEE verification | Node.js deterministic checks | Flare AI Kit inside Intel TDX |
+| FDC attestation | Simplified submission | Full Merkle proof with round finalization |
+| Smart Accounts | Stubbed | XRPL payment triggers Flare escrow |
+| Settlement currency | C2FLR (testnet) | RLUSD via XRPL |
+| Treasury key | Deployer-held | PMW — validator consensus, nobody holds key |
+| Levy governance | Owner-settable rate | Multi-stakeholder council |
 
-Architecture, governance model, and go-to-market strategy are complete. Hackathon deck is ready. Seeking a Solidity / Flare developer to co-build the v0 proof of concept for ETHGlobal Cannes, April 2026.
+The architecture is production-correct. The hackathon simplifies the trust hardware, not the trust model.
 
-If you have experience with Flare Data Connector, Flare AI Kit, or EVM smart contracts and want to build infrastructure that matters, get in touch.
+---
+
+## Tech stack
+
+- **Smart contracts:** Solidity 0.8.28, Hardhat, Flare Coston2 testnet
+- **Trust layer:** Flare AI Kit (TEE), Flare Data Connector, Flare Protocol Managed Wallet
+- **Settlement:** XRPL, RLUSD, xrpl.js
+- **Facilitator:** Node.js, Express, ethers.js
+- **Dashboard:** React, Vite, ethers.js
+- **Development:** Claude Code with Flare AI Skills
+
+---
+
+## Environment variables
+
+```bash
+PRIVATE_KEY=               # Deployer private key (funded with C2FLR)
+COSTON2_RPC=https://coston2-api.flare.network/ext/C/rpc
+TREASURY_ADDRESS=          # Set after deploy
+XRPL_WALLET_SEED=          # Agent wallet seed
+AGENT_A_ADDRESS=           # Agent A XRPL address
+AGENT_B_ADDRESS=           # Agent B EVM address
+PORT=3001
+LEVY_BPS=50                # 50 basis points = 0.5%
+FACILITATOR_URL=http://localhost:3001
+VITE_TREASURY_ADDRESS=     # Same as TREASURY_ADDRESS
+```
 
 ---
 
 ## License
 
-Protocol design and documentation: MIT
-
-SDK and smart contracts: to be determined at mainnet launch
+MIT
 
 ---
 
-*AgentLevy Protocol — because agents replacing humans should fund the transition.*
+Built at ETHGlobal Cannes 2026.
