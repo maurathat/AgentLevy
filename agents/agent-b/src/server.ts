@@ -70,8 +70,10 @@ app.get("/health", (_req: Request, res: Response) => {
 
 // ─── Start ────────────────────────────────────────────────────────────────────
 
-app.listen(AGENT_B_PORT, () => {
-  console.log(`Agent B listening on http://localhost:${AGENT_B_PORT}`)
-})
+if (require.main === module) {
+  app.listen(AGENT_B_PORT, () => {
+    console.log(`Agent B listening on http://localhost:${AGENT_B_PORT}`)
+  })
+}
 
 export default app
