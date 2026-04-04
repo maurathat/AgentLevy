@@ -10,10 +10,10 @@
 //   4. Retry POST → 200 with result
 
 import axios                              from "axios"
-import { parseUnits, getAddress }         from "viem"
+import { getAddress }                     from "viem"
 import { publicClient, getWalletClient, AGENT_B_URL } from "../../shared/config"
 import { CONTRACT_ADDRESSES, ERC20_ABI }  from "../../shared/contracts"
-import type { X402PaymentRequired, X402Receipt } from "../agent-b/src/x402"
+import type { X402PaymentRequired, X402Receipt } from "../../agent-b/src/x402"
 
 // ─── Send USDC on Coston2 ─────────────────────────────────────────────────────
 

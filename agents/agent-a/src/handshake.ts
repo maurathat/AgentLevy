@@ -33,12 +33,15 @@ export async function waitForClaim(taskId: `0x${string}`): Promise<TaskClaimedEv
 // ─── Check on-chain for TaskClaimed event ─────────────────────────────────────
 
 async function checkClaimed(taskId: `0x${string}`): Promise<TaskClaimedEvent | null> {
-  const event = TASK_REGISTRY_ABI.find(e => e.name === "TaskClaimed")
+  const event      = TASK_REGISTRY_ABI.find(e => e.name === "TaskClaimed")
+  const latest     = await publicClient.getBlockNumber()
+  const fromBlock  = latest > 25n ? latest - 25n : 0n
   const logs = await publicClient.getLogs({
     address:   CONTRACT_ADDRESSES.taskRegistry,
     event:     event as any,
     args:      { taskId },
-    fromBlock: "earliest",
+    fromBlock,
+    toBlock:   latest,
   })
   if (logs.length > 0) return (logs[0] as any).args as TaskClaimedEvent
   console.log(`[Agent A] Polling for claim...`)

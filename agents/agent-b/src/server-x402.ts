@@ -6,6 +6,8 @@ import express, { Request, Response } from "express"
 import { AGENT_B_PORT }               from "../../shared/config"
 import { TASKS }                      from "./tasks"
 import { x402Middleware }             from "./x402"
+import { executeAndStore }            from "./worker"
+import { buildProofPayload, submitProof } from "./submitProof"
 
 const AGENT_B_ADDRESS  = (process.env.AGENT_B_ADDRESS ?? "0x0000000000000000000000000000000000000000") as `0x${string}`
 const EXECUTION_FEE    = process.env.AGENT_B_EXECUTION_FEE ?? "0.01"
@@ -55,13 +57,19 @@ app.post(
       res.status(404).json({ error: `Task '${req.params.name}' not found` })
       return
     }
+    const taskId = (req.body.taskId ?? "no-task-id") as `0x${string}`
     try {
-      const result = await def.execute()
-      res.json({
-        taskId:     req.body.taskId ?? "no-task-id",
-        result,
-        executedAt: Date.now(),
-      })
+      // 1. Execute task + hash + store result
+      const workResult = await executeAndStore(def.buildSpec())
+
+      // 2. Respond to Agent A immediately
+      res.json({ taskId, result: workResult.result, executedAt: Date.now() })
+
+      // 3. Submit proof on-chain after responding (non-blocking)
+      const proof = buildProofPayload(taskId, workResult)
+      submitProof(proof).catch(err =>
+        console.error(`[Agent B] submitProof failed for ${taskId}:`, err)
+      )
     } catch (err) {
       res.status(500).json({ error: String(err) })
     }

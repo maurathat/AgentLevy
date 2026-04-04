@@ -77,20 +77,17 @@ export async function postTask(spec: TaskSpec): Promise<`0x${string}`> {
   console.log(`[Agent A] Task posted — tx: ${txHash}`)
   console.log(`[Agent A] Block:           ${receipt.blockNumber}`)
 
-  // Parse TaskPosted event from receipt logs to get the on-chain taskId
-  const taskPostedTopic = TASK_REGISTRY_ABI.find(e => e.name === "TaskPosted")
+  // Parse TaskPosted event: taskId is the first indexed topic (topics[1])
+  // event TaskPosted(bytes32 indexed taskId, address indexed poster, ...)
+  const { keccak256: k256, toBytes: tB } = await import("viem")
+  const taskPostedSig   = "TaskPosted(bytes32,address,bytes32,uint256,uint256)"
+  const taskPostedTopic = k256(tB(taskPostedSig))
+
   for (const log of receipt.logs) {
-    try {
-      const decoded = (await import("viem")).decodeEventLog({
-        abi:    [taskPostedTopic] as any,
-        data:   log.data,
-        topics: log.topics,
-      }) as any
-      const taskId = decoded.args.taskId as `0x${string}`
+    if (log.topics[0] === taskPostedTopic && log.topics[1]) {
+      const taskId = log.topics[1] as `0x${string}`
       console.log(`[Agent A] taskId: ${taskId}`)
       return taskId
-    } catch {
-      // not this log, continue
     }
   }
 

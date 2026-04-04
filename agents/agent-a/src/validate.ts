@@ -52,12 +52,15 @@ async function checkVerificationResult(
 // which address received the funds (seller on pass, buyer on fail).
 
 export async function confirmSettlement(taskId: `0x${string}`): Promise<TaskSettledEvent | null> {
-  const event = TASK_REGISTRY_ABI.find(e => e.name === "TaskSettled")
+  const event     = TASK_REGISTRY_ABI.find(e => e.name === "TaskSettled")
+  const latest    = await publicClient.getBlockNumber()
+  const fromBlock = latest > 25n ? latest - 25n : 0n
   const logs = await publicClient.getLogs({
     address:   CONTRACT_ADDRESSES.taskRegistry,
     event:     event as any,
     args:      { taskId },
-    fromBlock: "earliest",
+    fromBlock,
+    toBlock:   latest,
   })
   if (logs.length > 0) {
     const settled = (logs[0] as any).args as TaskSettledEvent
