@@ -1,0 +1,48 @@
+@import url("https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Space+Grotesk:wght@400;500;700&display=swap");
+
+:root {
+  --bg-dark: #081018;
+  --bg-card: rgba(11, 18, 25, 0.82);
+  --accent-gold: #fbbf24;
+  --accent-orange: #f97316;
+  --text-main: #eff6ff;
+  --text-soft: #c6d2df;
+  --text-muted: #8ea1b5;
+  --border-neon: rgba(251, 191, 36, 0.16);
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-dark);
+  background-image:
+    radial-gradient(circle at top left, rgba(249, 115, 22, 0.18), transparent 30%),
+    radial-gradient(circle at 85% 20%, rgba(251, 191, 36, 0.16), transparent 26%),
+    linear-gradient(160deg, #081018 0%, #0d1620 45%, #121d28 100%);
+  color: var(--text-main);
+  font-family: "Space Grotesk", sans-serif;
+  min-height: 100vh;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Chakra Petch", sans-serif;
+  margin: 0;
+}
+
+#root {
+  width: 100%;
+}
+
+.glass-panel {
+  background: var(--bg-card);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid var(--border-neon);
+  border-radius: 22px;
+  padding: 1.5rem;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.25);
+}
+
+.glass-panel:hover {
+  box-shadow: 0 28px 72px rgba(0, 0, 0, 0.3);
+}
