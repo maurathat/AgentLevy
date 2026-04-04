@@ -7,6 +7,7 @@
  */
 
 import { useState, useEffect } from "react";
+import AgentDemo from "./src/AgentDemo.jsx";
 import { ethers } from "ethers";
 
 // Treasury ABI — only what the dashboard needs
@@ -25,6 +26,7 @@ const COSTON2_RPC      = "https://coston2-api.flare.network/ext/C/rpc";
 const TREASURY_ADDRESS = import.meta.env.VITE_TREASURY_ADDRESS || "";
 
 export default function App() {
+  const [activeTab, setActiveTab]             = useState("demo");
   const [levyRecords, setLevyRecords]         = useState([]);
   const [totalCollected, setTotalCollected]   = useState("0");
   const [treasuryBalance, setTreasuryBalance] = useState("0");
@@ -103,9 +105,34 @@ export default function App() {
     a.click();
   }
 
-  return (
-    <div style={{ fontFamily: "Inter, sans-serif", background: "#070B18", minHeight: "100vh", color: "#F5F7FA", padding: "24px" }}>
+  const tabStyle = (id) => ({
+    padding: "8px 18px",
+    fontSize: "13px",
+    fontWeight: "500",
+    cursor: "pointer",
+    borderRadius: "8px",
+    border: activeTab === id ? "1px solid #2A3A55" : "1px solid transparent",
+    background: activeTab === id ? "#1A2235" : "transparent",
+    color: activeTab === id ? "#00D4FF" : "#8A96B0",
+    transition: "all 0.2s",
+  });
 
+  return (
+    <div style={{ fontFamily: "Inter, sans-serif", background: "#070B18", minHeight: "100vh", color: "#F5F7FA" }}>
+
+      {/* Global nav */}
+      <div style={{ display: "flex", alignItems: "center", gap: "8px", padding: "12px 24px", borderBottom: "1px solid #1A2235" }}>
+        <span style={{ fontSize: "15px", fontWeight: "700", color: "#FFFFFF", marginRight: "16px" }}>
+          Agent<span style={{ color: "#00D4FF" }}>Levy</span>
+        </span>
+        <button style={tabStyle("demo")} onClick={() => setActiveTab("demo")}>Agent Demo</button>
+        <button style={tabStyle("treasury")} onClick={() => setActiveTab("treasury")}>Treasury Dashboard</button>
+      </div>
+
+      {activeTab === "demo" && <AgentDemo />}
+
+      {activeTab === "treasury" && (
+      <div style={{ padding: "24px" }}>
       {/* Header */}
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "32px" }}>
         <div>
@@ -186,6 +213,8 @@ export default function App() {
       <p style={{ textAlign: "center", color: "#3A4A65", fontSize: "12px", marginTop: "32px" }}>
         AgentLevy Protocol · ETHGlobal Cannes 2026 · Flare + XRPL
       </p>
+      </div>
+      )}
     </div>
   );
 }
