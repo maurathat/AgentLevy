@@ -17,6 +17,8 @@ import * as walletSignCmd from "./commands/walletSign.js";
 import * as payCmd from "./commands/pay.js";
 import * as reputationCmd from "./commands/reputation.js";
 import * as submitProofCmd from "./commands/submitProof.js";
+import * as chatSteveCmd from "./commands/chatSteve.js";
+import * as chatWozCmd from "./commands/chatWoz.js";
 
 // ─── Types ───────────────────────────────────────────────
 interface Command {
@@ -44,6 +46,8 @@ const allCommands: Command[] = [
   payCmd,
   reputationCmd,
   submitProofCmd,
+  chatSteveCmd,
+  chatWozCmd,
 ];
 
 for (const cmd of allCommands) {

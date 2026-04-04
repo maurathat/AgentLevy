@@ -21,6 +21,7 @@ export interface AgentSnapshot {
 }
 
 export interface InferenceSnapshot {
+  agentName: string;
   configured: boolean;
   mode: "0g-direct-proxy";
   serviceUrl: string | null;
@@ -71,6 +72,7 @@ export interface DashboardSnapshot {
   network: NetworkSnapshot;
   agents: AgentSnapshot[];
   inference: InferenceSnapshot;
+  inferenceByAgent: InferenceSnapshot[];
   latestJob: JobSnapshot | null;
   logs: string[];
 }

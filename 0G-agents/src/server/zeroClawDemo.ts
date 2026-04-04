@@ -42,8 +42,19 @@ interface InferenceResult {
   text: string;
 }
 
+interface InferenceConfig {
+  agentName: string;
+  serviceUrl: string;
+  model: string;
+  apiKey: string;
+}
+
 function env(name: string, fallback = ""): string {
   return process.env[name]?.trim() || fallback;
+}
+
+function envWithFallback(primary: string, fallback: string): string {
+  return env(primary) || env(fallback);
 }
 
 function normalizeServiceUrl(serviceUrl: string): string {
@@ -121,20 +132,15 @@ export class ZeroClawDemoService {
     "0x5b340a8553d08B65Cebf303514B0415E3aD1E8f7",
   );
   private readonly wozConfig = createAgentConfig("Woz_ZC", "worker", "WOZ_ZC");
-  private readonly inferenceUrl = env("ZEROCLAW_INFERENCE_URL");
-  private readonly inferenceModel = env("ZEROCLAW_INFERENCE_MODEL");
-  private readonly inferenceApiKey = env("ZEROCLAW_INFERENCE_API_KEY");
+  private readonly steveInferenceConfig = this.createInferenceConfig("Steve_ZC", "STEVE_ZC", true);
+  private readonly wozInferenceConfig = this.createInferenceConfig("Woz_ZC", "WOZ_ZC", false);
   private readonly logs: string[] = [];
   private latestJob: JobSnapshot | null = null;
-  private latestInference: InferenceSnapshot = {
-    configured: false,
-    mode: "0g-direct-proxy",
-    serviceUrl: null,
-    model: null,
-    lastPrompt: null,
-    lastResponse: null,
-    lastError: null,
-  };
+  private latestInference: InferenceSnapshot = this.createEmptyInferenceSnapshot("Steve_ZC");
+  private inferenceByAgent = new Map<string, InferenceSnapshot>([
+    ["Steve_ZC", this.createEmptyInferenceSnapshot("Steve_ZC")],
+    ["Woz_ZC", this.createEmptyInferenceSnapshot("Woz_ZC")],
+  ]);
 
   constructor() {
     this.provider = getJsonRpcProvider();
@@ -147,6 +153,55 @@ export class ZeroClawDemoService {
     if (this.logs.length > LOG_LIMIT) {
       this.logs.shift();
     }
+  }
+
+  private createEmptyInferenceSnapshot(agentName: string): InferenceSnapshot {
+    return {
+      agentName,
+      configured: false,
+      mode: "0g-direct-proxy",
+      serviceUrl: null,
+      model: null,
+      lastPrompt: null,
+      lastResponse: null,
+      lastError: null,
+    };
+  }
+
+  private createInferenceConfig(
+    agentName: string,
+    keySuffix: string,
+    allowSharedFallback: boolean,
+  ): InferenceConfig | null {
+    const serviceUrl = allowSharedFallback
+      ? envWithFallback(`ZEROCLAW_${keySuffix}_INFERENCE_URL`, "ZEROCLAW_INFERENCE_URL")
+      : env(`ZEROCLAW_${keySuffix}_INFERENCE_URL`);
+    const model = allowSharedFallback
+      ? envWithFallback(`ZEROCLAW_${keySuffix}_INFERENCE_MODEL`, "ZEROCLAW_INFERENCE_MODEL")
+      : env(`ZEROCLAW_${keySuffix}_INFERENCE_MODEL`);
+    const apiKey = allowSharedFallback
+      ? envWithFallback(`ZEROCLAW_${keySuffix}_INFERENCE_API_KEY`, "ZEROCLAW_INFERENCE_API_KEY")
+      : env(`ZEROCLAW_${keySuffix}_INFERENCE_API_KEY`);
+
+    if (!serviceUrl || !model || !apiKey) {
+      return null;
+    }
+
+    return {
+      agentName,
+      serviceUrl,
+      model,
+      apiKey,
+    };
+  }
+
+  private getInferenceConfig(agentName: "Steve_ZC" | "Woz_ZC"): InferenceConfig | null {
+    return agentName === "Steve_ZC" ? this.steveInferenceConfig : this.wozInferenceConfig;
+  }
+
+  private updateInferenceSnapshot(snapshot: InferenceSnapshot): void {
+    this.latestInference = snapshot;
+    this.inferenceByAgent.set(snapshot.agentName, snapshot);
   }
 
   private loadAgent(config: KeychainAgentConfig): InternalAgent {
@@ -226,42 +281,52 @@ export class ZeroClawDemoService {
     return this.loadAgent(this.wozConfig);
   }
 
-  private async runInference(prompt = DEFAULT_PROMPT): Promise<InferenceResult> {
-    const configured = Boolean(this.inferenceUrl && this.inferenceModel && this.inferenceApiKey);
-    const serviceUrl = configured ? normalizeServiceUrl(this.inferenceUrl) : null;
-    this.latestInference = {
-      configured,
+  private async runInference(
+    agentName: "Steve_ZC" | "Woz_ZC",
+    prompt = DEFAULT_PROMPT,
+  ): Promise<InferenceResult> {
+    const config = this.getInferenceConfig(agentName);
+    const serviceUrl = config ? normalizeServiceUrl(config.serviceUrl) : null;
+    const snapshot: InferenceSnapshot = {
+      agentName,
+      configured: Boolean(config && serviceUrl),
       mode: "0g-direct-proxy",
       serviceUrl,
-      model: this.inferenceModel || null,
+      model: config?.model || null,
       lastPrompt: prompt,
       lastResponse: null,
       lastError: null,
     };
+    this.updateInferenceSnapshot(snapshot);
 
-    if (!configured || !serviceUrl) {
+    if (!config || !serviceUrl) {
       const error =
-        "0G inference is not configured. Set ZEROCLAW_INFERENCE_URL, ZEROCLAW_INFERENCE_MODEL, and ZEROCLAW_INFERENCE_API_KEY.";
-      this.latestInference.lastError = error;
+        agentName === "Steve_ZC"
+          ? "0G inference is not configured for Steve_ZC. Set ZEROCLAW_STEVE_ZC_INFERENCE_URL, ZEROCLAW_STEVE_ZC_INFERENCE_MODEL, and ZEROCLAW_STEVE_ZC_INFERENCE_API_KEY, or use the shared ZEROCLAW_INFERENCE_* fallback."
+          : "0G inference is not configured for Woz_ZC. Set ZEROCLAW_WOZ_ZC_INFERENCE_URL, ZEROCLAW_WOZ_ZC_INFERENCE_MODEL, and ZEROCLAW_WOZ_ZC_INFERENCE_API_KEY so Woz_ZC has its own compute identity.";
+      snapshot.lastError = error;
+      this.updateInferenceSnapshot(snapshot);
       this.addLog(error);
       throw new Error(error);
     }
 
-    this.addLog(`Steve_ZC is calling the 0G inference proxy for model ${this.inferenceModel}.`);
+    this.addLog(`${agentName} is calling the 0G inference proxy for model ${config.model}.`);
     const response = await fetch(`${serviceUrl}/chat/completions`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${this.inferenceApiKey}`,
+        Authorization: `Bearer ${config.apiKey}`,
       },
       body: JSON.stringify({
-        model: this.inferenceModel,
+        model: config.model,
         temperature: 0.2,
         messages: [
           {
             role: "system",
             content:
-              "You are Steve_ZC, a precise autonomous agent on 0G. Keep outputs concise and demo-friendly.",
+              agentName === "Steve_ZC"
+                ? "You are Steve_ZC, a precise autonomous agent on 0G. Keep outputs concise and demo-friendly."
+                : "You are Woz_ZC, a precise autonomous worker agent on 0G. Keep outputs concise, deterministic, and demo-friendly.",
           },
           {
             role: "user",
@@ -273,8 +338,9 @@ export class ZeroClawDemoService {
 
     if (!response.ok) {
       const detail = await response.text();
-      const error = `0G inference failed with ${response.status}: ${detail}`;
-      this.latestInference.lastError = error;
+      const error = `${agentName} 0G inference failed with ${response.status}: ${detail}`;
+      snapshot.lastError = error;
+      this.updateInferenceSnapshot(snapshot);
       this.addLog(error);
       throw new Error(error);
     }
@@ -283,8 +349,9 @@ export class ZeroClawDemoService {
       choices?: Array<{ message?: { content?: string } }>;
     };
     const text = data.choices?.[0]?.message?.content?.trim() || "";
-    this.latestInference.lastResponse = text;
-    this.addLog("0G inference response received successfully.");
+    snapshot.lastResponse = text;
+    this.updateInferenceSnapshot(snapshot);
+    this.addLog(`${agentName} inference response received successfully.`);
     return { prompt, text };
   }
 
@@ -297,13 +364,22 @@ export class ZeroClawDemoService {
       network: CHAIN_CONFIG,
       agents,
       inference: this.latestInference,
+      inferenceByAgent: Array.from(this.inferenceByAgent.values()),
       latestJob: this.latestJob,
       logs: [...this.logs].reverse(),
     };
   }
 
   async triggerInference(prompt?: string): Promise<DashboardSnapshot> {
-    await this.runInference(prompt || DEFAULT_PROMPT);
+    await this.runInference("Steve_ZC", prompt || DEFAULT_PROMPT);
+    return this.getDashboardSnapshot();
+  }
+
+  async triggerInferenceForAgent(
+    agentName: "Steve_ZC" | "Woz_ZC",
+    prompt?: string,
+  ): Promise<DashboardSnapshot> {
+    await this.runInference(agentName, prompt || DEFAULT_PROMPT);
     return this.getDashboardSnapshot();
   }
 
@@ -359,6 +435,7 @@ export class ZeroClawDemoService {
     let executionReport: string | null = null;
     try {
       const inference = await this.runInference(
+        "Woz_ZC",
         `You are Woz_ZC. In one sentence, explain how you will solve this deterministic job: "${sourceText}"`,
       );
       executionReport = inference.text;

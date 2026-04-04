@@ -4,10 +4,10 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "../node_modules/.bin/vite",
-    "build": "../node_modules/.bin/tsc -p tsconfig.app.json --noEmit && ../node_modules/.bin/vite build",
-    "lint": "../node_modules/.bin/eslint src",
-    "preview": "../node_modules/.bin/vite preview"
+    "dev": "vite",
+    "build": "tsc -p tsconfig.app.json --noEmit && vite build",
+    "lint": "eslint src",
+    "preview": "vite preview"
   },
   "dependencies": {
     "react": "^19.2.4",

@@ -63,6 +63,8 @@ function App() {
   const latestJob: JobSnapshot | null = dashboard?.latestJob || null;
   const steve = dashboard?.agents.find((agent) => agent.name === "Steve_ZC") || null;
   const woz = dashboard?.agents.find((agent) => agent.name === "Woz_ZC") || null;
+  const steveInference = dashboard?.inferenceByAgent.find((entry) => entry.agentName === "Steve_ZC") || null;
+  const wozInference = dashboard?.inferenceByAgent.find((entry) => entry.agentName === "Woz_ZC") || null;
 
   return (
     <div className="app-container">
@@ -103,7 +105,9 @@ function App() {
           <div className="data-row">
             <span className="data-label">Inference Mode</span>
             <span className="data-value">
-              {dashboard?.inference.configured ? "0G direct proxy" : "Needs service URL, model, and app key"}
+              {dashboard?.inferenceByAgent.some((entry) => entry.configured)
+                ? "0G direct proxy"
+                : "Needs service URL, model, and app key"}
             </span>
           </div>
         </div>
@@ -122,6 +126,12 @@ function App() {
             <span className="data-label">Balance</span>
             <span className="data-value">{steve?.balance0g ? `${steve.balance0g} 0G` : "Unknown"}</span>
           </div>
+          <div className="data-row">
+            <span className="data-label">Compute</span>
+            <span className="data-value compact">
+              {steveInference?.configured ? steveInference.model : "Inference not configured"}
+            </span>
+          </div>
           <div className="badge-row">
             <span className={`status-pill ${steve?.configured ? "ok" : "warn"}`}>
               {steve?.configured ? "Keychain Ready" : "Missing Key"}
@@ -136,16 +146,29 @@ function App() {
           <h2 className="card-title">Woz_ZC</h2>
           <div className="data-row">
             <span className="data-label">Address</span>
-            <span className="data-value compact">{woz?.address || "Will auto-generate into Keychain"}</span>
+            <span className="data-value compact">{woz?.address || "Missing from Keychain"}</span>
+          </div>
+          <div className="data-row">
+            <span className="data-label">Expected</span>
+            <span className="data-value compact">{woz?.expectedAddress || "Not set"}</span>
           </div>
           <div className="data-row">
             <span className="data-label">Balance</span>
             <span className="data-value">{woz?.balance0g ? `${woz.balance0g} 0G` : "Unknown"}</span>
           </div>
+          <div className="data-row">
+            <span className="data-label">Compute</span>
+            <span className="data-value compact">
+              {wozInference?.configured ? wozInference.model : "Inference not configured"}
+            </span>
+          </div>
           <div className="badge-row">
             <span className={`status-pill ${woz?.configured ? "ok" : "warn"}`}>
-              {woz?.configured ? "Ready" : "Created on First Demo Run"}
+              {woz?.configured ? "Ready" : "Missing Key"}
             </span>
+            {woz?.addressMatchesExpected === false ? (
+              <span className="status-pill danger">Address Mismatch</span>
+            ) : null}
           </div>
         </div>
       </section>
@@ -169,8 +192,17 @@ function App() {
           >
             {busyAction === "inference" ? "Calling 0G Inference..." : "Run Steve_ZC Inference"}
           </button>
+          <button
+            className="secondary-btn"
+            disabled={busyAction !== null}
+            onClick={() => runAction("inference-woz", "/inference/woz", { prompt })}
+          >
+            {busyAction === "inference-woz" ? "Calling Woz_ZC..." : "Run Woz_ZC Inference"}
+          </button>
           <div className="response-box">
-            {dashboard?.inference.lastResponse || "No inference response yet."}
+            {dashboard?.inference.lastResponse
+              ? `${dashboard.inference.agentName}: ${dashboard.inference.lastResponse}`
+              : dashboard?.inference.lastError || "No inference response yet."}
           </div>
         </div>
 

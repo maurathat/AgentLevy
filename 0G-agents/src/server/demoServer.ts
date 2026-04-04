@@ -52,6 +52,7 @@ const server = createServer(async (req, res) => {
           "GET /api/status",
           "GET /health",
           "POST /api/inference/steve",
+          "POST /api/inference/woz",
           "POST /api/marketplace/run",
         ],
       });
@@ -71,6 +72,12 @@ const server = createServer(async (req, res) => {
     if (req.method === "POST" && req.url === "/api/inference/steve") {
       const body = await readJsonBody<InferenceRequest>(req);
       sendJson(res, 200, await service.triggerInference(body.prompt));
+      return;
+    }
+
+    if (req.method === "POST" && req.url === "/api/inference/woz") {
+      const body = await readJsonBody<InferenceRequest>(req);
+      sendJson(res, 200, await service.triggerInferenceForAgent("Woz_ZC", body.prompt));
       return;
     }
 

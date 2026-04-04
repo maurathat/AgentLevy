@@ -4,6 +4,7 @@ import {
   PermissionsBitField,
   TextChannel,
   CategoryChannel,
+  Webhook,
 } from "discord.js";
 
 const CATEGORY_NAME = "⚡ ZEROCLAW";
@@ -14,6 +15,11 @@ export const CHANNELS = {
   x402Payments: "📡-x402-payments",
   agentReputation: "🏆-agent-reputation",
   systemLogs: "📋-system-logs",
+} as const;
+
+const AGENT_WEBHOOK_NAMES = {
+  Steve_ZC: "Steve_ZC",
+  Woz_ZC: "Woz_ZC",
 } as const;
 
 /**
@@ -47,6 +53,7 @@ export async function setupZeroClawServer(
             PermissionsBitField.Flags.ViewChannel,
             PermissionsBitField.Flags.SendMessages,
             PermissionsBitField.Flags.ManageChannels,
+            PermissionsBitField.Flags.ManageWebhooks,
           ],
         },
         {
@@ -110,6 +117,7 @@ export async function setupZeroClawServer(
             PermissionsBitField.Flags.ViewChannel,
             PermissionsBitField.Flags.SendMessages,
             PermissionsBitField.Flags.ManageChannels,
+            PermissionsBitField.Flags.ManageWebhooks,
           ],
         },
         ownerOverwrite,
@@ -137,4 +145,36 @@ export async function logToChannel(guild: Guild, message: string): Promise<void>
   } catch {
     // Silently ignore logging failures — don't break the command
   }
+}
+
+async function ensureAgentWebhook(
+  channel: TextChannel,
+  agentName: keyof typeof AGENT_WEBHOOK_NAMES,
+): Promise<Webhook> {
+  const webhooks = await channel.fetchWebhooks();
+  const desiredName = AGENT_WEBHOOK_NAMES[agentName];
+  const existing = webhooks.find((hook) => hook.name === desiredName);
+  if (existing) {
+    return existing;
+  }
+
+  const avatarUrl =
+    process.env[`ZEROCLAW_${agentName.toUpperCase()}_DISCORD_AVATAR_URL`]?.trim() || undefined;
+
+  return channel.createWebhook({
+    name: desiredName,
+    avatar: avatarUrl,
+  });
+}
+
+export async function sendAgentMessage(
+  channel: TextChannel,
+  agentName: keyof typeof AGENT_WEBHOOK_NAMES,
+  content: string,
+): Promise<void> {
+  const webhook = await ensureAgentWebhook(channel, agentName);
+  await webhook.send({
+    content,
+    username: AGENT_WEBHOOK_NAMES[agentName],
+  });
 }

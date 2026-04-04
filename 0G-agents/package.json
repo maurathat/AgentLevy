@@ -4,13 +4,14 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "build": "../node_modules/.bin/tsc -p tsconfig.node.json --noEmit",
-    "lint": "../node_modules/.bin/eslint src",
-    "demo:server": "../node_modules/.bin/tsx src/server/demoServer.ts",
-    "demo:server:dev": "../node_modules/.bin/tsx watch src/server/demoServer.ts",
-    "0g:login": "../node_modules/.bin/tsx src/scripts/zeroGLogin.ts",
-    "bot": "../node_modules/.bin/tsx src/bot/discord.ts",
-    "bot:dev": "../node_modules/.bin/tsx watch src/bot/discord.ts"
+    "build": "tsc -p tsconfig.node.json --noEmit",
+    "lint": "eslint src",
+    "demo:doctor": "tsx src/scripts/demoDoctor.ts",
+    "demo:server": "tsx src/server/demoServer.ts",
+    "demo:server:dev": "tsx watch src/server/demoServer.ts",
+    "0g:login": "tsx src/scripts/zeroGLogin.ts",
+    "bot": "tsx src/bot/discord.ts",
+    "bot:dev": "tsx watch src/bot/discord.ts"
   },
   "dependencies": {
     "@claw_wallet/claw-wallet-sdk": "^0.2.0",
