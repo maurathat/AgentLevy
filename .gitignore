@@ -24,6 +24,12 @@ typechain-types/
 coverage/
 coverage.json
 
+# Python
+.venv/
+venv/
+__pycache__/
+*.pyc
+
 # OS files
 .DS_Store
 Thumbs.db
