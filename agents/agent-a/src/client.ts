@@ -8,6 +8,7 @@
 import { fetchTaskSpec, postTask } from "./postTask"
 import { waitForClaim } from "./handshake"
 import { waitForVerification, confirmSettlement } from "./validate"
+import { payAndExecute } from "./pay402"
 
 async function main() {
   const taskName = process.argv[2] ?? "product_scrape"
@@ -29,8 +30,9 @@ async function main() {
   console.log(`[Step 2] Agreement locked — executor: ${claim.executor}`)
 
   // ── Step 3: Work ────────────────────────────────────────────────────────────
-  // Agent B is now executing off-chain. Agent A waits for proof.
-  console.log("\n[Step 3] Agent B is working... (Agent A waits)")
+  console.log("\n[Step 3] Triggering Agent B execution via x402...")
+  const executionResult = await payAndExecute(taskName, { taskId })
+  console.log("[Step 3] Agent B delivered result:", executionResult)
 
   // ── Step 4 + 5: Prove + Pay ─────────────────────────────────────────────────
   console.log("\n[Step 4] Waiting for verification result...")

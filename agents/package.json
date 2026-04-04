@@ -9,7 +9,7 @@
   ],
   "scripts": {
     "dev:agent-a": "ts-node agent-a/src/client.ts",
-    "dev:agent-b": "ts-node agent-b/src/server.ts",
+    "dev:agent-b": "ts-node agent-b/src/server-x402.ts",
     "test": "jest --runInBand"
   },
   "devDependencies": {
