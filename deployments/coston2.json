@@ -5,5 +5,6 @@
   "verifier": "0x63f963a42EDC00f1adeBEd8B57B3660FC41Ece3F",
   "deployer": "0xa609193A152648Aa3270a117CB587205Fd617D4A",
   "timestamp": "2026-04-04T17:12:01.763Z",
-  "levyBps": "50"
+  "levyBps": "50",
+  "mockUsdc": "0x66332b189a433938d5adCF0dCc10Dcf89cC33d7b"
 }
