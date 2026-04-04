@@ -12,11 +12,11 @@ AgentLevy fixes that by upgrading x402 from a payment request into a trustworthy
 
 Here is the flow in plain language.
 
-The job terms are locked before money moves.
-The payment is held on Flare instead of going straight to the worker.
-Then the result is checked, and settlement is only recorded if the work passes.
+In standard x402, the client requests the API, the server returns 402, the client pays, the facilitator verifies the payment, the server does the work, and the response is returned.
 
-Flare is doing the trust work here for us: it holds the escrow in our treasury contract on Coston2, records the settlement onchain, and gives us a path to stronger proof through Flare data and confidential verification.
+AgentLevy upgrades that flow. The Publisher Agent requests the task and gets 402 plus the committed spec hash. The funds are held in escrow on Flare. The Worker Agent does the work and submits the result. Then the result is verified against the committed spec, and only after that is settlement recorded on Flare.
+
+That is the key shift: request the task, hold funds in escrow, verify the result, and record settlement only after the work passes.
 
 ## Slide 3 — Live Demo
 

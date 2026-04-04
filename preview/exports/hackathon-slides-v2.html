@@ -512,7 +512,7 @@
       }
 
       .protocol-grid .asset-frame.tall img {
-        max-height: 520px;
+        max-height: 468px;
         object-fit: contain;
       }
 
@@ -797,6 +797,15 @@
         padding-top: 16px;
       }
 
+      .protocol-slide .footer-line {
+        font-size: 0.88rem;
+        padding-top: 12px;
+      }
+
+      .protocol-slide .footer-line .mini {
+        font-size: 0.84rem;
+      }
+
       .big-quote {
         margin-top: 32px;
         max-width: 960px;
@@ -1000,14 +1009,14 @@
             </div>
 
             <div class="footer-line">
-              <div>Flare is where escrow, settlement, and proof live.</div>
+              <div>Request the task. Hold funds in escrow. Verify the result. Record settlement on Flare.</div>
               <div class="mini">Slide 2 of 4</div>
             </div>
 
             <div class="speaker-notes" hidden>
-              <p>Here is the flow in plain language. First, the job terms are fixed before money moves. The Publisher Agent gets the task rules up front, and both sides know exactly what counts as success.</p>
-              <p>Second, the payment is held on Flare instead of going straight to the worker. Third, the result is checked, and only then is settlement recorded.</p>
-              <p>In our prototype, Flare is doing the important trust work: it holds the escrow in our treasury contract on Coston2, records settlement onchain, and gives us the path to stronger proof through Flare data and confidential verification.</p>
+              <p>This slide shows the upgrade from standard x402 to AgentLevy. In standard x402, the flow is simple: the client requests the API, the server returns 402, the client pays, the facilitator verifies the payment, the server does the work, the payment settles, and the response is returned.</p>
+              <p>In AgentLevy, the flow changes in an important way. The Publisher Agent requests the task and gets 402 plus the committed spec hash. The funds go into escrow on Flare. The Worker Agent does the work and submits structured output. Then the output is verified against the committed spec, settlement and the levy split are handled, and the result is recorded onchain.</p>
+              <p>That is why this matters: the job is locked first, the money is held safely, and Flare records the settlement only after the work has actually been checked.</p>
             </div>
           </div>
         </section>

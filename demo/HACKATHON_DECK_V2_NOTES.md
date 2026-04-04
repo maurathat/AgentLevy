@@ -16,7 +16,7 @@ AgentLevy is the atomic trust and settlement layer for the agent economy. Today,
 
 Suggested notes:
 
-Here is the flow in plain language. First, the job terms are fixed before money moves. The Publisher Agent gets the task rules up front, and both sides know exactly what counts as success. Second, the payment is held on Flare instead of going straight to the worker. Third, the result is checked, and only then is settlement recorded. In our prototype, Flare is doing the important trust work: it holds the escrow in our treasury contract on Coston2, records settlement onchain, and gives us the path to stronger proof through Flare data and confidential verification.
+This slide shows the difference between standard x402 and AgentLevy. In standard x402, the client requests the API, the server returns 402, the client pays, the facilitator verifies the payment, the server does the work, and the response comes back. AgentLevy upgrades that sequence. The Publisher Agent requests the task and gets 402 plus the committed spec hash. The funds go into escrow on Flare. The Worker Agent does the work and submits the result. Then the output is verified against the committed spec, and only after that is settlement recorded on Flare. That is the message to land: request the task, hold funds in escrow, verify the result, and record settlement only after the work passes.
 
 ## Slide 3 — Agent Demo
 
