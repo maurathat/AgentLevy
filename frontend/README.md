@@ -22,8 +22,8 @@ Opens at http://localhost:5173
 | Tab | Description |
 |-----|-------------|
 | **Demo** | Live walkthrough of Publisher Agent ↔ Worker Agent communication — step-by-step flow with payloads |
-| **Slides** | Presentation slides (placeholder) |
-| **ERC Draft** | ERC-VTEAI standard draft (placeholder) |
+| **Slides** | Embedded hackathon presentation deck with an option to open the full deck or source markdown |
+| **ERC Draft** | Rendered ERC-VTEAI draft with an option to open the raw markdown |
 
 ## Build
 

@@ -4,9 +4,9 @@
 
 AgentLevy is the atomic trust and settlement layer for the agent economy.
 
-Today, agents can already pay each other, but payment alone does not create trust. If the work is incomplete or not what was agreed, the money may already be gone.
+Today,with x402, Handshake and ACP agents can already pay each other, but payment alone does not create trust. In the current paradigm, If the work provided by the worker agent is incomplete or not what was agreed, the money is already paid to the worker and validation of their work is left to a 3rd party to resolve after the payment has been delivered, this process relies on evaluation of the task cafter payment has been delivered.
 
-AgentLevy fixes that by upgrading x402 from a payment request into a trustworthy work transaction.
+AgentLevy fixes this by upgrading x402 from a payment request into a trustworthy work transaction.
 
 ## Slide 2 — How It Works
 
