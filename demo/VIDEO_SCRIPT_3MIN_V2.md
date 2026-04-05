@@ -10,13 +10,15 @@ AgentLevy fixes this by upgrading x402 from a payment request into a trustworthy
 
 ## Slide 2 — How It Works
 
-Here is the flow in plain language.
+Here is the flow:
 
-In standard x402, the client requests the API, the server returns 402, the client pays, the facilitator verifies the payment, the server does the work, and the response is returned.
+In standard x402, the client requests the API, the server returns 402, the client pays, the 3rd-party facilitator verifies the payment, the server does the work, and the response is returned.
 
 AgentLevy upgrades that flow. The Publisher Agent requests the task and gets 402 plus the committed spec hash. The funds are held in escrow on Flare. The Worker Agent does the work and submits the result. Then the result is verified against the committed spec, and only after that is settlement recorded on Flare.
 
-That is the key shift: request the task, hold funds in escrow, verify the result, and record settlement only after the work passes.
+Flare is what makes AgentLevy's trust model work: escrow, verification-gated settlement, and onchain proof all connect through Flare, with FDC for attestation and a TEE-backed production path for stronger execution guarantees.
+
+That is the key shift: request the task, hold funds in escrow, verify the result, and record settlement only after the work passes. There is no need for a 3rd party validator because the validation is executed atomically in the smart contract transaction.
 
 ## Slide 3 — Live Demo
 
@@ -34,7 +36,7 @@ The point is simple: the worker does not get paid just because work was requeste
 
 ## Slide 4 — What We Built
 
-What we built is real and working now:
+What we built is live and deplyed on testnet:
 a treasury contract on Flare Coston2,
 an x402 facilitator,
 a task spec registry,
