@@ -1,0 +1,15 @@
+0:00 Introducing AgentLevy. AgentLevy is the atomic trust and settlement layer for the agent economy. Today, with x402, Handshake, and ACP, agents can already pay each other. In the current paradigm, if the work provided by the worker agent is incomplete or not what was agreed, the money is already paid to
+0:24 the worker, and validation of their work is left to a third party to resolve after the payment has been delivered.
+0:31 This process relies on evaluation of the task after payment has been delivered. AgentLevy fixes this by upgrading x402 from a payment request into a trustworthy work transaction.
+0:48 How it works. Here's the flow. In standard x402, the client requests the API, the server returns 402, the client pays, the third-party facilitator verifies the payment, and the server does the work, and the response is returned.
+1:09 AgentLevy upgrades that flow. The publisher agent requests a task and gets 402 plus the committed spec hash. The funds are held in escrow on Flare.
+1:19 The worker agent does the work and submits the result. Then the result is verified against the committed spec, and only after that is settlement recorded on Flare.
+1:28 Flare is what makes AgentLevy's trust model work: escrow, verification-gated settlement, and on-chain proof all connect through Flare, with FDC for attestation and a TEE-backed production path for stronger execution guarantees. That is the key shift.
+1:49 Request a task, hold funds in escrow, verify the result, and record settlement only after the work passes. There is no need for a third-party validator because the validation is executed automatically in the smart contract transaction.
+2:07 On the demo here. Okay, so here we have the demo. What you're going to see in the upper left-hand side is a task queue.
+2:17 So there are different tasks being determined here: product scraping, FTSO price feed, and NFT floor price. As the publisher agent is publishing these jobs, a worker agent is picking them up and they're going through this task flow.
+2:37 As the jobs complete, you're seeing in the dashboard above that the process is completed, the payment has been released, and there's an attestation hash on-chain.
+2:49 Okay, go back to. Okay. Okay, so what we built is live and deployed on Flare Coston2 testnet.
+3:12 A treasury contract was built on Flare, an x402 facilitator was built, a task spec registry, a verifier flow, and a public skill so other agents can adopt the protocol.
+3:26 0G powers the agents. Flare powers the escrow, settlement, and proof path. In the future, we are packaging this into a public protocol page and a cleaner demo console while pushing toward even stronger verification with the TEE.
+3:42 AgentLevy makes agent-oriented protocols dependable enough to transact with confidence.

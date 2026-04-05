@@ -1,0 +1,8 @@
+{
+  "segments": 15,
+  "words": 451,
+  "chunks": 75,
+  "states": 451,
+  "concat": "demo/video/render_artifacts/subtitle_concat.txt",
+  "blank": "demo/video/render_artifacts/subtitle_blank.png"
+}
