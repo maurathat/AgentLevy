@@ -90,28 +90,28 @@
 <!-- RIGHT COLUMN: AgentLevy x402 -->
 <g class="step-teal">
   <rect x="380" y="100" width="250" height="56" rx="8" stroke-width="0.5"/>
-  <text class="th" x="505" y="122" text-anchor="middle">1. Agent A requests task</text>
+  <text class="th" x="505" y="122" text-anchor="middle">1. Publisher requests task</text>
   <text class="ts" x="505" y="140" text-anchor="middle">402 + committed spec hash</text>
 </g>
 <line x1="505" y1="156" x2="505" y2="180" class="arr-teal" marker-end="url(#arrow)"/>
 
 <g class="step-teal">
   <rect x="380" y="182" width="250" height="56" rx="8" stroke-width="0.5"/>
-  <text class="th" x="505" y="204" text-anchor="middle">2. Escrow in PMW</text>
-  <text class="ts" x="505" y="222" text-anchor="middle">Treasury.sol, nobody controls</text>
+  <text class="th" x="505" y="204" text-anchor="middle">2. Funds move to escrow</text>
+  <text class="ts" x="505" y="222" text-anchor="middle">Treasury holds payment on Flare</text>
 </g>
 <line x1="505" y1="238" x2="505" y2="262" class="arr-teal" marker-end="url(#arrow)"/>
 
 <g class="step-teal">
   <rect x="380" y="264" width="250" height="56" rx="8" stroke-width="0.5"/>
-  <text class="th" x="505" y="286" text-anchor="middle">3. Agent B does work</text>
-  <text class="ts" x="505" y="304" text-anchor="middle">Submits output to facilitator</text>
+  <text class="th" x="505" y="286" text-anchor="middle">3. Worker completes work</text>
+  <text class="ts" x="505" y="304" text-anchor="middle">Returns structured result</text>
 </g>
 <line x1="505" y1="320" x2="505" y2="344" class="arr-teal" marker-end="url(#arrow)"/>
 
 <g class="step-purple">
   <rect x="380" y="346" width="250" height="56" rx="8" stroke-width="0.5"/>
-  <text class="th" x="505" y="368" text-anchor="middle">4. TEE verifies output</text>
+  <text class="th" x="505" y="368" text-anchor="middle">4. Verifier checks result</text>
   <text class="ts" x="505" y="386" text-anchor="middle">Against committed spec</text>
 </g>
 <line x1="505" y1="402" x2="505" y2="426" class="arr-teal" marker-end="url(#arrow)"/>
@@ -119,20 +119,20 @@
 <g class="step-purple">
   <rect x="380" y="428" width="250" height="56" rx="8" stroke-width="0.5"/>
   <text class="th" x="505" y="450" text-anchor="middle">5. Auto-settle + levy split</text>
-  <text class="ts" x="505" y="468" text-anchor="middle">Fee → Agent B, levy → PMW</text>
+  <text class="ts" x="505" y="468" text-anchor="middle">Pay worker, route levy</text>
 </g>
 <line x1="505" y1="484" x2="505" y2="508" class="arr-teal" marker-end="url(#arrow)"/>
 
 <g class="step-purple">
   <rect x="380" y="510" width="250" height="56" rx="8" stroke-width="0.5"/>
-  <text class="th" x="505" y="532" text-anchor="middle">6. FDC attestation</text>
-  <text class="ts" x="505" y="550" text-anchor="middle">On-chain proof via Flare</text>
+  <text class="th" x="505" y="532" text-anchor="middle">6. Record attestation</text>
+  <text class="ts" x="505" y="550" text-anchor="middle">Settlement recorded on Flare</text>
 </g>
 
 <g class="step-teal dashed">
   <rect x="380" y="600" width="250" height="72" rx="8" stroke-width="0.5"/>
   <text class="th" x="505" y="624" text-anchor="middle">Result</text>
-  <text class="ts" x="505" y="642" text-anchor="middle">Quality verified, levy funded,</text>
+  <text class="ts" x="505" y="642" text-anchor="middle">Verified completion, levy funded,</text>
   <text class="ts" x="505" y="658" text-anchor="middle">immutable audit trail</text>
 </g>
 
@@ -140,5 +140,5 @@
 <line x1="340" y1="85" x2="340" y2="690" class="divider"/>
 
 <!-- Note -->
-<text class="note" x="340" y="710" text-anchor="middle">Purple = what AgentLevy adds to the x402 standard</text>
+<text class="note" x="340" y="710" text-anchor="middle">Purple = what AgentLevy adds to x402</text>
 </svg>

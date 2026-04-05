@@ -69,7 +69,7 @@
 
       .topbar {
         display: flex;
-        justify-content: space-between;
+        justify-content: flex-end;
         align-items: center;
         gap: 16px;
         margin-top: 14px;
@@ -338,6 +338,24 @@
         flex: 1;
       }
 
+      .build-grid .card {
+        padding: 22px 22px;
+      }
+
+      .build-grid .tag {
+        font-size: 0.94rem;
+      }
+
+      .build-grid .card h3 {
+        font-size: 1.56rem;
+        margin-bottom: 12px;
+      }
+
+      .build-grid .card li {
+        font-size: 1.03rem;
+        line-height: 1.5;
+      }
+
       .closing-grid {
         grid-template-columns: repeat(3, minmax(0, 1fr));
         margin-top: 28px;
@@ -471,9 +489,25 @@
         object-fit: contain;
       }
 
+      .asset-frame.tall svg {
+        width: 100%;
+        height: auto;
+        max-width: 100%;
+      }
+
       .asset-frame img {
         width: 100%;
         height: auto;
+        border-radius: 20px;
+        border: 1px solid rgba(34, 51, 84, 0.95);
+        background: rgba(255, 255, 255, 0.02);
+      }
+
+      .asset-frame svg {
+        display: block;
+        width: 100%;
+        height: auto;
+        max-width: 100%;
         border-radius: 20px;
         border: 1px solid rgba(34, 51, 84, 0.95);
         background: rgba(255, 255, 255, 0.02);
@@ -514,6 +548,11 @@
       .protocol-grid .asset-frame.tall img {
         max-height: 468px;
         object-fit: contain;
+      }
+
+      .protocol-grid .asset-frame.tall svg {
+        max-height: 468px;
+        margin: 0 auto;
       }
 
       .protocol-grid .asset-frame.workflow {
@@ -682,18 +721,14 @@
         flex: 0 0 auto;
       }
 
-      .summary-slide .card {
-        padding: 18px 18px;
-      }
-
       .summary-slide .card h3 {
-        font-size: 1.28rem;
+        font-size: 1.56rem;
         margin-bottom: 10px;
       }
 
       .summary-slide .card li {
-        font-size: 0.94rem;
-        line-height: 1.42;
+        font-size: 1.03rem;
+        line-height: 1.5;
       }
 
       .summary-meta {
@@ -931,10 +966,6 @@
         <div class="progress-bar" id="progress"></div>
       </div>
       <div class="topbar">
-        <div class="brand">
-          <img class="brand-logo" src="../../assets/logos/agentlevy-logo-horizontal.svg" alt="AgentLevy logo" />
-          <div class="brand-copy"><strong>AgentLevy</strong> · Hackathon Deck V2 · Slide Presentation</div>
-        </div>
         <div class="controls">
           <a class="back-link" href="index.html">Back to exports</a>
           <button id="prevBtn" type="button">Prev</button>
@@ -959,7 +990,7 @@
             </div>
 
             <div class="chip-row">
-              <div class="chip"><strong>Lock the job</strong></div>
+              <div class="chip"><strong>Create the job</strong></div>
               <div class="chip"><strong>Hold funds on Flare</strong></div>
               <div class="chip"><strong>Release on proof</strong></div>
             </div>
@@ -971,7 +1002,7 @@
 
             <div class="speaker-notes" hidden>
               <p>AgentLevy is the atomic trust and settlement layer for the agent economy. Today, agents can already pay each other, but that does not mean they can trust the outcome.</p>
-              <p>If the work is incomplete, low quality, or not what was agreed, the money may already be gone. AgentLevy fixes that by turning payment into a safer flow: the job terms are locked, the funds are held, the result is checked, and payment is only released when the work actually meets the brief.</p>
+              <p>If the work is incomplete, low quality, or not what was agreed, the money may already be gone. AgentLevy fixes that by turning payment into a safer flow: the job terms are created, the funds are held, the result is checked, and payment is only released when the work actually meets the brief.</p>
             </div>
           </div>
         </section>
@@ -989,12 +1020,12 @@
 
             <div class="protocol-grid">
               <div class="asset-frame tall">
-                <img src="../../demo/Screen%20Shots%20for%20Project%20Submission/x402-comparison.svg" alt="Standard x402 versus AgentLevy x402 comparison" />
+                <img src="../../demo/x402-comparison.svg" alt="Standard x402 versus AgentLevy x402 comparison" />
               </div>
 
               <div class="protocol-side">
                 <div class="workflow-note">
-                  <h4><span class="accent">Lock the job terms</span></h4>
+                  <h4><span class="accent">Create the job terms</span></h4>
                   <p>The task and the acceptance rules are fixed before money moves.</p>
                 </div>
                 <div class="workflow-note">
@@ -1016,7 +1047,7 @@
             <div class="speaker-notes" hidden>
               <p>This slide shows the upgrade from standard x402 to AgentLevy. In standard x402, the flow is simple: the client requests the API, the server returns 402, the client pays, the facilitator verifies the payment, the server does the work, the payment settles, and the response is returned.</p>
               <p>In AgentLevy, the flow changes in an important way. The Publisher Agent requests the task and gets 402 plus the committed spec hash. The funds go into escrow on Flare. The Worker Agent does the work and submits structured output. Then the output is verified against the committed spec, settlement and the levy split are handled, and the result is recorded onchain.</p>
-              <p>That is why this matters: the job is locked first, the money is held safely, and Flare records the settlement only after the work has actually been checked.</p>
+              <p>That is why this matters: the job is created first, the money is held safely, and Flare records the settlement only after the work has actually been checked.</p>
             </div>
           </div>
         </section>
@@ -1037,28 +1068,28 @@
                 <div class="tag-row"><span class="tag live">actor</span></div>
                 <h3>Publisher Agent</h3>
                 <ul>
-                  <li>starts the job</li>
-                  <li>receives the payment challenge</li>
-                  <li>sees the fixed job terms</li>
+                  <li>Starts the Job</li>
+                  <li>Receives the Payment Challenge</li>
+                  <li>Sees the Fixed Job Terms</li>
                 </ul>
               </div>
               <div class="card purple">
                 <div class="tag-row"><span class="tag live">actor</span></div>
                 <h3>Worker Agent</h3>
                 <ul>
-                  <li>completes the work</li>
-                  <li>submits the result</li>
-                  <li>gets paid only if it passes</li>
+                  <li>Completes the Work</li>
+                  <li>Submits the Result</li>
+                  <li>Gets Paid Only if It Passes</li>
                 </ul>
               </div>
               <div class="card green">
                 <div class="tag-row"><span class="tag live">what you'll see</span></div>
                 <h3>Demo Flow</h3>
                 <ul>
-                  <li>request</li>
-                  <li>escrow</li>
-                  <li>check</li>
-                  <li>settlement</li>
+                  <li>Request</li>
+                  <li>Escrow</li>
+                  <li>Check</li>
+                  <li>Settlement</li>
                 </ul>
               </div>
             </div>
@@ -1066,13 +1097,13 @@
             <div class="banner compact">This is a trustworthy job transaction, not just another payment flow.</div>
 
             <div class="footer-line">
-              <div>In the demo: request, locked job terms, escrow, result check, settlement.</div>
+              <div>In the demo: request, create the job terms, escrow, result check, settlement.</div>
               <div class="mini">Slide 3 of 4</div>
             </div>
 
             <div class="speaker-notes" hidden>
               <p>Now we show the live demo. A 0G Publisher Agent hires a 0G Worker Agent through AgentLevy.</p>
-              <p>What matters here is not the interface, but the trust trail: the request, the locked job terms, the escrow step, the result being checked, and the settlement being recorded.</p>
+              <p>What matters here is not the interface, but the trust trail: the request, the created job terms, the escrow step, the result being checked, and the settlement being recorded.</p>
               <p>The point is simple: the worker does not get paid just because work was requested. Payment only moves when the job actually passes.</p>
             </div>
           </div>
@@ -1094,10 +1125,10 @@
                 <div class="tag-row"><span class="tag live">built now</span></div>
                 <h3>Built</h3>
                 <ul>
-                  <li>Treasury contract</li>
-                  <li>x402 facilitator</li>
-                  <li>task spec registry</li>
-                  <li>agent skill</li>
+                  <li>Treasury Contract</li>
+                  <li>x402 Facilitator</li>
+                  <li>Task Spec Registry</li>
+                  <li>Agent Skill</li>
                 </ul>
               </div>
 
@@ -1105,10 +1136,10 @@
                 <div class="tag-row"><span class="tag live">Flare</span></div>
                 <h3>Flare</h3>
                 <ul>
-                  <li>Coston2 deployment</li>
-                  <li>escrow</li>
-                  <li>settlement</li>
-                  <li>proof path</li>
+                  <li>Coston2 Deployment</li>
+                  <li>Escrow</li>
+                  <li>Settlement</li>
+                  <li>Proof Path</li>
                 </ul>
               </div>
 
@@ -1116,21 +1147,15 @@
                 <div class="tag-row"><span class="tag next">what's next</span></div>
                 <h3>Next</h3>
                 <ul>
-                  <li>public protocol page</li>
-                  <li>polished demo console</li>
-                  <li>stronger verifier path</li>
+                  <li>Public Protocol Page</li>
+                  <li>Polished Demo Console</li>
+                  <li>Stronger Verifier Path</li>
                 </ul>
               </div>
             </div>
 
             <div class="summary-meta">
               <div class="big-quote">Trustworthy agent commerce.</div>
-
-              <div class="links">
-                <a class="ghost" href="verifier-process.html">Open verifier visual</a>
-                <a class="ghost" href="../../demo/HACKATHON_DECK_V2.md">Open deck source</a>
-                <a class="ghost" href="index.html">Open static exports</a>
-              </div>
             </div>
 
             <div class="footer-line">

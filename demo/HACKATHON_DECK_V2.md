@@ -21,7 +21,7 @@ Principles for this version:
 - Banner:
   - `We upgrade x402 from a payment request into a trustworthy work transaction.`
 - Chips:
-  - `Lock the job`
+  - `Create the job`
   - `Hold funds on Flare`
   - `Release on proof`
 
@@ -39,9 +39,9 @@ AgentLevy turns agent payments from a good-faith exchange into a trustworthy set
 - Headline: **From payment request to verified completion.**
 - Support line: `The job terms are fixed up front, the money is held on Flare, and payment is released only after the result is checked.`
 - Main visual:
-  - [x402-comparison.svg](/Users/mauraclark/AgentLevy/demo/Screen%20Shots%20for%20Project%20Submission/x402-comparison.svg)
+  - [x402-comparison.svg](/Users/mauraclark/AgentLevy/demo/x402-comparison.svg)
 - Right-side callouts:
-  - `Lock the job terms`
+  - `Create the job terms`
     - task and acceptance rules are fixed before money moves
   - `Hold funds on Flare`
     - escrow keeps payment in place while the work is checked
@@ -65,18 +65,18 @@ AgentLevy upgrades x402 from “pay for access” to “pay for verified complet
 - Support line: `0G powers the agents. Flare holds the money and records the proof.`
 - Three cards:
   - `Publisher Agent`
-    - starts the job
-    - receives the payment challenge
-    - sees the fixed job terms
+    - Starts the Job
+    - Receives the Payment Challenge
+    - Sees the Fixed Job Terms
   - `Worker Agent`
-    - completes the work
-    - submits the result
-    - gets paid only if it passes
+    - Completes the Work
+    - Submits the Result
+    - Gets Paid Only if It Passes
   - `What you’ll see`
-    - request
-    - escrow
-    - check
-    - settlement
+    - Request
+    - Escrow
+    - Check
+    - Settlement
 
 ### What this slide must land
 
@@ -93,19 +93,19 @@ The demo shows a trustworthy job transaction, not just another payment flow.
 - Support line: `Working now on Flare Coston2. Public packaging next.`
 - Three cards:
   - `Built`
-    - Treasury contract
-    - x402 facilitator
-    - task spec registry
-    - agent skill
+    - Treasury Contract
+    - x402 Facilitator
+    - Task Spec Registry
+    - Agent Skill
   - `Flare`
-    - Coston2 deployment
-    - escrow
-    - settlement
-    - proof path
+    - Coston2 Deployment
+    - Escrow
+    - Settlement
+    - Proof Path
   - `Next`
-    - public protocol page
-    - polished demo console
-    - stronger verifier path
+    - Public Protocol Page
+    - Polished Demo Console
+    - Stronger Verifier Path
 - Closing quote:
   - **Trustworthy agent commerce.**
 - Small closing line:

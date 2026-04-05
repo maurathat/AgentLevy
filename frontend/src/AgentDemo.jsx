@@ -29,6 +29,11 @@ const glassInner = {
 }
 const muted = { color: 'rgba(255,255,255,0.35)' }
 const mono  = { fontFamily: "ui-monospace,'SF Mono',Consolas,monospace" }
+const HERO_POINTS = [
+  { label: 'Commit the spec', value: 'The taskSpecHash fixes the brief before work begins' },
+  { label: 'Escrow the payment', value: 'Funds stay locked on Flare while the result is checked' },
+  { label: 'Settle on attestation', value: 'Payout releases only after verifier confirmation' },
+]
 
 // ─── 3 distinct tasks ─────────────────────────────────────────────────────────
 const TASK_QUEUE = [
@@ -339,6 +344,150 @@ function AgentBox({ label, role, status, isActive, isDone }) {
       </div>
       <div style={{ fontSize: '11px', color: isActive ? accent : 'rgba(255,255,255,0.2)', minHeight: '16px' }}>
         {isActive ? `◌ ${status}` : isDone ? <span style={{ color: '#34d399' }}>Complete</span> : 'Idle'}
+      </div>
+    </div>
+  )
+}
+
+function DemoHero() {
+  return (
+    <div
+      style={{
+        ...glass,
+        position: 'relative',
+        overflow: 'hidden',
+        padding: '28px',
+        minHeight: '260px',
+        borderRadius: '24px',
+        boxShadow: '0 24px 60px rgba(0,0,0,0.24)',
+      }}
+    >
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          background: `
+            radial-gradient(circle at 12% 18%, rgba(0,212,255,0.18), transparent 26%),
+            radial-gradient(circle at 88% 22%, rgba(123,97,255,0.18), transparent 28%),
+            linear-gradient(135deg, rgba(5,11,24,0.96), rgba(10,18,34,0.92))
+          `,
+        }}
+      />
+
+      <div
+        className="demo-hero-grid"
+        style={{
+          position: 'relative',
+          display: 'grid',
+          gridTemplateColumns: 'minmax(0, 1.15fr) minmax(280px, 0.85fr)',
+          gap: '22px',
+          alignItems: 'end',
+          minHeight: '204px',
+        }}
+      >
+        <div style={{ maxWidth: '760px' }}>
+          <div
+            style={{
+              color: '#00d4ff',
+              fontSize: '12px',
+              fontWeight: '700',
+              letterSpacing: '0.18em',
+              textTransform: 'uppercase',
+              marginBottom: '12px',
+            }}
+          >
+            Verified Task Escrow
+          </div>
+
+          <h1
+            style={{
+              margin: 0,
+              color: '#ffffff',
+              fontFamily: 'Georgia, serif',
+              fontSize: 'clamp(2.2rem, 4vw, 3.6rem)',
+              lineHeight: 1.02,
+              maxWidth: '9ch',
+            }}
+          >
+            Pay on proof.
+          </h1>
+
+          <p
+            style={{
+              margin: '14px 0 0',
+              color: 'rgba(220,232,246,0.88)',
+              fontSize: '1.02rem',
+              lineHeight: 1.65,
+              maxWidth: '34ch',
+            }}
+          >
+            Commit the spec, escrow on Flare, settle after attestation.
+          </p>
+
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', marginTop: '18px' }}>
+            {['Committed Task Spec', 'Verifier Attestation', 'Flare Settlement'].map((chip) => (
+              <span
+                key={chip}
+                style={{
+                  padding: '8px 12px',
+                  borderRadius: '999px',
+                  fontSize: '12px',
+                  fontWeight: '600',
+                  color: '#dce8f6',
+                  background: 'rgba(255,255,255,0.05)',
+                  border: '1px solid rgba(255,255,255,0.08)',
+                  backdropFilter: 'blur(12px)',
+                  WebkitBackdropFilter: 'blur(12px)',
+                }}
+              >
+                {chip}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        <div
+          className="demo-hero-points"
+          style={{
+            display: 'grid',
+            gap: '10px',
+            alignSelf: 'stretch',
+          }}
+        >
+          {HERO_POINTS.map((point, index) => (
+            <div
+              key={point.label}
+              style={{
+                ...glassInner,
+                padding: '14px 16px',
+                background: 'rgba(7,11,24,0.48)',
+                borderColor: 'rgba(255,255,255,0.08)',
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '6px' }}>
+                <span
+                  style={{
+                    width: '22px',
+                    height: '22px',
+                    borderRadius: '50%',
+                    background: index === 0 ? 'rgba(0,212,255,0.18)' : index === 1 ? 'rgba(123,97,255,0.18)' : 'rgba(0,229,160,0.18)',
+                    color: index === 0 ? '#00d4ff' : index === 1 ? '#b39cff' : '#00e5a0',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: '11px',
+                    fontWeight: '700',
+                    flexShrink: 0,
+                  }}
+                >
+                  {index + 1}
+                </span>
+                <div style={{ color: '#ffffff', fontSize: '13px', fontWeight: '600' }}>{point.label}</div>
+              </div>
+              <div style={{ color: 'rgba(220,232,246,0.68)', fontSize: '12px', lineHeight: 1.55 }}>{point.value}</div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   )
@@ -672,7 +821,25 @@ export default function AgentDemo() {
         @keyframes fadeIn { from { opacity:0; transform:translateY(4px); } to { opacity:1; transform:translateY(0); } }
         @keyframes pulse-border { 0%,100%{box-shadow:0 0 0 0 rgba(96,165,250,0.3);}50%{box-shadow:0 0 0 6px rgba(96,165,250,0);} }
         @keyframes pulse-dot { 0%,100%{opacity:1;}50%{opacity:0.4;} }
+
+        @media (max-width: 1100px) {
+          .demo-hero-grid {
+            grid-template-columns: 1fr !important;
+          }
+
+          .demo-hero-points {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+          }
+        }
+
+        @media (max-width: 760px) {
+          .demo-hero-points {
+            grid-template-columns: 1fr;
+          }
+        }
       `}</style>
+
+      <DemoHero />
 
       {/* ── Top row: Task Queue (left) + Completed Jobs (right) ────────────── */}
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', alignItems: 'stretch' }}>
